@@ -25,6 +25,7 @@ public class Solution {
 
     /**
      * 错误写法
+     *
      * @param root
      * @return
      */
@@ -40,20 +41,19 @@ public class Solution {
 //        return isValidBST(root.left) && isValidBST(root.right);
 //
 //    }
-
-    public  boolean isValidBST(TreeNode root) {
-        return isValidBST(root,Long.MIN_VALUE,Long.MAX_VALUE);
+    public boolean isValidBST(TreeNode root) {
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    private boolean  isValidBST(TreeNode root,long min ,long max){
+    private boolean isValidBST(TreeNode root, long min, long max) {
         if (root == null) {
             return true;
         }
 
-        if (min >= root.val || max <= root.val ) {
+        if (min >= root.val || max <= root.val) {
             return false;
         }
-        return isValidBST(root.left ,min,root.val) && isValidBST(root.right, root.val, max);
+        return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
     }
 
 

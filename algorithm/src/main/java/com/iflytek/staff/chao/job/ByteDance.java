@@ -5,40 +5,9 @@ import java.util.PriorityQueue;
 public class ByteDance {
 
     public static void main(String[] args) {
-
+        System.out.println(123);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //    public static void main(String[] args) {
@@ -50,7 +19,6 @@ public class ByteDance {
 //        }
 //
 //    }
-
 
 
     public static int[] sort(int[] nums1, int[] nums2, int[] nums3, int N) {

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 //@Slf4j
 @Service("annotationService")
 public class AnnotationServiceImpl implements
-        AnnotationService  {
+        AnnotationService {
 
 
     @Override
-    @PointCutAnnotation(name="annotation add()")
+    @PointCutAnnotation(name = "annotation add()")
     public void add() {
         System.out.println("AnnotationService add ");
     }

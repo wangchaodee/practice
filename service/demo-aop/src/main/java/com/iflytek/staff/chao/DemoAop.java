@@ -24,7 +24,7 @@ public class DemoAop {
         UserService userService = acac.getBean("userService", UserService.class);
         System.out.println(userService.getUserCount("xxx"));
 
-        AnnotationService as = acac.getBean("annotationService",AnnotationService.class);
+        AnnotationService as = acac.getBean("annotationService", AnnotationService.class);
         as.add();
         acac.close();
 

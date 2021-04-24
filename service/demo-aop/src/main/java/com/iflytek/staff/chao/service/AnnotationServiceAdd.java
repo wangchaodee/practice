@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class AnnotationServiceAdd {
 
 
-    @PointCutAnnotation(name="annotation add()")
+    @PointCutAnnotation(name = "annotation add()")
     public void add() {
         System.out.println("AnnotationService add ");
     }

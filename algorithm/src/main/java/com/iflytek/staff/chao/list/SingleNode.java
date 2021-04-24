@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.list;
 
-/** 单链表
- *
+/**
+ * 单链表
  */
 public class SingleNode {
 
@@ -10,7 +10,6 @@ public class SingleNode {
 //
 //        return  dummy.next ;
 //    }
-
 
 
 }

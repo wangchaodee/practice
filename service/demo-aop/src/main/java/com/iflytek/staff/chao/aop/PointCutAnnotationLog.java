@@ -3,7 +3,6 @@ package com.iflytek.staff.chao.aop;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,7 @@ public class PointCutAnnotationLog {
 
     @After("annotationPointCut()")
     public void after(JoinPoint joinPoint) {
-        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         PointCutAnnotation action = method.getAnnotation(PointCutAnnotation.class);
         System.out.println("注解式拦截" + action.name());
