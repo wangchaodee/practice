@@ -15,12 +15,8 @@ public class ArraySolution {
     public void moveZeroes(int[] nums) {
         int l = 0;
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] > 0) {
-                if (i > l) {
-                    nums[l++] = nums[i];
-                } else {
-                    l++;
-                }
+            if (nums[i] != 0) {
+                nums[l++] = nums[i];
             }
         }
         while (l < nums.length) {
@@ -82,18 +78,6 @@ public class ArraySolution {
     }
 
 
-    public int removeDuplicates2(int[] nums) {
-        Arrays.sort(nums);
-        int l = 2;
-        for (int r = 2; r < nums.length; r++) {
-            if (nums[r] != nums[l - 2]) {
-                nums[l++] = nums[r];
-            }
-        }
-        return l;
-    }
-
-
     public int singleNumber(int[] nums) {
         int a = nums[0];
         for (int i = 1; i < nums.length; i++) {
@@ -112,5 +96,11 @@ public class ArraySolution {
             }
         }
         return l;
+    }
+
+    public void rotate(int[] nums, int k) {
+        int n = nums.length ;
+
+
     }
 }

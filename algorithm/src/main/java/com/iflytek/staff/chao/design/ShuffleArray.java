@@ -3,30 +3,43 @@ package com.iflytek.staff.chao.design;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * @author : hamilton
+ * @Description: 打乱数组
+ *
+ * @date Date : 2022年07月12日 10:41
+ */
 public class ShuffleArray {
 
-    private int[] arrays;
-    private Random random;
+    private int[] origin;
+    private int[] current;
+    private Random random ;
 
     public ShuffleArray(int[] nums) {
-        this.arrays = nums;
-        this.random = new Random();
+        origin =  nums.clone();
+        current = nums ;
+        random = new Random();
     }
 
-    /**
-     * Resets the array to its original configuration and return it.
-     */
     public int[] reset() {
-        return Arrays.copyOf(this.arrays, this.arrays.length);
+        current =  origin.clone();
+        return current;
     }
 
-    /**
-     * Returns a random shuffling of the array.
-     */
     public int[] shuffle() {
-        random.nextInt();
-        return null;
+        int i= 0 ;
+        for (int j = 0; j < current.length ; j++) {
+             i= random.nextInt(j+1);
+            exchange(current, i, current.length-i-1);
+        }
 
+        return current;
     }
 
+    protected void exchange(int[] array, int i, int j) {
+        if (i == j) return;
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
 }

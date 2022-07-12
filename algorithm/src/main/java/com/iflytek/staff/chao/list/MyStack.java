@@ -1,5 +1,8 @@
 package com.iflytek.staff.chao.list;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class MyStack implements MyList {
 
     private Node head;
@@ -63,6 +66,38 @@ public class MyStack implements MyList {
             head = head.next;
         } else {
             prev.next = curr.next;
+        }
+        return true;
+    }
+
+    public boolean isValid(String s) {
+        Deque<Character> stack = new ArrayDeque();
+        int N = s.length();
+        if (N % 2 != 0) {
+            return false;
+        }
+        for (int i = 0; i < N; i++) {
+
+            char c = s.charAt(i);
+
+            if (c == '{' || c == '(' || c == '[') {
+                stack.push(c);
+            } else if (c == ')') {
+                if (stack.isEmpty()) return false;
+                char p = stack.pop();
+                if (p != '(') return false;
+            } else if (c == '}') {
+                if (stack.isEmpty()) return false;
+                char p = stack.pop();
+                if (p != '{') return false;
+            } else if (c == ']') {
+                if (stack.isEmpty()) return false;
+                char p = stack.pop();
+                if (p != '[') return false;
+            }
+        }
+        if (stack.size() != 0) {
+            return false;
         }
         return true;
     }

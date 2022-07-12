@@ -7,10 +7,9 @@
         <module>demo-aop</module>
         <module>demo-ioc</module>
         <module>demo-socket</module>
-<!--        <module>demo-servlet</module>-->
+        <module>demo-servlet</module>
 
     </modules>
-
 
     <parent>
         <groupId>com.iflytek.staff.chao</groupId>
