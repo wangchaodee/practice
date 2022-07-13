@@ -265,6 +265,50 @@ public class TwoArray {
         return ans + 1;
     }
 
+    public void rotate(int[][] matrix) {
+        int N = matrix.length ;
+        int temp ;
+        for (int i = 0; i < N/2; i++) {
+            for (int j = 0; j < N; j++) {
+                temp = matrix[N-i-1][j];
+                matrix[N-i-1][j]= matrix[i][j];
+                matrix[i][j] = temp;
+            }
+        }
 
+        for (int i = 0; i < N; i++) {
+            for (int j = i+1; j < N; j++) {
+                temp = matrix[j][i];
+                matrix[j][i]= matrix[i][j];
+                matrix[i][j] = temp;
+            }
+        }
+
+    }
+
+    public int[][] merge2(int[][] intervals) {
+        //空值判断 忽略
+        Arrays.sort(intervals ,(a,b) -> a[0]-b[0]);
+        int N = intervals.length;
+        int[][] merged = new int[N][2];
+        int idx = 0 ;
+        merged[idx][0]= intervals[0][0];
+        merged[idx][1] = intervals[0][1];
+        for (int i = 1; i <N ; i++) {
+            if(merged[idx][1] < intervals[i][0]){
+                //添加新的区间
+                idx++;
+                merged[idx][0]= intervals[i][0];
+                merged[idx][1] = intervals[i][1];
+            }else {
+                //合并  新的右区间大时 替换  扩大右区间
+                if(merged[idx][1] < intervals[i][1]) {
+                    merged[idx][1] = intervals[i][1];
+                }
+            }
+        }
+        return Arrays.copyOfRange(merged,0,idx+1);
+
+    }
 
 }

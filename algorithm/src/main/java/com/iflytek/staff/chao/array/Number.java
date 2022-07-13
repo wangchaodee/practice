@@ -707,35 +707,7 @@ public class Number {
         return len;
     }
 
-    public int minimumSize(int[] nums, int maxOperations) {
-        Arrays.sort(nums);
-        int ans = 0, l = 1, r = nums[nums.length - 1], m = 0;
 
-        while (l <= r) {
-            m = (r + l) >> 1;
-            int cut = 0;
-            for (int num : nums) {
-                if (num > m) {
-                    cut += num / m;
-                    if (num % m == 0) {
-                        cut -= 1;
-                    }
-                    if (cut > maxOperations) {
-                        break;
-                    }
-                }
-            }
-
-            if (cut > maxOperations) {
-                l = m + 1;
-            } else {
-                ans = m;
-                r = m - 1;
-            }
-        }
-
-        return ans;
-    }
 
 
     public boolean searchMatrix(int[][] matrix, int target) {
@@ -861,6 +833,22 @@ public class Number {
         return  (int)  rev ;
     }
 
+
+    public int countPrimes2(int n) {
+        List<Integer> primes= new ArrayList<>();
+        boolean[] isPrimes = new boolean[n];
+        for (int i = 2; i <n; i++) {
+            if(isPrimes[i]==false){
+                primes.add(i);
+            }
+
+            for (int j = 0; j <primes.size() && i*primes.get(j) < n ; j++) {
+                isPrimes[i*primes.get(j)] = true;
+                if(i% primes.get(j)==0) break;
+            }
+        }
+        return primes.size();
+    }
 
 
 }

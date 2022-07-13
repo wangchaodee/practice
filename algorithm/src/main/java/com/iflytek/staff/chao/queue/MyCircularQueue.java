@@ -6,29 +6,29 @@ public class MyCircularQueue {
     private int[] array;
     private int head;
     private int tail;
-    private int size;
-    public int count;
+//    private int size;
+//    public int count;
 
     public MyCircularQueue(int k) {
-        array = new int[k];
-        size = k;
-        count = 0;
+        array = new int[k+1];
+//        size = k+1;
+//        count = 0;
         head = 0;
-        tail = -1;
+        tail = 0;
     }
 
     public boolean enQueue(int value) {
         if (isFull()) return false;
-        tail = ++tail % size;
         array[tail] = value;
-        count++;
+        tail = ++tail % array.length;
+//        count++;
         return true;
     }
 
     public boolean deQueue() {
         if (isEmpty()) return false;
-        head = ++head % size;
-        count--;
+        head = ++head % array.length;
+//        count--;
         return true;
     }
 
@@ -39,14 +39,14 @@ public class MyCircularQueue {
 
     public int Rear() {
         if (isEmpty()) return -1;
-        return array[tail];
+        return array[(tail-1+array.length)%array.length];
     }
 
     public boolean isEmpty() {
-        return count == 0;
+        return head == tail;
     }
 
     public boolean isFull() {
-        return count == size;
+        return (tail+1)%array.length == head;
     }
 }

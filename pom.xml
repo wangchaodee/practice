@@ -12,7 +12,6 @@
     <modules>
         <module>middleware</module>
         <module>algorithm</module>
-        <module>data-structure</module>
         <module>service</module>
         <module>web</module>
     </modules>
