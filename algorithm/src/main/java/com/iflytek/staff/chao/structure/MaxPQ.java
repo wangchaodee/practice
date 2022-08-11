@@ -1,4 +1,4 @@
-package com.iflytek.staff.chao.sort;
+package com.iflytek.staff.chao.structure;
 
 /**
  * @author : hamilton

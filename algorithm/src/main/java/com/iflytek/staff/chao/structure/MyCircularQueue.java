@@ -1,4 +1,4 @@
-package com.iflytek.staff.chao.queue;
+package com.iflytek.staff.chao.structure;
 
 public class MyCircularQueue {
 
@@ -10,7 +10,7 @@ public class MyCircularQueue {
 //    public int count;
 
     public MyCircularQueue(int k) {
-        array = new int[k+1];
+        array = new int[k + 1];
 //        size = k+1;
 //        count = 0;
         head = 0;
@@ -39,7 +39,7 @@ public class MyCircularQueue {
 
     public int Rear() {
         if (isEmpty()) return -1;
-        return array[(tail-1+array.length)%array.length];
+        return array[(tail - 1 + array.length) % array.length];
     }
 
     public boolean isEmpty() {
@@ -47,6 +47,6 @@ public class MyCircularQueue {
     }
 
     public boolean isFull() {
-        return (tail+1)%array.length == head;
+        return (tail + 1) % array.length == head;
     }
 }

@@ -1,4 +1,4 @@
-package com.iflytek.staff.chao.queue;
+package com.iflytek.staff.chao.structure;
 
 import java.util.Stack;
 

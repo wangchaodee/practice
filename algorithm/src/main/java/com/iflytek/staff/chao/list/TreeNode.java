@@ -1,17 +1,19 @@
 package com.iflytek.staff.chao.list;
 
+import jdk.internal.org.objectweb.asm.tree.InnerClassNode;
+
 import java.util.*;
 
 public class TreeNode {
 
-    int val;
-    TreeNode left;
-    TreeNode right;
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
 
     TreeNode() {
     }
 
-    TreeNode(int val) {
+    public TreeNode(int val) {
         this.val = val;
     }
 
@@ -38,6 +40,66 @@ public class TreeNode {
         preOrder(root.right, res);
     }
 
+    public List<Integer> preorderTraversal2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            res.add(node.val);
+
+            if (node.right != null) {
+                stack.add(node.right);
+            }
+            if (node.left != null) {
+                stack.add(node.left);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+
+        List<Integer> list = new ArrayList();
+        Stack<TreeNode> stack = new Stack<>();
+
+        while (root != null && !stack.isEmpty()) {
+            while (root != null) {
+                stack.add(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            list.add(root.val);
+            root = root.right;
+        }
+
+        return list;
+    }
+
+    public List<Integer> inorderTraversal2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        res.addAll(inorderTraversal2(root.left));
+        res.add(root.val);
+        res.addAll(inorderTraversal2(root.right));
+        return res;
+    }
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList();
+
+
+        return list;
+    }
 
     /**
      * 是否对称 轴对称  二叉树
@@ -142,7 +204,7 @@ public class TreeNode {
         return root;
     }
 
-    public boolean isValidBST(TreeNode root) {
+    public boolean isValidBST2(TreeNode root) {
         if (root == null) return true;
         Stack<TreeNode> stack = new Stack<>();
         long pre = Long.MIN_VALUE;
@@ -159,7 +221,6 @@ public class TreeNode {
             root = root.right;
         }
         return true;
-
     }
 
     private boolean isValidBST(TreeNode root, int low, int high) {
@@ -168,6 +229,25 @@ public class TreeNode {
             return false;
         }
         return isValidBST(root.left, low, root.val) && isValidBST(root.right, root.val, high);
+    }
+
+    private TreeNode prev ;
+    public boolean isValidBST(TreeNode root) {
+        if(root==null) return  true ;
+
+        if(!isValidBST(root.left)){
+            return false ;
+        }
+        if(prev!=null && prev.val >root.val){
+            return false;
+        }
+        prev = root ;
+
+        if(!isValidBST(root.right)){
+            return false ;
+        }
+
+        return true ;
     }
 
 
@@ -224,34 +304,25 @@ public class TreeNode {
     }
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        List<TreeNode> pStack = getPath(root, p);
-        List<TreeNode> qStack = getPath(root, q);
+        dfs(root, p, q);
 
-        TreeNode parent = root;
-        for (TreeNode node : pStack) {
-            if (!qStack.contains(node)) {
-                break;
-            }
-            parent = node;
-        }
-
-        return parent;
+        return ans;
 
     }
 
-    private List<TreeNode> getPath(TreeNode root, TreeNode p) {
-        List<TreeNode> stack = new ArrayList<>();
-        TreeNode node = root;
-        while (node != p && node != null) {
-            stack.add(node);
-            if (node.val < p.val) {
-                node = node.right;
-            } else {
-                node = node.left;
-            }
+    private TreeNode ans;
+
+    private boolean dfs(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) return false;
+
+        boolean lson = dfs(root.left, p, q);
+        boolean rson = dfs(root.right, p, q);
+
+        if ((lson && rson) || ((root.val == p.val || root.val == q.val) && (lson || rson))) {
+            ans = root;
         }
-        stack.add(p);
-        return stack;
+
+        return lson || rson || (root.val == p.val || root.val == q.val);
     }
 
     public int rangeSumBST(TreeNode root, int low, int high) {
@@ -259,38 +330,6 @@ public class TreeNode {
         if (root.val > high) return rangeSumBST(root.left, low, high);
         if (root.val < low) return rangeSumBST(root.right, low, high);
         return root.val + rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high);
-    }
-
-
-    /**
-     * 错误写法
-     *
-     * @param root
-     * @return
-     */
-//    public static boolean isValidBST(TreeNode root) {
-//        if (root == null) {
-//            return true;
-//        }
-//        //左节点小于父节点,右节点大于父节点
-//        if (root.left != null && root.left.val >= root.val || root.right != null && root.right.val <= root.val ) {
-//                return false;
-//        }
-//
-//        return isValidBST(root.left) && isValidBST(root.right);
-//
-//    }
-
-
-    private boolean isValidBST(TreeNode root, long min, long max) {
-        if (root == null) {
-            return true;
-        }
-
-        if (min >= root.val || max <= root.val) {
-            return false;
-        }
-        return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
     }
 
 
@@ -391,27 +430,6 @@ public class TreeNode {
         return res;
     }
 
-    /**
-     * @param root
-     * @return
-     */
-    public List<Integer> inorderTraversal(TreeNode root) {
-
-        List<Integer> list = new ArrayList();
-        Stack<TreeNode> stack = new Stack<>();
-
-        while (root != null && !stack.isEmpty()) {
-            while (root != null) {
-                stack.add(root);
-                root = root.left;
-            }
-            root = stack.pop();
-            list.add(root.val);
-            root = root.right;
-        }
-
-        return list;
-    }
 
 //    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
 //        if (root1 != null && root2 != null) {
@@ -444,19 +462,434 @@ public class TreeNode {
         return merged;
     }
 
-    public TreeNode sortedArrayToBST(int[] nums) {
-        int n = nums.length ;
-        if(n==0) return null;
-        return  sortedArrayToBST(nums , 0 ,n-1);
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (subRoot == null) return true;
+
+        if (root == null) return false;
+
+        if (root.val != subRoot.val) {
+            return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        } else {
+            return isEqual(root, subRoot) || isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        }
     }
 
-    private TreeNode sortedArrayToBST(int[] nums, int l, int r) {
-        if(l>r) return null;
-        int mid = (r-l)/2 +l ;
-        TreeNode root = new TreeNode(nums[mid]);
-        root.left = sortedArrayToBST(nums,l,mid-1);
-        root.right= sortedArrayToBST(nums,mid+1,r);
+
+    private boolean isEqual(TreeNode node1, TreeNode node2) {
+        if (node1 == null) return node2 == null;
+        if (node2 == null) return false;
+        return node1.val == node2.val && isEqual(node1.left, node2.left) && isEqual(node1.right, node2.right);
+    }
+
+    public int sumOfLeftLeaves(TreeNode root) {
+        return root == null ? 0 : dfs(root);
+    }
+
+    private int dfs(TreeNode node) {
+        int ans = 0;
+        if (node.left != null) {
+            ans += isLeafNode(node.left) ? node.left.val : dfs(node.left);
+        }
+        if (node.right != null) {
+            ans += isLeafNode(node.right) ? 0 : dfs(node.right);
+        }
+        return ans;
+    }
+
+    private boolean isLeafNode(TreeNode node) {
+        return node.left == null && node.right == null;
+    }
+
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        int N = postorder.length;
+        if (N == 0) return null;
+        int rootVal = postorder[N - 1];
+        TreeNode root = new TreeNode(rootVal);
+        int i = 0;
+        while (i < N && inorder[i] != rootVal) {
+            i++;
+        }
+        // 0 到 i-1 是左节点的 ,
+        if (i > 0) {
+            root.left = buildTree(Arrays.copyOfRange(inorder, 0, i), Arrays.copyOfRange(postorder, 0, i));
+        }
+        if (i < N - 1) {
+            root.right = buildTree(Arrays.copyOfRange(inorder, i + 1, N), Arrays.copyOfRange(postorder, i, N - 1));
+        }
         return root;
+    }
+
+    public TreeNode buildTree(int[] inorder, int inl, int inr, int[] postorder, int pl, int pr) {
+        if (pr < pl) return null;
+
+        int rootVal = postorder[pr];
+        TreeNode root = new TreeNode(rootVal);
+        int i = 0;
+        while (inorder[inl + i] != rootVal) {
+            i++;
+        }
+        // 0 到 i-1 是左节点的 ,
+        root.left = buildTree(inorder, inl, inl + i - 1, postorder, pl, pl + i - 1);
+        root.right = buildTree(inorder, inl + i + 1, inr, postorder, pl + i, pr - 1);
+        return root;
+    }
+
+
+    public TreeNode buildTreePre(int[] preorder, int[] inorder) {
+        int N = preorder.length;
+        return buildTreePre(inorder, 0, N - 1, preorder, 0, N - 1);
+    }
+
+    public TreeNode buildTreePre(int[] inorder, int inl, int inr, int[] preOrder, int pl, int pr) {
+        if (pl > pr) return null;
+
+        int rootVal = preOrder[pl];
+        TreeNode root = new TreeNode(rootVal);
+        int i = 0;
+        while (inorder[inl + i] != rootVal) {
+            i++;
+        }
+        // 0 到 i-1 是左节点的 ,
+        root.left = buildTreePre(inorder, inl, inl + i - 1, preOrder, pl + 1, pl + i);
+        root.right = buildTreePre(inorder, inl + i + 1, inr, preOrder, pl + i + 1, pr);
+        return root;
+    }
+
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if (root == null) return "#";
+
+        StringBuilder sb = new StringBuilder();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node == null) {
+                    sb.append("#,");
+                    continue;
+                }
+                sb.append(node.val).append(",");
+                queue.add(node.left);
+                queue.add(node.right);
+            }
+        }
+
+        return sb.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if ("#".equals(data)) return null;
+        String[] values = data.split(",");
+        TreeNode root = new TreeNode(Integer.valueOf(values[0]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        for (int i = 1; i < values.length; i++) {
+            TreeNode parent = queue.poll();
+            if (!"#".equals(values[i])) {
+                TreeNode left = new TreeNode(Integer.valueOf(values[i]));
+                parent.left = left;
+                queue.add(left);
+            }
+            if (!"#".equals(values[++i])) {
+                TreeNode right = new TreeNode(Integer.valueOf(values[i]));
+                parent.right = right;
+                queue.add(right);
+            }
+        }
+        return root;
+    }
+
+    public int countNodes(TreeNode root) {
+        if(root==null) return 0 ;
+        int left = countNodes(root.left);
+        int right = countNodes(root.right);
+        return left+right +1 ;
+    }
+
+    public int countNodes2(TreeNode root) {
+        if(root==null) return 0 ;
+
+        TreeNode left = root ;
+        int h=0 ;
+        while (left.left!=null){
+            left=left.left;
+            h++;
+        }
+
+        int l = 1<<h , r= (1<<(h+1) )-1  ,mid =0;
+        while (l<r){
+            // 取整时会向下， +1 保证可以向上
+            mid = (r+l+1) >> 1 ;
+            if(nodeExist(root ,h, mid)){
+                l=mid;
+            }else {
+                r= mid-1 ;
+            }
+        }
+        return  l ;
+    }
+
+    private  boolean nodeExist(TreeNode root ,int h, int idx ){
+        int bits = 1 << (h-1) ;
+        TreeNode node =root;
+        while (node!=null && bits>0){
+            if((bits&idx)==0){
+                node= node.left;
+            }else {
+                node=node.right;
+            }
+            bits >>=1 ;
+        }
+        return node !=null;
+    }
+
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        int l = 0 , r = nums.length-1 ;
+        return buildTreeNode(nums,0,r);
+    }
+
+    private TreeNode buildTreeNode(int[] nums , int l , int r){
+         if(l>r) return null;
+         int mid = ( r+l ) /2 ;
+         TreeNode node = new TreeNode(nums[mid]);
+         node.left = buildTreeNode(nums, l, mid - 1);
+         node.right= buildTreeNode(nums,mid+1,r);
+         return  node ;
+    }
+
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+
+        List<List<Integer>>  ans = new ArrayList<>();
+        if(root==null) return ans;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean toRight =true;
+        while (!queue.isEmpty()){
+            int sz = queue.size();
+            List<Integer> line = new ArrayList<>();
+            for (int i = 0; i <sz ; i++) {
+                TreeNode node = queue.poll();
+                if(toRight){
+                    line.add(node.val);
+                }else {
+                    line.add(0, node.val);
+                }
+                if(node.left!=null){
+                    queue.add(node.left);
+                }
+                if(node.right!=null){
+                    queue.add(node.right);
+                }
+
+            }
+            ans.add(line);
+            toRight = !toRight;
+        }
+        return ans ;
+    }
+
+
+    public List<Integer> rightSideView(TreeNode root) {
+
+        List<Integer> ans = new ArrayList<>();
+        if(root==null) return ans;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            int sz = queue.size();
+
+            for (int i = 0; i <sz ; i++) {
+                TreeNode node = queue.poll();
+                if(i==sz-1){
+                    ans.add(node.val);
+                }
+
+                if(node.left!=null){
+                    queue.add(node.left);
+                }
+
+                if(node.right!=null){
+                    queue.add(node.right);
+                }
+            }
+
+        }
+        return ans ;
+    }
+
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root==null) return ans;
+        dfsPathSum(root,targetSum,new ArrayDeque<>(), ans);
+        return ans;
+    }
+
+    private void  dfsPathSum(TreeNode node , int target, Deque<Integer> path , List<List<Integer>> ans){
+
+        if(node.val==target && node.right==null && node.left==null){
+            ans.add(new ArrayList<>(path));
+            return;
+        }
+
+        int rest = target - node.val ;
+        path.addLast(node.val);
+        if(node.left!=null){
+            dfsPathSum(node.left,rest,path,ans);
+        }
+        if(node.right!=null){
+            dfsPathSum(node.right,rest,path,ans);
+        }
+
+        path.removeLast();
+    }
+
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root == null) return  null ;
+
+        if(key > root.val) {
+            root.right = deleteNode(root.right, key) ;
+        }
+
+        if(key< root.val){
+            root.left = deleteNode(root.left ,key);
+        }
+
+        if(key == root.val){
+            if(root.left ==null){
+                return root.right;
+            }
+            if(root.right ==null){
+                return root.left;
+            }
+
+            TreeNode node = root.right;
+            while (node.left!=null){
+                node = node.left;
+            }
+
+            root.right= deleteNode(root.right, node.val);
+            node.left = root.left;
+            node.right = root.right;
+            return node;
+        }
+
+        return  root;
+    }
+
+
+    public int kthSmallest(TreeNode root, int k) {
+        Stack<TreeNode> stack = new Stack<>();
+
+        while (root!=null || !stack.isEmpty()){
+            while (root !=null){
+                stack.push(root);
+                root =root.left;
+            }
+            root = stack.pop();
+            k--;
+            if(k==0){
+                return root.val;
+            }
+            root= root.right;
+        }
+        return root.val;
+    }
+
+
+    /**
+     * 找最近的共同父节点   树中节点值 互不相同
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        Map<Integer,TreeNode>  nodeParent = new HashMap<>();
+        Set<Integer> pPath = new HashSet<>();
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        nodeParent.put(root.val,null);
+        while (!queue.isEmpty()){
+            TreeNode node = queue.poll();
+
+            if(node.left!=null){
+                nodeParent.put(node.left.val ,node);
+                queue.offer(node.left);
+            }
+
+            if(node.right !=null){
+                nodeParent.put(node.right.val,node);
+                queue.offer(node.right);
+            }
+        }
+
+        while (p !=null){
+            pPath.add(p.val);
+            p= nodeParent.get(p.val);
+        }
+
+        while (q!=null){
+            if(pPath.contains(q.val)){
+                return q ;
+            }
+            q= nodeParent.get(q.val);
+        }
+        return root;
+    }
+
+    /**
+     * 找最大层 的最小值
+     * @param root
+     * @return
+     */
+    public int maxLevelSum(TreeNode root) {
+        int ans =1 , max =root.val;
+
+        Queue<TreeNode> queue = new LinkedList<>() ;
+        queue.offer(root);
+        int level=0;
+        while (!queue.isEmpty()){
+
+            level++;
+            int sz = queue.size();
+            int cur = 0 ;
+
+            for (int i = 0; i < sz; i++) {
+                TreeNode node = queue.poll();
+                cur +=node.val ;
+                if(node.left !=null){
+                    queue.offer(node.left);
+                }
+                if(node.right !=null){
+                    queue.offer(node.right);
+                }
+            }
+
+            if(cur>max){
+                ans = level;
+                max =cur;
+            }
+        }
+        return ans;
+    }
+
+    public boolean isSubPath(ListNode head, TreeNode root) {
+        return dfsSubPath(head,root) || isSubPath(head,root.left) || isSubPath(head,root.right);
+    }
+
+    private boolean dfsSubPath(ListNode head, TreeNode root){
+        if(head==null) return true;
+        if(root==null) return false ;
+        if(head.val != root.val) return false;
+        return dfsSubPath(head.next, root.left) || dfsSubPath(head.next,root.right);
     }
 
 }

@@ -112,32 +112,7 @@ public class Search {
 
     }
 
-    public int[] searchRange(int[] nums, int target) {
-        int l = binarySearchLeft(nums, target);
-        int r = binarySearchRight(nums, target);
-        if (l > nums.length || r < 0) return new int[]{-1, -1};
-        return new int[]{l, r};
-    }
 
-    private int binarySearchLeft(int arr[], int target) {
-        int l = 0, m = 0, r = arr.length - 1;
-        while (l <= r) {
-            m = l + (r - l) / 2;
-            if (arr[m] < target) l = m + 1;
-            else r = m - 1;
-        }
-        return l;
-    }
-
-    private int binarySearchRight(int arr[], int target) {
-        int l = 0, m = 0, r = arr.length - 1;
-        while (l <= r) {
-            m = l + (r - l) / 2;
-            if (arr[m] <= target) l = m + 1;
-            else r = m - 1;
-        }
-        return r;
-    }
 
 
     private int binarySearch(int arr[], int target) {
@@ -160,8 +135,6 @@ public class Search {
         }
         return l;
     }
-
-
 
 
     public char nextGreatestLetter(char[] letters, char target) {

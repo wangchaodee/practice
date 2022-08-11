@@ -41,90 +41,6 @@ public class TwoArray {
         return result;
     }
 
-    public List<List<Integer>> combine(int n, int k) {
-
-        List<List<Integer>> ans = new ArrayList<>();
-        if (k <= 0 || n < k) {
-            return ans;
-        }
-
-        Deque<Integer> path = new ArrayDeque<>();
-        dst(1, n, k, path, ans);
-
-        return ans;
-    }
-
-    private void dst(int i, int n, int k, Deque<Integer> path, List<List<Integer>> ans) {
-        if (path.size() == k) {
-            ans.add(new ArrayList<>(path));
-        }
-
-        for (int j = i; j <= n; j++) {
-            path.addLast(j);
-            dst(i + 1, n, k, path, ans);
-            path.removeLast();
-        }
-    }
-
-    public List<List<Integer>> permute(int[] nums) {
-        int n = nums.length;
-
-        List<List<Integer>> ans = new ArrayList<>();
-        if (n == 0) {
-            return ans;
-        }
-
-        Deque<Integer> path = new ArrayDeque<>();
-        boolean[] used = new boolean[n];
-        dst(nums, n, 0, path, used, ans);
-
-        return ans;
-    }
-
-    private void dst(int[] nums, int n, int depth, Deque<Integer> path, boolean[] used, List<List<Integer>> ans) {
-        if (path.size() == n) {
-            ans.add(new ArrayList<>(path));
-            return;
-        }
-
-        for (int j = 0; j < n; j++) {
-            if (used[j]) {
-                continue;
-            }
-            path.addLast(nums[j]);
-            used[j] = true;
-            dst(nums, n, depth + 1, path, used, ans);
-            path.removeLast();
-            used[j] = false;
-        }
-    }
-
-    public List<List<Integer>> permute2(int[] nums) {
-        int n = nums.length;
-
-        List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> path = new ArrayList<>();
-        for (int num : nums) {
-            path.add(num);
-        }
-
-        backtrack(path, n, ans, 0);
-
-        return ans;
-    }
-
-    private void backtrack(List<Integer> path, int n, List<List<Integer>> ans, int index) {
-        if (index == n) {
-            ans.add(new ArrayList<>(path));
-            return;
-        }
-
-        for (int j = index; j < n; j++) {
-            Collections.swap(path, index, j);
-            backtrack(path, n, ans, index + 1);
-            Collections.swap(path, index, j);
-        }
-    }
 
     public List<String> letterCasePermutation(String s) {
         List<StringBuilder> ans = new ArrayList<>();
@@ -266,20 +182,20 @@ public class TwoArray {
     }
 
     public void rotate(int[][] matrix) {
-        int N = matrix.length ;
-        int temp ;
-        for (int i = 0; i < N/2; i++) {
+        int N = matrix.length;
+        int temp;
+        for (int i = 0; i < N / 2; i++) {
             for (int j = 0; j < N; j++) {
-                temp = matrix[N-i-1][j];
-                matrix[N-i-1][j]= matrix[i][j];
+                temp = matrix[N - i - 1][j];
+                matrix[N - i - 1][j] = matrix[i][j];
                 matrix[i][j] = temp;
             }
         }
 
         for (int i = 0; i < N; i++) {
-            for (int j = i+1; j < N; j++) {
+            for (int j = i + 1; j < N; j++) {
                 temp = matrix[j][i];
-                matrix[j][i]= matrix[i][j];
+                matrix[j][i] = matrix[i][j];
                 matrix[i][j] = temp;
             }
         }
@@ -288,27 +204,289 @@ public class TwoArray {
 
     public int[][] merge2(int[][] intervals) {
         //空值判断 忽略
-        Arrays.sort(intervals ,(a,b) -> a[0]-b[0]);
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
         int N = intervals.length;
         int[][] merged = new int[N][2];
-        int idx = 0 ;
-        merged[idx][0]= intervals[0][0];
+        int idx = 0;
+        merged[idx][0] = intervals[0][0];
         merged[idx][1] = intervals[0][1];
-        for (int i = 1; i <N ; i++) {
-            if(merged[idx][1] < intervals[i][0]){
+        for (int i = 1; i < N; i++) {
+            if (merged[idx][1] < intervals[i][0]) {
                 //添加新的区间
                 idx++;
-                merged[idx][0]= intervals[i][0];
+                merged[idx][0] = intervals[i][0];
                 merged[idx][1] = intervals[i][1];
-            }else {
+            } else {
                 //合并  新的右区间大时 替换  扩大右区间
-                if(merged[idx][1] < intervals[i][1]) {
+                if (merged[idx][1] < intervals[i][1]) {
                     merged[idx][1] = intervals[i][1];
                 }
             }
         }
-        return Arrays.copyOfRange(merged,0,idx+1);
+        return Arrays.copyOfRange(merged, 0, idx + 1);
 
     }
 
+    // 生成 1 到 n*n ，且按顺时针 螺旋形式存放到矩阵中
+    public int[][] generateMatrix(int n) {
+        int[][] matrix = new int[n][n];
+        int ll = 0, lr = n - 1; //左右边界
+        int rs = 0, rx = n - 1; // 上下边界
+        int num = 0;
+        while (ll <= lr && rs <= rx) {
+            // 上 从左向右
+            for (int i = ll; i <= lr; i++) {
+                matrix[rs][i] = ++num;
+            }
+            ++rs;
+//            if(rs>rx) break;  可否删除  ？
+            // 右 从上到下
+            for (int i = rs; i <= rx; i++) {
+                matrix[i][lr] = ++num;
+            }
+            --lr;
+            if (ll > lr) break;
+            // 下 从右向左
+            for (int i = lr; i >= ll; i--) {
+                matrix[rx][i] = ++num;
+            }
+            --rx;
+            if (rx < rs) break;
+            // 左 从下向上
+            for (int i = rx; i >= rs; i--) {
+                matrix[i][ll] = ++num;
+            }
+            ++ll;
+        }
+
+        return matrix;
+    }
+
+    public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
+        int F = firstList.length;
+        int S = secondList.length;
+        if (F == 0 || S == 0) return new int[0][0];
+        int f = 0, s = 0;
+        int i = 0;
+        int[][] merges = new int[F + S][2];
+        while (f < F && s < S) {
+            if (firstList[f][0] <= secondList[s][0]) {
+                if (secondList[s][0] <= firstList[f][1]) {
+                    merges[i][0] = secondList[s][0];
+                    if (firstList[f][1] <= secondList[s][1]) {
+                        merges[i++][1] = firstList[f][1];
+                        f++;
+                    } else {
+                        merges[i++][1] = secondList[s][1];
+                        s++;
+                    }
+                } else {
+                    f++;
+                }
+            } else {
+
+                if (firstList[f][0] <= secondList[s][1]) {
+                    merges[i][0] = firstList[f][0];
+                    if (secondList[s][1] <= firstList[f][1]) {
+                        merges[i++][1] = secondList[s][1];
+                        s++;
+                    } else {
+                        merges[i++][1] = firstList[f][1];
+                        f++;
+                    }
+                } else {
+                    s++;
+                }
+            }
+        }
+        return Arrays.copyOfRange(merges, 0, i);
+    }
+
+    public int maxArea(int[] height) {
+        int N = height.length;
+        int maxArea = 0;
+        int i = 0, j = N - 1;
+        while (i < j) {
+            if (height[j] > height[i]) {
+                maxArea = Math.max(maxArea, (j - i) * height[i]);
+                i++;
+            } else {
+                maxArea = Math.max(maxArea, (j - i) * height[j]);
+                j--;
+            }
+        }
+        return maxArea;
+    }
+
+    public int maximalNetworkRank(int n, int[][] roads) {
+        int[] city = new int[n];
+        int[][] graph = new int[n][n];
+        for (int[] r : roads) {
+            city[r[0]]++;
+            city[r[1]]++;
+            graph[r[0]][r[1]]=1;
+            graph[r[1]][r[0]]=1;
+        }
+        int ans = 0 ;
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j < n; j++) {
+                ans = Math.max(ans,city[i]+city[j] - graph[i][j]);
+            }
+        }
+        return ans ;
+    }
+
+
+    public int minRefuelStops(int target, int startFuel, int[][] stations) {
+        int N = stations.length;
+        PriorityQueue<Integer>  gas = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2-o1;
+            }
+        }) ;
+        int count =0 ;
+        for (int i = 0; i <N ; i++) {
+            if(startFuel - stations[i][0]<0) {
+                if(gas.isEmpty()){
+                    return -1;
+                }else {
+                    while (startFuel<stations[i][0] && !gas.isEmpty()){
+                        count++;
+                        startFuel += gas.poll();
+                    }
+                    if(startFuel<stations[i][0]) return -1;
+                    gas.offer(stations[i][1]);
+                }
+            }else {
+                gas.offer(stations[i][1]);
+            }
+        }
+        while (startFuel<target && !gas.isEmpty() ){
+            count++;
+            startFuel += gas.poll();
+        }
+        if(startFuel>=target) return count ;
+        return -1;
+    }
+
+
+    /**
+     * 找出到达所有节点 的最少点
+     * @param n
+     * @param edges
+     * @return
+     */
+    public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
+        int[] inCount = new int[n];
+        for (List<Integer> edge : edges){
+            inCount[edge.get(1)]++;
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if(inCount[i]==0) {
+                ans.add(i);
+            }
+        }
+
+        return ans ;
+    }
+
+    public int[][] kClosest(int[][] points, int k) {
+        Arrays.sort(points, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0]*o1[0] + o1[1]*o1[1]  -  (o2[0]*o2[0] + o2[1]*o2[1]);
+            }
+        });
+
+       return Arrays.copyOfRange(points,0,k);
+    }
+
+    public int[][] kClosest2(int[][] points, int k) {
+       PriorityQueue<int[]> pq = new PriorityQueue<>(k, new Comparator<int[]>() {
+           @Override
+           public int compare(int[] o1, int[] o2) {
+               return o2[0]-o1[0];
+           }
+       }) ;
+        int n = points.length ;
+        for (int i = 0; i < n; i++) {
+            int dist = points[i][0]* points[i][0]    + points[i][1] * points[i][1] ;
+            if(i>=k) {
+                if(dist < pq.peek()[0]){
+                    pq.poll();
+                }
+            }
+
+            pq.offer(new int[]{dist,i});
+        }
+
+        int[][] ans = new int[k][2];
+        for (int i = 0; i <k ; i++) {
+            ans[i] = points[pq.poll()[1]];
+        }
+
+        return  ans ;
+    }
+
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length ;
+        int n = matrix[0].length;
+
+        boolean[]  line = new boolean[m];
+        boolean[]  row = new boolean[n];
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(matrix[i][j]==0){
+                    line[i]=true;
+                    row[j]=true;
+                }
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            if(line[i]){
+                for (int j = 0; j < n; j++) {
+                    matrix[i][j]=0;
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if(row[i]){
+                for (int j = 0; j < m; j++) {
+                    matrix[j][i]=0;
+                }
+            }
+        }
+
+
+    }
+
+    /**
+     * 查看矩阵是否相等   旋转后是否相等
+     * @param mat
+     * @param target
+     * @return
+     */
+    public boolean findRotation(int[][] mat, int[][] target) {
+        int N = mat.length;
+        boolean res1 = true, res2 = true ,res3 =true , res4 =true ;
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if(mat[i][j] != target[i][j])  res1 = false;
+
+                if(mat[j][N-1-i] !=target[i][j]) res2 =false;
+
+                if(mat[N-1-i][N-1-j] !=target[i][j]) res3 =false;
+
+                if(mat[N-1-j][i] !=target[i][j]) res4 =false;
+            }
+        }
+
+        return res1 || res2 || res3 || res4;
+    }
 }

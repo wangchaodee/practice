@@ -1,18 +1,17 @@
-package com.iflytek.staff.chao.sort;
+package com.iflytek.staff.chao.array;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 排序
  * @date Date : 2022年06月20日 下午4:02
  */
-public abstract class BaseSort {
-    public abstract void sort(Comparable[] array);
+public class SortUtil {
 
-    protected static boolean less(Comparable l, Comparable r) {
+    public static boolean less(Comparable l, Comparable r) {
         return l.compareTo(r) < 0;
     }
 
-    protected void exchange(Comparable[] array, int i, int j) {
+    public static void exchange(Comparable[] array, int i, int j) {
         if (i == j) return;
         Comparable temp = array[i];
         array[i] = array[j];
@@ -33,10 +32,16 @@ public abstract class BaseSort {
         return true;
     }
 
-    public void verify(Comparable[] array) {
-        sort(array);
-        assert isSorted(array);
-        show(array);
+
+    public static boolean less(int l, int r) {
+        return l < r;
+    }
+
+    public static void exchange(int[] array, int i, int j) {
+        if (i == j) return;
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 
 }

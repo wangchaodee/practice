@@ -1,10 +1,10 @@
-package com.iflytek.staff.chao.sort;
+package com.iflytek.staff.chao.array;
 
 import java.util.*;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 查询
  * @date Date : 2022年06月21日 下午9:49
  */
 public class Solution {
@@ -49,7 +49,6 @@ public class Solution {
     }
 
 
-
     public void moveZeroes(int[] nums) {
         int N = nums.length;
         int l = 0;
@@ -72,7 +71,6 @@ public class Solution {
         }
         return null;
     }
-
 
 
     protected boolean less(int l, int r) {
@@ -123,23 +121,31 @@ public class Solution {
     }
 
     public int thirdMax(int[] nums) {
+        int N = nums.length;
 
-        for (int i = 1; i < nums.length; i--) {
-            for (int j = i; j > 0; j--) {
-                if (less(nums[j], nums[j - 1])) {
-                    exchange(nums, j, j - 1);
-                }
+        Set<Integer> sets = new HashSet<>();
+        PriorityQueue<Integer> pq = new PriorityQueue(3);
+        pq.offer(nums[0]);
+        sets.add(nums[0]);
+        for (int i = 1; i < N; i++) {
+            if (pq.size() < 3 && !sets.contains(nums[i])) {
+                pq.offer(nums[i]);
+                sets.add(nums[i]);
+            } else if (!sets.contains(nums[i]) && pq.size() == 3 && pq.peek() < nums[i]) {
+                pq.poll();
+                pq.add(nums[i]);
+                sets.add(nums[i]);
             }
         }
-
-        int N = nums.length;
-        if (N < 3) return nums[N - 1];
-        int diff = 1;
-        for (int j = N - 2; j > 0; j--) {
-            if (less(nums[j], nums[j + 1])) ++diff;
-            if (diff == 3) return nums[j];
+        if (pq.size() == 3) {
+            return pq.peek();
+        } else {
+            int max = 0;
+            while (!pq.isEmpty()) {
+                max = pq.poll();
+            }
+            return max;
         }
-        return nums[N - 1];
 
     }
 

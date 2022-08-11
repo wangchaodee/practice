@@ -2,6 +2,8 @@ package com.iflytek.staff.chao.array;
 
 import java.util.*;
 
+import static com.iflytek.staff.chao.array.SortUtil.less;
+
 public class Number {
 
 
@@ -54,25 +56,7 @@ public class Number {
 
     }
 
-    /**
-     * 多次卖卖股票
-     *
-     * @param prices
-     * @return
-     */
-    public int maxProfit3(int[] prices) {
-        int max = 0;
-        int m = prices.length;
-        int buy = prices[0];
-        for (int r = 0; r <m ; r++) {
-            if (prices[r] > buy) {
-                max += prices[r ] - buy;
-            }
-               buy= prices[r];
 
-        }
-        return max;
-    }
 
 
     /**
@@ -152,38 +136,6 @@ public class Number {
         return new int[2];
     }
 
-    public List<List<Integer>> permute(int[] nums) {
-        int len = nums.length;
-        List<List<Integer>> res = new ArrayList<>();
-        if (len == 0) {
-            return res;
-        }
-
-        Deque<Integer> path = new LinkedList<>();
-        boolean[] used = new boolean[len];
-
-        dfs(nums, len, 0, path, used, res);
-        return res;
-    }
-
-    private void dfs(int[] nums, int len, int depth, Deque<Integer> path, boolean[] used, List<List<Integer>> res) {
-        if (len == depth) {
-            res.add(new ArrayList<>(path));
-            return;
-        }
-
-        for (int i = 0; i < len; i++) {
-            if (used[i]) {
-                continue;
-            }
-            path.addLast(nums[i]);
-            used[i] = true;
-            dfs(nums, len, depth + 1, path, used, res);
-            path.removeLast();
-            used[i] = false;
-        }
-        return;
-    }
 
     public int climbStairs2(int n) {
         if (n == 1 || n == 2) {
@@ -212,7 +164,6 @@ public class Number {
         for (int i = 2; i < N; i++) {
             t = n2;
             n2 = Math.max(n2, n1 + nums[i]);
-            ;
             n1 = t;
         }
         return n2;
@@ -236,16 +187,6 @@ public class Number {
 
     }
 
-    protected boolean less(int l, int r) {
-        return l < r;
-    }
-
-    protected void exchange(int[] array, int i, int j) {
-        if (i == j) return;
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
 
 
     public int[] intersect2(int[] nums1, int[] nums2) {
@@ -294,19 +235,7 @@ public class Number {
         return Arrays.copyOfRange(ans, 0, k);
     }
 
-    public int maxProfit(int[] prices) {
-        int minPrice = prices[0];
-        int maxProfit = 0;
-        for (int i = 1; i < prices.length; i++) {
-            if (prices[i] < minPrice) {
-                minPrice = prices[i];
-            }
-            if (prices[i] - minPrice > maxProfit) {
-                maxProfit = prices[i] - minPrice;
-            }
-        }
-        return maxProfit;
-    }
+
 
     public int arrangeCoins(int n) {
         int k = 1;
@@ -391,25 +320,7 @@ public class Number {
     }
 
 
-    public int minimumTotal(List<List<Integer>> triangle) {
-        int N = triangle.size();
-        int[][] f = new int[N][N];
 
-        f[0][0] = triangle.get(0).get(0);
-        for (int i = 1; i < N; i++) {
-            f[i][0] = f[i - 1][0] + triangle.get(i).get(0);
-            for (int j = 1; j < i; j++) {
-                f[i][j] = Math.min(f[i - 1][j - 1], f[i - 1][j]) + triangle.get(i).get(j);
-            }
-            f[i][i] = f[i - 1][i - 1] + triangle.get(i).get(i);
-        }
-        int min = 0;
-        for (int i = 0; i < N; i++) {
-            min = Math.min(min, f[N - 1][i]);
-        }
-        return min;
-
-    }
 
 
     public boolean judgeSquareSum(int c) {
@@ -708,8 +619,6 @@ public class Number {
     }
 
 
-
-
     public boolean searchMatrix(int[][] matrix, int target) {
         int n = matrix.length;
         int l = 0, r = n - 1, m = 0, line = 0;
@@ -741,114 +650,170 @@ public class Number {
     }
 
 
-
     public int longestSubarray(int[] nums, int limit) {
-        int l = 0 ;
-        int r = 1 ;
-        int max= 1 ;
-        TreeMap<Integer,Integer> map = new TreeMap();
-        while(r<nums.length){
-            map.put(nums[r],map.getOrDefault(nums[r],0)+1);
-            while( map.lastKey()-map.firstKey()>limit  ){
-                map.put(nums[l],map.get(nums[l])-1);
-                if(map.get(nums[l])==0){
+        int l = 0;
+        int r = 1;
+        int max = 1;
+        TreeMap<Integer, Integer> map = new TreeMap();
+        while (r < nums.length) {
+            map.put(nums[r], map.getOrDefault(nums[r], 0) + 1);
+            while (map.lastKey() - map.firstKey() > limit) {
+                map.put(nums[l], map.get(nums[l]) - 1);
+                if (map.get(nums[l]) == 0) {
                     map.remove(nums[l]);
                 }
                 l++;
             }
-            max = Math.max(max,r-l+1);
-            r++ ;
+            max = Math.max(max, r - l + 1);
+            r++;
         }
-        return max ;
+        return max;
     }
-
 
 
     public double averageWaitingTime(int[][] customers) {
         int n = customers.length;
-        if(n<1){
+        if (n < 1) {
             return 0;
         }
-        int time =0 ;
+        int time = 0;
         int wait = 0;
-        for(int i=0 ;i<n; i++){
-            if(time < customers[i][0]){
+        for (int i = 0; i < n; i++) {
+            if (time < customers[i][0]) {
                 time = customers[i][0];
             }
             time += customers[i][1];
-            wait += time - customers[i][0] ;
+            wait += time - customers[i][0];
         }
-        return  wait/n ;
+        return wait / n;
     }
 
 
     public int repeatedNTimes(int[] A) {
-        Map<Integer,Integer> map = new HashMap();
-        int n = A.length /2 +1 ;
+        Map<Integer, Integer> map = new HashMap();
+        int n = A.length / 2 + 1;
 
-        for(int i = 0 ;i< n ;i++){
-            if(map.getOrDefault(A[i],0)==1){
-                return A[i] ;
+        for (int i = 0; i < n; i++) {
+            if (map.getOrDefault(A[i], 0) == 1) {
+                return A[i];
             }
-            map.put(A[i],1);
+            map.put(A[i], 1);
         }
         return A[n];
     }
 
 
     public int countOdds(int low, int high) {
-        int interval = high - low  +1 ;
-         if( interval%2==0) {
-             return interval/2 ;
-         }else {
-             return interval/2 +low%2 ;
-         }
+        int interval = high - low + 1;
+        if (interval % 2 == 0) {
+            return interval / 2;
+        } else {
+            return interval / 2 + low % 2;
+        }
     }
 
     public double average(int[] salary) {
-        int min =Integer.MAX_VALUE;
+        int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
-        int n = salary.length ;
-        long total = 0 ;
+        int n = salary.length;
+        long total = 0;
         for (int i = 0; i < n; i++) {
             total += salary[i];
-            min = Math.min(min,salary[i]);
-            max= Math.max(max,salary[i]);
+            min = Math.min(min, salary[i]);
+            max = Math.max(max, salary[i]);
         }
-        return ( total - min -max )/(n-2) ;
+        return (total - min - max) / (n - 2);
     }
 
     public int reverse(int x) {
-        long rev=0 ;
-        int t  ;
-        int i=0;
-        while (x!=0){
-            t = x % 10 ;
-            rev = 10*rev + t ;
-            x = x /10 ;
+        long rev = 0;
+        int t;
+        int i = 0;
+        while (x != 0) {
+            t = x % 10;
+            rev = 10 * rev + t;
+            x = x / 10;
         }
-        if(rev > Integer.MAX_VALUE || rev < Integer.MIN_VALUE){
+        if (rev > Integer.MAX_VALUE || rev < Integer.MIN_VALUE) {
             return 0;
         }
-        return  (int)  rev ;
+        return (int) rev;
     }
 
 
     public int countPrimes2(int n) {
-        List<Integer> primes= new ArrayList<>();
+        List<Integer> primes = new ArrayList<>();
         boolean[] isPrimes = new boolean[n];
-        for (int i = 2; i <n; i++) {
-            if(isPrimes[i]==false){
+        for (int i = 2; i < n; i++) {
+            if (isPrimes[i] == false) {
                 primes.add(i);
             }
 
-            for (int j = 0; j <primes.size() && i*primes.get(j) < n ; j++) {
-                isPrimes[i*primes.get(j)] = true;
-                if(i% primes.get(j)==0) break;
+            for (int j = 0; j < primes.size() && i * primes.get(j) < n; j++) {
+                isPrimes[i * primes.get(j)] = true;
+                if (i % primes.get(j) == 0) break;
             }
         }
         return primes.size();
     }
+
+    public int subtractProductAndSum(int n) {
+        int multi = 1;
+        int total = 0;
+        int t = 0;
+        while (n != 0) {
+            t = n % 10;
+            multi *= t;
+            total += t;
+            n = n / 10;
+        }
+        return multi - total;
+    }
+
+    public int nearestValidPoint(int x, int y, int[][] points) {
+        int min = Integer.MAX_VALUE;
+
+        for (int i = 0; i < points.length; i++) {
+            if (x == points[i][0] || y == points[i][1]) {
+                min = Math.min(min, Math.abs(x - points[i][0]) + Math.abs(y - points[i][1]));
+            }
+        }
+        return min == Integer.MAX_VALUE ? -1 : min;
+    }
+
+    public int fib(int n) {
+        if(n<2) return n ;
+        int MOD = 1000000007;
+        int[] dp = new int[n+1];
+        dp[1]=1;
+        for (int i = 2; i < n+1 ; i++) {
+            dp[i] = (dp[i-2] + dp[i-1]) % MOD ;
+        }
+        return  dp[n];
+    }
+
+    /**
+     * 是否快乐数
+     * @param n
+     * @return
+     */
+    public boolean isHappy(int n) {
+        Set<Integer> cycles = new HashSet(Arrays.asList(4, 16, 37, 58, 89, 145, 42, 20));
+
+        while (n != 1 && !cycles.contains(n)){
+            int next =0 ;
+            int t = n ;
+            while (t >0 ){
+                int y= t%10;
+                next += y*y ;
+                t/=10;
+            }
+            n=next;
+        }
+        return n==1;
+    }
+
+
 
 
 }
