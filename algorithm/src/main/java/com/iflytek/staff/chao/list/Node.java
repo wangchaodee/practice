@@ -5,7 +5,7 @@ import java.util.Queue;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 二叉树 节点   模拟B+ 树
  * @date Date : 2022年06月24日 下午3:24
  */
 public class Node {

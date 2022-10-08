@@ -7,10 +7,6 @@ import static com.iflytek.staff.chao.array.SortUtil.exchange;
 
 public class ArraySolution {
 
-    public static void main(String[] args) {
-
-
-    }
 
 
     public void moveZeroes(int[] nums) {
@@ -1003,8 +999,30 @@ public class ArraySolution {
         return sb.toString();
     }
 
-    public int nextGreaterElement(int n) {
 
+    /**
+     * 数据分组  按照对应的groupSize 将元素分组
+     * @param groupSizes
+     * @return
+     */
+    public List<List<Integer>> groupThePeople(int[] groupSizes) {
+        List<List<Integer>> ans = new ArrayList<>();
+
+        Map<Integer,List<Integer>> map = new HashMap<>();
+
+        for (int i = 0; i < groupSizes.length ; i++) {
+            List<Integer>  cur = map.getOrDefault(groupSizes[i] , new ArrayList<>());
+            cur.add(i);
+            if(cur.size() == groupSizes[i]){
+                ans.add(cur);
+                map.put(groupSizes[i],new ArrayList<>());
+            }else {
+                map.put(groupSizes[i],cur);
+            }
+        }
+        return ans ;
     }
+
+
 
 }

@@ -931,4 +931,41 @@ public class DynamicPlan {
         return sum;
     }
 
+    /**
+     * 可以组成二叉搜索树的种类
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        int[] dp = new int[n+1];
+        dp[0] = 1 ;
+        dp[1] = 1 ;
+        for (int i = 2; i <= n; i++) {
+            // 以 j为根节点 ， 左右子树数量乘积 的汇总和
+            for (int j = 1; j <=i ; j++) {
+                dp[i] += dp[j-1] * dp[i-j];
+            }
+        }
+        return dp[n];
+
+    }
+
+    public int peopleAwareOfSecret(int n, int delay, int forget) {
+        // 记录新增的人数
+        int[] dp = new int[n+1+forget];
+        int mod = 1000000007;
+
+        dp[1] = 1 ;  //知道秘密
+
+        for (int i = 1; i <= n ; i++) {
+            for (int j = delay; j < forget; j++) {
+                dp[i+j] += dp[i] ;
+            }
+        }
+        int total = 0;
+        for (int i = n-forget+1 ; i <=n; i++) {
+            total = (total + dp[i]) % mod ;
+        }
+        return total;
+    }
 }

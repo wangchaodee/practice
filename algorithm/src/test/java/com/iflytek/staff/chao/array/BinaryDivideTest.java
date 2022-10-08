@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 二分法测试类
  * @date Date : 2022年07月21日 22:12
  */
 public class BinaryDivideTest extends TestCase {

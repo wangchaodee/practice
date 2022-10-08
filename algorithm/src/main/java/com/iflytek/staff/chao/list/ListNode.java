@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 链表 算法
  * @date Date : 2022年06月23日 下午3:49
  */
 public class ListNode {
@@ -421,6 +421,38 @@ public class ListNode {
             r--;
         }
         listNodes.get(l).next=null;
+    }
 
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+
+        int[][] grid = new int[m][n];
+        int[][] direction = new int[][]{{0,1},{1,0},{0,-1},{-1,0}} ;
+
+        matrixFill(grid,-1);
+
+        int total = m*n ;
+        int i = 0 ,  j =0 ;
+        int di = 0 ;
+       while (head!=null){
+           grid[i][j] = head.val;
+           head = head.next;
+
+            int ti =i+ direction[di][0];
+            int tj =j+ direction[di][1];
+            if (ti<0 || ti>=m || tj<0 || tj>=n ||  grid[ti][tj] !=-1) {
+                di = (di+1) % 4 ;
+            }
+            i += direction[di][0];
+            j += direction[di][1];
+        }
+        return  grid ;
+    }
+
+    private void matrixFill(int[][] grid ,int val){
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                grid[i][j]=val;
+            }
+        }
     }
 }

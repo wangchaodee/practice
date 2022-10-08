@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 字符相关算法测试
  * @date Date : 2022年07月13日 20:44
  */
 public class CharSolutionTest extends TestCase {

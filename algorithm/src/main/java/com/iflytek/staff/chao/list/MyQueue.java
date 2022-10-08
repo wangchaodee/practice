@@ -4,7 +4,7 @@ import java.util.Stack;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 设计队列
  * @date Date : 2022年07月10日 09:58
  */
 public class MyQueue {

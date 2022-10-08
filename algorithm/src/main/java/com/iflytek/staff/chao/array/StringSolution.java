@@ -163,4 +163,20 @@ public class StringSolution {
         }
         return  ans.reverse().toString();
     }
+
+    /**
+     * 反转字符串中的单词
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        String[] strlist = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = strlist.length-1; i >=0; i--) {
+            if(strlist[i].length()==0) continue;
+            sb.append(strlist[i]).append(" ");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
+    }
 }

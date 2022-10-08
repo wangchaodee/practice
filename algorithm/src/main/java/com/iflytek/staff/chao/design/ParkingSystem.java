@@ -2,7 +2,7 @@ package com.iflytek.staff.chao.design;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 设计停车系统
  * @date Date : 2022年07月21日 08:16
  */
 public class ParkingSystem {

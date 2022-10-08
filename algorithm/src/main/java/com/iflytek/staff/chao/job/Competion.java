@@ -1,5 +1,7 @@
 package com.iflytek.staff.chao.job;
 
+import com.iflytek.staff.chao.list.TreeNode;
+
 import java.util.*;
 
 /**
@@ -230,5 +232,64 @@ public class Competion {
         return true;
     }
 
+    public int smallestEvenMultiple(int n) {
+        if(n%2==0) return n ;
+        return 2*n ;
+    }
 
+    public int longestContinuousSubstring(String s) {
+        char[] chars = s.toCharArray();
+        int n = chars.length ;
+        int max = 1, cur=1 ;
+        for (int i = 1; i < n; i++) {
+            if(chars[i] == chars[i-1] +1 ){
+                cur++;
+                max = Math.max(max,cur);
+            }else {
+                cur=1 ;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 翻转基数层的数值  ， 层遍历用队列  翻转用栈
+     * @param root
+     * @return
+     */
+    public TreeNode reverseOddLevels(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        Stack<Integer> stack = new Stack<>();
+        queue.offer(root);
+        int level =0 ;
+        while (!queue.isEmpty()){
+            int size = queue.size() ;
+            for (int i = 0; i <size; i++) {
+                TreeNode node = queue.poll() ;
+                if(level%2==0) {
+                    if (node.left != null) {
+                        queue.offer(node.left);
+                        stack.push(node.left.val);
+                    }
+
+                    if (node.right != null) {
+                        queue.offer(node.right);
+                        stack.push(node.right.val);
+                    }
+                }else {
+                    node.val = stack.pop();
+                    if (node.left != null) {
+                        queue.offer(node.left);
+                    }
+
+                    if (node.right != null) {
+                        queue.offer(node.right);
+                    }
+                }
+            }
+
+            level++;
+        }
+        return root;
+    }
 }

@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * @author : hamilton
- * @Description: TODO
+ * @Description: 字符相关算法
  * @date Date : 2022年06月23日 下午4:53
  */
 public class CharSolution {
@@ -880,5 +880,31 @@ public class CharSolution {
         return ans.toString();
 
     }
+
+    /**
+     * 解密字符
+     * @param key
+     * @param message
+     * @return
+     */
+    public String decodeMessage(String key, String message) {
+
+        Map<Character,Character> map = new HashMap<>();
+        map.put(' ',' ');
+        char a = 'a';
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            if(!map.containsKey(c)){
+                map.put(c,a++ );
+            }
+        }
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < message.length() ; i++) {
+            ans.append(map.get(message.charAt(i)));
+        }
+        return ans.toString();
+    }
+
+
 
 }

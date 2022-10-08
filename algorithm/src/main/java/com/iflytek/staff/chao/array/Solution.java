@@ -120,35 +120,6 @@ public class Solution {
         return nums[nums.length / 2];
     }
 
-    public int thirdMax(int[] nums) {
-        int N = nums.length;
-
-        Set<Integer> sets = new HashSet<>();
-        PriorityQueue<Integer> pq = new PriorityQueue(3);
-        pq.offer(nums[0]);
-        sets.add(nums[0]);
-        for (int i = 1; i < N; i++) {
-            if (pq.size() < 3 && !sets.contains(nums[i])) {
-                pq.offer(nums[i]);
-                sets.add(nums[i]);
-            } else if (!sets.contains(nums[i]) && pq.size() == 3 && pq.peek() < nums[i]) {
-                pq.poll();
-                pq.add(nums[i]);
-                sets.add(nums[i]);
-            }
-        }
-        if (pq.size() == 3) {
-            return pq.peek();
-        } else {
-            int max = 0;
-            while (!pq.isEmpty()) {
-                max = pq.poll();
-            }
-            return max;
-        }
-
-    }
-
     public int missingNumber(int[] nums) {
         int v = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -234,6 +205,8 @@ public class Solution {
         }
         return null;
     }
+
+
 
 
 }
