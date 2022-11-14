@@ -95,6 +95,17 @@ public class ArraySolution {
         return l;
     }
 
+    public int removeElement(int[] nums, int val) {
+        int l = 0;
+        for (int r = 0; r < nums.length; r++) {
+            if (nums[r] != val) {
+                nums[l++] = nums[r];
+            }
+        }
+        return l;
+    }
+
+
     /**
      * 获取杨辉三角 第rowIndex行的那列数组
      *
