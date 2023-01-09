@@ -1,6 +1,6 @@
 package com.iflytek.staff.chao.job;
 
-import com.iflytek.staff.chao.list.TreeNode;
+import com.iflytek.staff.chao.structure.base.list.TreeNode;
 
 import java.util.*;
 

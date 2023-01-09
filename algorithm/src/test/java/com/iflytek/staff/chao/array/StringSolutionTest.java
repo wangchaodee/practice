@@ -1,5 +1,6 @@
 package com.iflytek.staff.chao.array;
 
+import com.iflytek.staff.chao.algorithm.base.StringSolution;
 import junit.framework.TestCase;
 
 /**
@@ -18,5 +19,17 @@ public class StringSolutionTest extends TestCase {
         for (int i = 0; i < arr.length; i++) {
             System.out.println(arr[i]);
         }
+    }
+
+    public void testEvalRPN() {
+        StringSolution test = new StringSolution();
+        test.evalRPN(new String[]{"4","13","5","/","+"});
+    }
+
+    public void testBackspaceCompare() {
+        StringSolution test = new StringSolution();
+        boolean result = test.backspaceCompare("xywrrmp",
+                "xywrrmu#p") ;
+        System.out.println("result: "+result);
     }
 }

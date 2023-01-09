@@ -1,5 +1,6 @@
 package com.iflytek.staff.chao.array;
 
+import com.iflytek.staff.chao.algorithm.base.UnionFind;
 import org.junit.Test;
 
 /**

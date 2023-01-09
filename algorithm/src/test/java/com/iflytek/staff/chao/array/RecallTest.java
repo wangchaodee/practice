@@ -1,5 +1,6 @@
 package com.iflytek.staff.chao.array;
 
+import com.iflytek.staff.chao.algorithm.base.Recall;
 import junit.framework.TestCase;
 
 /**

@@ -1,6 +1,6 @@
 package com.iflytek.staff.chao.num;
 
-import com.iflytek.staff.chao.array.Number;
+import com.iflytek.staff.chao.algorithm.base.Number;
 import junit.framework.TestCase;
 
 import java.util.List;
