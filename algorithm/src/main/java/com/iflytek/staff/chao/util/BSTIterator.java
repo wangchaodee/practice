@@ -1,6 +1,6 @@
 package com.iflytek.staff.chao.util;
 
-import com.iflytek.staff.chao.structure.base.list.TreeNode;
+import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,33 +13,33 @@ import java.util.Stack;
  */
 public class BSTIterator {
 
-    private List<Integer> sList ;
+    private List<Integer> sList;
 
     public BSTIterator(TreeNode root) {
         sList = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
-        while (root!=null|| !stack.isEmpty()){
-            while (root!=null){
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
                 stack.push(root);
                 root = root.left;
             }
             root = stack.pop();
             sList.add(root.val);
-            root=root.right;
+            root = root.right;
         }
 
     }
 
     public int next() {
-        if(sList.isEmpty()){
+        if (sList.isEmpty()) {
             return -1;
         }
-        int ans =  sList.get(0);
+        int ans = sList.get(0);
         sList.remove(0);
         return ans;
     }
 
     public boolean hasNext() {
-        return  !sList.isEmpty();
+        return !sList.isEmpty();
     }
 }

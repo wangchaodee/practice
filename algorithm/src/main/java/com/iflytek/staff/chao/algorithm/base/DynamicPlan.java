@@ -1,6 +1,6 @@
 package com.iflytek.staff.chao.algorithm.base;
 
-import com.iflytek.staff.chao.structure.base.list.TreeNode;
+import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 
 import java.util.*;
 
@@ -11,78 +11,9 @@ import java.util.*;
  */
 public class DynamicPlan {
 
-    public int eraseOverlapIntervals(int[][] intervals) {
-        if (intervals.length == 0) return 0;
 
-        Arrays.sort(intervals, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
-            }
-        });
 
-        int[] dp = new int[intervals.length];
-        Arrays.fill(dp, 1);
-        int start = 0;
-        for (int i = 1; i < intervals.length; i++) {
 
-            for (int j = start; j < i; j++) {
-                if (intervals[j][1] <= intervals[i][0]) {
-                    start = j;
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
-            }
-        }
-
-        return intervals.length - dp[intervals.length - 1];
-    }
-
-    /**
-     * 找s中最长的回环字串
-     *
-     * @param s
-     * @return
-     */
-    public String longestPalindrome(String s) {
-        int N = s.length();
-        if (N < 2) return s;
-
-        boolean[][] dp = new boolean[N][N];
-
-        // 一个字符 是
-        for (int i = 0; i < N; i++) {
-            dp[i][i] = true;
-        }
-        int maxLen = 0;
-        int start = 0;
-        char[] sArray = s.toCharArray();
-        // 增加的长度， 字符长度等于 L+1
-        for (int L = 1; L < N; L++) {
-            for (int i = 0; i < N; i++) {
-                int j = i + L;
-
-                if (j >= N) {
-                    break;
-                }
-
-                if (sArray[i] == sArray[j]) {
-                    if (j - i < 3) {
-                        dp[i][j] = true;
-                    } else {
-                        dp[i][j] = dp[i + 1][j - 1];
-                    }
-                }
-
-                if (dp[i][j] == true && j - i + 1 > maxLen) {
-                    maxLen = j - i + 1;
-                    start = i;
-                }
-            }
-        }
-
-        return s.substring(start, start + maxLen);
-
-    }
 
     /**
      * 打家劫舍 情况一  一排房子  相邻房子被偷会报警
@@ -103,6 +34,7 @@ public class DynamicPlan {
 
     /**
      * 小偷抢劫  房子相邻  连续偷则报警
+     *
      * @param nums
      * @return
      */
@@ -116,7 +48,7 @@ public class DynamicPlan {
             max2 = curr;
         }
 //        return max1 > max2 ? max1 : max2;
-        return max2 ;
+        return max2;
     }
 
     /**
@@ -173,25 +105,27 @@ public class DynamicPlan {
 
     /**
      * 打家劫舍 情况三  房子是二叉树型相邻
+     *
      * @param root
      * @return
      */
-    Map<TreeNode,Integer> choose = new HashMap<>() ;
-    Map<TreeNode,Integer> ignore = new HashMap<>() ;
+    Map<TreeNode, Integer> choose = new HashMap<>();
+    Map<TreeNode, Integer> ignore = new HashMap<>();
+
     public int rob(TreeNode root) {
-        dfs(root) ;
-        return Math.max(choose.getOrDefault(root,0) , ignore.getOrDefault(root,0));
+        dfs(root);
+        return Math.max(choose.getOrDefault(root, 0), ignore.getOrDefault(root, 0));
     }
 
-    private void dfs(TreeNode root){
-        if(root==null) return;
+    private void dfs(TreeNode root) {
+        if (root == null) return;
 
         dfs(root.left);
         dfs(root.right);
 
-        choose.put(root,root.val + ignore.getOrDefault(root.left,0) + ignore.getOrDefault(root.right,0) ) ;
-        ignore.put(root, Math.max( choose.getOrDefault(root.left,0) ,ignore.getOrDefault(root.left,0))
-                + Math.max(choose.getOrDefault(root.right,0), ignore.getOrDefault(root.right,0)) );
+        choose.put(root, root.val + ignore.getOrDefault(root.left, 0) + ignore.getOrDefault(root.right, 0));
+        ignore.put(root, Math.max(choose.getOrDefault(root.left, 0), ignore.getOrDefault(root.left, 0))
+                + Math.max(choose.getOrDefault(root.right, 0), ignore.getOrDefault(root.right, 0)));
     }
 
     /**
@@ -378,17 +312,6 @@ public class DynamicPlan {
         return dp[N];
     }
 
-    public int maxSubArray(int[] nums) {
-        int N = nums.length;
-        int[] dp = new int[N];
-        dp[0] = nums[0];
-        int max = dp[0];
-        for (int i = 1; i < N; i++) {
-            dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);
-            max = Math.max(dp[i], max);
-        }
-        return max;
-    }
 
     /**
      * 单词拆分
@@ -644,7 +567,6 @@ public class DynamicPlan {
     }
 
 
-
     /**
      * @param nums
      * @return
@@ -682,32 +604,12 @@ public class DynamicPlan {
     }
 
     /**
-     * 多次卖卖股票
+     * 309 包含冷冻期
      *
      * @param prices
      * @return
      */
     public int maxProfit3(int[] prices) {
-        int max = 0;
-        int m = prices.length;
-        int buy = prices[0];
-        for (int r = 0; r < m; r++) {
-            if (prices[r] > buy) {
-                max += prices[r] - buy;
-            }
-            buy = prices[r];
-
-        }
-        return max;
-    }
-
-    /**
-     * 包含冷冻期
-     *
-     * @param prices
-     * @return
-     */
-    public int maxProfit(int[] prices) {
         int n = prices.length;
         int[][] dp = new int[n][3];
         dp[0][0] = -prices[0]; // 拥有股票
@@ -722,7 +624,13 @@ public class DynamicPlan {
         return dp[n - 1][1] > dp[n - 1][2] ? dp[n - 1][1] : dp[n - 1][2];
     }
 
-    public int maxProfit(int[] prices, int fee) {
+    /**
+     * 714 包含冷冻期
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfit4(int[] prices, int fee) {
         int n = prices.length;
         int[][] dp = new int[n][2];
         dp[0][0] = -prices[0]; // 拥有股票
@@ -900,72 +808,74 @@ public class DynamicPlan {
 
     /**
      * 乘积为正数时  最长子串的长度
+     *
      * @param nums
      * @return
      */
     public int getMaxLen(int[] nums) {
         int n = nums.length;
-        int max = 0 ;
+        int max = 0;
         int neg = 0;
-        int pos = 0 ;
-        for (int i = 0; i < n ; i++) {
-            if(nums[i]==0) {
-                pos = 0 ;
+        int pos = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                pos = 0;
                 neg = 0;
-            }else if(nums[i]>0){
+            } else if (nums[i] > 0) {
                 pos++;
-                neg= neg>0 ? neg+1 : 0 ;
-            }else {
-                int t = neg ;
-                neg = pos +1 ;
-                pos = t>0 ? t+1 : 0 ;
+                neg = neg > 0 ? neg + 1 : 0;
+            } else {
+                int t = neg;
+                neg = pos + 1;
+                pos = t > 0 ? t + 1 : 0;
             }
-            max = Math.max(max ,pos);
+            max = Math.max(max, pos);
         }
-        return max ;
+        return max;
     }
 
     /**
      * 最大景点对 得分
+     *
      * @param values
      * @return
      */
     public int maxScoreSightseeingPair(int[] values) {
-        int n = values.length ;
-        int max = 0 ;
-        for (int i = 0; i <n-1 ; i++) {
-            for (int j = i+1; j < n; j++) {
-                max = Math.max(max , values[i] + values[j] +i -j) ;
+        int n = values.length;
+        int max = 0;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                max = Math.max(max, values[i] + values[j] + i - j);
             }
         }
-        return max ;
+        return max;
     }
 
     public int trap(int[] height) {
-        int n = height.length ;
+        int n = height.length;
         int preMax = height[0];
-        int prei =0 ;
+        int prei = 0;
         int sum = 0;
-        int cur =0 ;
+        int cur = 0;
         for (int i = 1; i < n; i++) {
-            if(height[i] >= preMax){
-                sum +=cur;
-                cur =0 ;
+            if (height[i] >= preMax) {
+                sum += cur;
+                cur = 0;
                 preMax = height[i];
-                prei=i;
-            }else {
+                prei = i;
+            } else {
                 cur += preMax - height[i];
             }
         }
 
-         preMax = height[n-1];
-         cur =0 ;
-        for (int i = n-2; i >= prei; i--) {
-            if(height[i] >= preMax){
-                sum +=cur;
-                cur =0 ;
+        preMax = height[n - 1];
+        cur = 0;
+        for (int i = n - 2; i >= prei; i--) {
+            if (height[i] >= preMax) {
+                sum += cur;
+                cur = 0;
                 preMax = height[i];
-            }else {
+            } else {
                 cur += preMax - height[i];
             }
         }
@@ -974,17 +884,18 @@ public class DynamicPlan {
 
     /**
      * 可以组成二叉搜索树的种类
+     *
      * @param n
      * @return
      */
     public int numTrees(int n) {
-        int[] dp = new int[n+1];
-        dp[0] = 1 ;
-        dp[1] = 1 ;
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
         for (int i = 2; i <= n; i++) {
             // 以 j为根节点 ， 左右子树数量乘积 的汇总和
-            for (int j = 1; j <=i ; j++) {
-                dp[i] += dp[j-1] * dp[i-j];
+            for (int j = 1; j <= i; j++) {
+                dp[i] += dp[j - 1] * dp[i - j];
             }
         }
         return dp[n];
@@ -993,19 +904,19 @@ public class DynamicPlan {
 
     public int peopleAwareOfSecret(int n, int delay, int forget) {
         // 记录新增的人数
-        int[] dp = new int[n+1+forget];
+        int[] dp = new int[n + 1 + forget];
         int mod = 1000000007;
 
-        dp[1] = 1 ;  //知道秘密
+        dp[1] = 1;  //知道秘密
 
-        for (int i = 1; i <= n ; i++) {
+        for (int i = 1; i <= n; i++) {
             for (int j = delay; j < forget; j++) {
-                dp[i+j] += dp[i] ;
+                dp[i + j] += dp[i];
             }
         }
         int total = 0;
-        for (int i = n-forget+1 ; i <=n; i++) {
-            total = (total + dp[i]) % mod ;
+        for (int i = n - forget + 1; i <= n; i++) {
+            total = (total + dp[i]) % mod;
         }
         return total;
     }

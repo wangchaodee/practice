@@ -10,23 +10,23 @@ import java.util.*;
 public class StringSolution {
 
     public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String,List<String>>  strMap = new HashMap<>();
+        Map<String, List<String>> strMap = new HashMap<>();
 
-        for (String str :strs) {
+        for (String str : strs) {
             String key = getKey(str);
-            List<String> list= strMap.getOrDefault(key,new ArrayList<>());
+            List<String> list = strMap.getOrDefault(key, new ArrayList<>());
             list.add(str);
             strMap.put(key, list);
         }
         List<List<String>> ans = new ArrayList<>();
-        for (List<String> value : strMap.values()){
+        for (List<String> value : strMap.values()) {
             ans.add(value);
         }
-        return  ans;
+        return ans;
     }
 
-    private String getKey(String str){
-        if(str.length()==0) return str;
+    private String getKey(String str) {
+        if (str.length() == 0) return str;
         char[] chars = str.toCharArray();
         Arrays.sort(chars);
         return new String(chars);
@@ -76,21 +76,22 @@ public class StringSolution {
 
     /**
      * KMP 算法  获取k的值
+     *
      * @param ps
      * @return
      */
-    public int[] getNext(String ps){
-        int N = ps.length() ;
+    public int[] getNext(String ps) {
+        int N = ps.length();
         char[] arr = ps.toCharArray();
         int[] next = new int[N];
-        int j= 0 ;
-        int k= -1 ;
-        next[j] = k ;
-        while (j<N-1){
-            if(k==-1 || arr[j] == arr[k]){
+        int j = 0;
+        int k = -1;
+        next[j] = k;
+        while (j < N - 1) {
+            if (k == -1 || arr[j] == arr[k]) {
                 next[++j] = ++k;
-            }else {
-                k=next[k];
+            } else {
+                k = next[k];
             }
         }
         return next;
@@ -104,12 +105,12 @@ public class StringSolution {
         int n = 0;
 
         int hl = haystack.length();
-        int i=0;
+        int i = 0;
 
         int[] next = getNext(needle);
 
-        while (i<hl && n<nl) {
-            if (n==-1|| haystack.charAt(i) == needle.charAt(n)) {
+        while (i < hl && n < nl) {
+            if (n == -1 || haystack.charAt(i) == needle.charAt(n)) {
                 n++;
                 i++;
             } else {
@@ -117,7 +118,7 @@ public class StringSolution {
             }
         }
         if (n == nl) {
-            return i - n ;
+            return i - n;
         }
         return -1;
     }
@@ -138,13 +139,13 @@ public class StringSolution {
         int n = 0; // n = nl 时 搜索到目标
 
         int hl = haystack.length();
-        int i=0;
-        while (i<hl && n<nl) {
+        int i = 0;
+        while (i < hl && n < nl) {
             if (haystack.charAt(i) == needle.charAt(n)) {
                 n++;
                 i++;
             } else {
-                i = i - n+1;
+                i = i - n + 1;
                 n = 0;
             }
         }
@@ -156,68 +157,69 @@ public class StringSolution {
 
 
     public boolean repeatedSubstringPattern(String s) {
-        int N = s.length() ;
-        if(N<=1) return false;
+        int N = s.length();
+        if (N <= 1) return false;
         // 至少是重复个两遍的
-        for (int i = 1; i*2 <=N ; i++) {
+        for (int i = 1; i * 2 <= N; i++) {
             //是否为整数倍数
-            if(N%i==0){
-                boolean match = true ;
+            if (N % i == 0) {
+                boolean match = true;
                 for (int j = i; j < N; j++) {
-                    if(s.charAt(j) != s.charAt(j-i)){
+                    if (s.charAt(j) != s.charAt(j - i)) {
                         // 代表 字段长度i 的不是正确解
-                        match= false;
+                        match = false;
                         break;
                     }
                 }
                 // 代表 长度i的字串 是一种重复的字串
-                if(match) {
+                if (match) {
                     return true;
                 }
             }
         }
-        return  false;
+        return false;
     }
 
 
     public String addBinary(String a, String b) {
 
-        int add =0 ;
-        int i = a.length() -1 ;
-        int j = b.length() -1 ;
+        int add = 0;
+        int i = a.length() - 1;
+        int j = b.length() - 1;
 
         // 以逆序的方式 存入结果  结果需要翻转
         StringBuilder ans = new StringBuilder();
-        while (i>=0 || j >=0 || add >0){
-            int a1 = i>=0 ? a.charAt(i) -'0' : 0 ;
-            int b1 = j>=0 ? b.charAt(j) - '0' : 0 ;
+        while (i >= 0 || j >= 0 || add > 0) {
+            int a1 = i >= 0 ? a.charAt(i) - '0' : 0;
+            int b1 = j >= 0 ? b.charAt(j) - '0' : 0;
 
-            int t = a1 + b1 + add ;
+            int t = a1 + b1 + add;
             //位计算结果
-            ans.append(t%2);
+            ans.append(t % 2);
 
             //进位值
-            add = t/2;
+            add = t / 2;
             //指针迭代
             i--;
             j--;
         }
-        return  ans.reverse().toString();
+        return ans.reverse().toString();
     }
 
     /**
      * 反转字符串中的单词
+     *
      * @param s
      * @return
      */
     public String reverseWords(String s) {
         String[] strlist = s.split(" ");
         StringBuilder sb = new StringBuilder();
-        for (int i = strlist.length-1; i >=0; i--) {
-            if(strlist[i].length()==0) continue;
+        for (int i = strlist.length - 1; i >= 0; i--) {
+            if (strlist[i].length() == 0) continue;
             sb.append(strlist[i]).append(" ");
         }
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
 
@@ -285,22 +287,7 @@ public class StringSolution {
         return max;
     }
 
-    public boolean isPalindrome(String s) {
-        int n = s.length();
-        int l = 0, r = n - 1;
-        while (l < r) {
-            while (l < r && !Character.isLetterOrDigit(s.charAt(l))) l++;
-            while (l < r && !Character.isLetterOrDigit(s.charAt(r))) r--;
-            if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) {
-                return false;
-            } else {
-                l++;
-                r--;
-            }
-        }
-        return true;
 
-    }
 
     public int countSegments(String s) {
 
@@ -365,7 +352,6 @@ public class StringSolution {
         return false;
 
     }
-
 
 
     public char findTheDifference(String s, String t) {
@@ -491,7 +477,6 @@ public class StringSolution {
     }
 
 
-
     public String countAndSay(int n) {
         if (n == 1) return "1";
         String pre = countAndSay(n - 1);
@@ -541,30 +526,6 @@ public class StringSolution {
         return prefix.substring(0, i);
     }
 
-
-    public int evalRPN(String[] tokens) {
-
-        Stack<Integer> stack = new Stack<>();
-        List<String> fuhao = Arrays.asList("+", "-", "*", "/");
-        for (int i = 0; i < tokens.length; i++) {
-            if (fuhao.contains(tokens[i])) {
-                int num2 = stack.pop();
-                int num1 = stack.pop();
-                if ("+".equals(tokens[i])) {
-                    stack.push(num1 + num2);
-                } else if ("-".equals(tokens[i])) {
-                    stack.push(num1 - num2);
-                } else if ("*".equals(tokens[i])) {
-                    stack.push(num1 * num2);
-                } else if ("/".equals(tokens[i])) {
-                    stack.push(num1 / num2);
-                }
-            } else {
-                stack.push(Integer.valueOf(tokens[i]));
-            }
-        }
-        return stack.pop();
-    }
 
     public String replaceSpace(String s) {
         StringBuilder ans = new StringBuilder();
@@ -675,28 +636,6 @@ public class StringSolution {
         return true;
     }
 
-
-    /**
-     * 判断s 是否是 t 的子序列
-     *
-     * @param s
-     * @param t
-     * @return
-     */
-    public boolean isSubsequence(String s, String t) {
-
-        int i = 0;
-        int tl = t.length();
-        for (char c : s.toCharArray()) {
-            while (i < tl && t.charAt(i) != c) {
-                i++;
-            }
-            if (i == tl) return false;
-            i++;
-        }
-        return true;
-    }
-
     public boolean isSubsequence(String s, String t, Set<Integer> removeIndex) {
 
         int i = 0;
@@ -738,36 +677,7 @@ public class StringSolution {
         return ans;
     }
 
-    public List<Integer> partitionLabels(String s) {
-        int N = s.length();
-        Map<Character, Integer> charRightIndexMap = new HashMap<>();
-        int[] dp = new int[N];
-        for (int i = N - 1; i >= 0; i--) {
-            char c = s.charAt(i);
-            Integer idx = charRightIndexMap.putIfAbsent(c, i);
-            if (idx == null) {
-                dp[i] = i;
-            } else {
-                dp[i] = idx.intValue();
-            }
-        }
-        List<Integer> ans = new ArrayList<>();
-        int i = 0;
-        while (i < N) {
-            int split = dp[i];
-            int j = i;
-            while (j <= split) {
-                if (dp[j] > split) {
-                    split = dp[j];
-                }
-                j++;
-            }
-            ans.add(split - i + 1);
-            i = split + 1;
-        }
 
-        return ans;
-    }
 
     public String mergeAlternately(String word1, String word2) {
         int l1 = word1.length();
@@ -859,7 +769,6 @@ public class StringSolution {
         }
         return true;
     }
-
 
 
     /**
@@ -1022,60 +931,199 @@ public class StringSolution {
         return ans;
     }
 
-    public String minRemoveToMakeValid(String s) {
-        int N = s.length();
-        Set<Integer> indexRemove = new HashSet<>();
-        Stack<Integer> openFlag = new Stack<>();
-        // 添加无效有括号
-        for (int i = 0; i < N; i++) {
-            char c = s.charAt(i);
-            if(c=='('){
-                openFlag.push(i);
-            }
-            if(c==')') {
-                if(!openFlag.isEmpty()){
-                    openFlag.pop();
-                }else {
-                    indexRemove.add(i);
-                }
-            }
-        }
-        //添加无效左括号
-        while (!openFlag.isEmpty()) {
-            indexRemove.add(openFlag.pop());
-        }
-        StringBuilder ans = new StringBuilder();
-        for (int i = 0; i < N; i++) {
-            if(indexRemove.contains(i)){
-                continue;
-            }
-            ans.append(s.charAt(i));
-        }
-        return ans.toString();
-
-    }
 
     /**
      * 解密字符
+     *
      * @param key
      * @param message
      * @return
      */
     public String decodeMessage(String key, String message) {
 
-        Map<Character,Character> map = new HashMap<>();
-        map.put(' ',' ');
+        Map<Character, Character> map = new HashMap<>();
+        map.put(' ', ' ');
         char a = 'a';
         for (int i = 0; i < key.length(); i++) {
             char c = key.charAt(i);
-            if(!map.containsKey(c)){
-                map.put(c,a++ );
+            if (!map.containsKey(c)) {
+                map.put(c, a++);
             }
         }
         StringBuilder ans = new StringBuilder();
-        for (int i = 0; i < message.length() ; i++) {
+        for (int i = 0; i < message.length(); i++) {
             ans.append(map.get(message.charAt(i)));
         }
         return ans.toString();
     }
+
+
+
+
+
+    public String reformat(String s) {
+        Queue<Character> abc = new LinkedList<>();
+        Queue<Character> num = new LinkedList<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                num.offer(c);
+            }
+            if (c >= 'a' && c <= 'z') {
+                abc.offer(c);
+            }
+        }
+        int a = abc.size(), b = num.size();
+        if (Math.abs(a - b) > 1) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int n = Math.min(a, b);
+        for (int i = 0; i < n; i++) {
+            sb.append(abc.poll());
+            sb.append(num.poll());
+        }
+        if (a > b) {
+            sb.append(abc.poll());
+        } else if (a < b) {
+            sb.insert(0, num.poll());
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * 409. 计算一组字符集合可以组成的回文字符串的最大长度
+     *
+     * @param s
+     * @return
+     */
+    public int longestPalindrome(String s) {
+
+        int[] cnts = new int[256];
+        for (char c : s.toCharArray()){
+            cnts[c]++;
+        }
+        int palindrome = 0;
+        for (int cnt : cnts){
+            palindrome += ( cnt/2 ) *2 ;
+        }
+        if(palindrome < s.length()) palindrome+=1 ;
+        return palindrome ;
+    }
+
+
+
+    /**
+     * 205 字符串同构
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isIsomorphic(String s, String t) {
+        // 记录一个字符上次出现的位置，如果两个字符串中的字符上次出现的位置一样，那么就属于同构。
+        int[] preIndexS = new int[256] ;
+        int[] preIndexT = new int[256] ;
+
+        for (int i = 0; i <s.length() ; i++) {
+            char ss = s.charAt(i) , tt= t.charAt(i) ;
+            if(preIndexS[ss] !=preIndexT[tt]){
+                return false;
+            }
+            // 默认值为0 ， 初始i=0 , 所以加1 以区别
+            preIndexT[tt] = i+ 1;
+            preIndexS[ss] = i+1 ;
+        }
+        return true ;
+    }
+
+    /**
+     * 647 回文子串
+     * @param s
+     * @return
+     */
+    public int countSubstrings(String s) {
+        int total =0  ;
+        int n = s.length() ;
+        for (int i = 0; i < n; i++) {
+           total +=countSubstrings(s,i,i,n);
+            total +=countSubstrings(s,i,i+1,n);
+        }
+        return total ;
+    }
+    private int countSubstrings(String s ,int left ,int right ,int n) {
+         int cnt =0 ;
+         while (left>=0 &&right<n && s.charAt(left) ==s.charAt(right) ){
+           left--;
+           right++;
+           cnt++;
+         }
+         return cnt;
+    }
+
+    /**
+     * 找s中最长的回环字串 5
+     *
+     * @param s
+     * @return
+     */
+    int max=0;
+    String subString ;
+    public String longestPalindrome2(String s) {
+        int n = s.length() ;
+        if(n<=1) return s;
+        for (int i = 0; i < n; i++) {
+            findSubstrings(s,i,i,n);
+            findSubstrings(s,i,i+1,n);
+        }
+        return subString ;
+    }
+
+    private void findSubstrings(String s ,int left ,int right ,int n) {
+
+        while (left>=0 &&right<n && s.charAt(left) ==s.charAt(right) ){
+            left--;
+            right++;
+        }
+        if(right-left -2 >max) {
+            max= right-left -2;
+            subString = s.substring(left+1,right);
+        }
+    }
+
+    /**
+     * 696. 计数二进制子串
+     * @param s
+     * @return
+     */
+    public int countBinarySubstrings(String s) {
+        int preLen= 0 ,curLen =1 ,count =0 ;
+        for (int i = 1; i < s.length(); i++) {
+            if(s.charAt(i)==s.charAt(i-1)){
+                curLen++;
+            }else {
+                preLen=curLen ;
+                curLen=1;
+            }
+
+            if(preLen>=curLen){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 516. 最长回文子序列
+     * @param s
+     * @return
+     */
+//    public int longestPalindromeSubseq(String s) {
+//
+//    }
+
+
+
 }

@@ -24,6 +24,7 @@ public class MovingAverage {
 
     /**
      * 新增数据并返回更新后的平均值
+     *
      * @param val
      * @return
      */

@@ -61,8 +61,8 @@ public class UnionFind {
     }
 
     public int makeConnected(int n, int[][] connections) {
-        int N  = connections.length ;
-        if(N<n-1) return -1 ;
+        int N = connections.length;
+        if (N < n - 1) return -1;
 
         int[] parent = new int[n];
         // 初始化
@@ -71,14 +71,14 @@ public class UnionFind {
         }
 
         for (int i = 0; i < N; i++) {
-            union(parent,connections[i][0],connections[i][1]);
+            union(parent, connections[i][0], connections[i][1]);
         }
 
-        int count =0 ;
+        int count = 0;
         for (int i = 0; i < n; i++) {
-            if(parent[i] == i) count++;
+            if (parent[i] == i) count++;
         }
-        return count-1;
+        return count - 1;
     }
 
     // x ,y  点 顺序  上 右 下 左

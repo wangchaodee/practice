@@ -196,26 +196,6 @@ public class DFS {
     }
 
 
-    public int[][] matrixReshape(int[][] mat, int r, int c) {
-        int m = mat.length;
-        int n = mat[0].length;
-        if (r * c != m * n) {
-            return mat;
-        }
-        int a = 0, b = 0;
-
-        int[][] ans = new int[r][c];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                a = (i * n + j) / c;
-                b = (i * n + j) % c;
-                ans[a][b] = mat[i][j];
-            }
-        }
-        return ans;
-
-    }
-
     public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> ans = new ArrayList<>();
         for (int i = 0; i < numRows; i++) {
@@ -1091,15 +1071,15 @@ public class DFS {
                     if (left == x) return step;
                     if (left >= 0 && !seen[left]) {
                         queue.offer(new int[]{left, -1});
-                        seen[left]=true;
+                        seen[left] = true;
                     }
                 }
                 // 向右跳
                 int right = idx[0] + a;
                 if (right == x) return step;
-                if (  right <= max &&!seen[right]) {
+                if (right <= max && !seen[right]) {
                     queue.offer(new int[]{right, 1});
-                    seen[right]=true;
+                    seen[right] = true;
                 }
             }
         }
@@ -1203,14 +1183,20 @@ public class DFS {
         return -1;
     }
 
-    // 编号 0 到 n-1
+    /**
+     * 785 判断是否为二分图
+     * 编号 0 到 n-1
+     *
+     * @param graph
+     * @return
+     */
     public boolean isBipartite(int[][] graph) {
-        int n = graph.length ;
+        int n = graph.length;
         int[] parted = new int[n];
         for (int i = 0; i < n; i++) {
-            if(parted[i]==0) {
+            if (parted[i] == 0) {
                 //分两个 ， 0 未分  1 ，part1 ,-1 part2
-                if(!partDfs(graph,i,parted,1)){
+                if (!partDfs(graph, i, parted, 1)) {
                     return false;
                 }
             }
@@ -1218,41 +1204,41 @@ public class DFS {
         return true;
     }
 
-    private boolean partDfs(int[][] graph,int idx ,int[] parted , int flag){
-        if(parted[idx]==0){
-            parted[idx]=flag;
-        }else if (parted[idx]!=flag){
+    private boolean partDfs(int[][] graph, int idx, int[] parted, int flag) {
+        if (parted[idx] == 0) {
+            parted[idx] = flag;
+        } else if (parted[idx] != flag) {
             return false;
         } else {
             return true;
         }
 
-        for (Integer d : graph[idx]){
-            boolean res = partDfs(graph,d,parted,-flag);
-            if(!res ) return  false;
+        for (Integer d : graph[idx]) {
+            boolean res = partDfs(graph, d, parted, -flag);
+            if (!res) return false;
         }
-        return true ;
+        return true;
     }
 
     public boolean possibleBipartition(int n, int[][] dislikes) {
-        List<List<Integer>> disList= new ArrayList<>();
+        List<List<Integer>> disList = new ArrayList<>();
 
         //设置n+1个 ，便于按1 到n 编号
-        for (int i = 0; i < n+1; i++) {
+        for (int i = 0; i < n + 1; i++) {
             disList.add(new ArrayList<>());
         }
 
-        for(int[] dis : dislikes){
+        for (int[] dis : dislikes) {
             disList.get(dis[0]).add(dis[1]);
             disList.get(dis[1]).add(dis[0]);
         }
 
-        int[] parted = new int[n+1];
+        int[] parted = new int[n + 1];
         for (int i = 1; i <= n; i++) {
-            if(parted[i]==0) {
+            if (parted[i] == 0) {
 
                 //分两个 ， 0 未分  1 ，part1 ,-1 part2
-                if(!partDfs(disList,i,parted,1)){
+                if (!partDfs(disList, i, parted, 1)) {
                     return false;
                 }
             }
@@ -1261,20 +1247,20 @@ public class DFS {
         return true;
     }
 
-    private boolean partDfs(List<List<Integer>> disList,int idx ,int[] parted , int flag){
-        if(parted[idx]==0){
-            parted[idx]=flag;
-        }else if (parted[idx]!=flag){
+    private boolean partDfs(List<List<Integer>> disList, int idx, int[] parted, int flag) {
+        if (parted[idx] == 0) {
+            parted[idx] = flag;
+        } else if (parted[idx] != flag) {
             return false;
         } else {
             return true;
         }
 
-        for (Integer d : disList.get(idx)){
-            boolean res = partDfs(disList,d,parted,-flag);
-            if(!res ) return  false;
+        for (Integer d : disList.get(idx)) {
+            boolean res = partDfs(disList, d, parted, -flag);
+            if (!res) return false;
         }
-        return true ;
+        return true;
     }
 
 
@@ -1282,10 +1268,11 @@ public class DFS {
      * 3
      * [[0,1],[0,2]]
      * [[1,0]]
-     *
+     * <p>
      * 5
      * [[0,1],[1,2],[2,3],[3,4]]
      * [[1,2],[2,3],[3,1]]
+     *
      * @param n
      * @param redEdges
      * @param blueEdges
@@ -1295,96 +1282,96 @@ public class DFS {
         List<Integer>[] reds = new List[n];
         List<Integer>[] blues = new List[n];
         for (int i = 0; i < n; i++) {
-            reds[i] =new ArrayList();
-            blues[i]=new ArrayList();
+            reds[i] = new ArrayList();
+            blues[i] = new ArrayList();
         }
 
-        for (int[] red : redEdges){
+        for (int[] red : redEdges) {
             reds[red[0]].add(red[1]);
 //            reds[red[1]].add(red[0]);
         }
 
-        for (int[] blue : blueEdges){
+        for (int[] blue : blueEdges) {
             blues[blue[0]].add(blue[1]);
 //            blues[blue[1]].add(blue[0]);
         }
 
         int[] ansb = new int[n];
         int[] ansr = new int[n];
-        Arrays.fill(ansb,-1);
-        Arrays.fill(ansr,-1);
-        int step =0;
+        Arrays.fill(ansb, -1);
+        Arrays.fill(ansr, -1);
+        int step = 0;
         // 1 代表红色， -1 代表蓝色
         Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{0,1});
-        queue.offer(new int[]{0,-1});
-        ansb[0]=step;
-        ansr[0]=step;
-        while (!queue.isEmpty()){
+        queue.offer(new int[]{0, 1});
+        queue.offer(new int[]{0, -1});
+        ansb[0] = step;
+        ansr[0] = step;
+        while (!queue.isEmpty()) {
             step++;
-            int sz =queue.size();
-            for (int i = 0; i <sz ; i++) {
+            int sz = queue.size();
+            for (int i = 0; i < sz; i++) {
                 int[] idx = queue.poll();
                 //红色过来的要找 蓝色线
-                if(idx[1]==1){
-                    for (Integer next : blues[idx[0]]){
-                        if(ansr[next]!=-1){
+                if (idx[1] == 1) {
+                    for (Integer next : blues[idx[0]]) {
+                        if (ansr[next] != -1) {
                             continue;
                         }
-                        ansr[next]=step;
-                        queue.offer(new int[]{next,-1});
+                        ansr[next] = step;
+                        queue.offer(new int[]{next, -1});
                     }
-                }else {
+                } else {
                     //蓝色过来的
-                    for (Integer next : reds[idx[0]]){
-                        if(ansb[next]!=-1){
+                    for (Integer next : reds[idx[0]]) {
+                        if (ansb[next] != -1) {
                             continue;
                         }
-                        ansb[next]=step;
-                        queue.offer(new int[]{next,1});
+                        ansb[next] = step;
+                        queue.offer(new int[]{next, 1});
                     }
                 }
             }
         }
-        int[] ans =new int[n];
+        int[] ans = new int[n];
         for (int i = 0; i < n; i++) {
-            if(ansb[i]==-1 || ansr[i]==-1){
-                ans[i] = Math.max(ansb[i],ansr[i]);
-            }else {
-                ans[i] = Math.min(ansb[i],ansr[i]);
+            if (ansb[i] == -1 || ansr[i] == -1) {
+                ans[i] = Math.max(ansb[i], ansr[i]);
+            } else {
+                ans[i] = Math.min(ansb[i], ansr[i]);
             }
         }
-        return ans ;
+        return ans;
     }
 
 
     public int closestMeetingNode(int[] edges, int node1, int node2) {
-        if(node1==node2  ) return node1 ;
+        if (node1 == node2) return node1;
 
-        if(node1<node2 ) return closestMeetingNode(edges,node2,node1);
+        if (node1 < node2) return closestMeetingNode(edges, node2, node1);
 
         Set<Integer> set1 = new HashSet<>();
-        while (edges[node1] !=-1){
+        while (edges[node1] != -1) {
             set1.add(node1);
             node1 = edges[node1];
-            if(set1.contains(node1)){
+            if (set1.contains(node1)) {
                 break;
             }
         }
         set1.add(node1);
 
         Set<Integer> set2 = new HashSet<>();
-        while (!set1.contains(node2) && edges[node2]!=-1  ){
+        while (!set1.contains(node2) && edges[node2] != -1) {
 
             set2.add(node2);
             node2 = edges[node2];
 
-            if(set2.contains(node2)){
+            if (set2.contains(node2)) {
                 break;
             }
         }
 
-        return  set1.contains(node2) ? node2 : -1;
+        return set1.contains(node2) ? node2 : -1;
 
     }
 
@@ -1394,29 +1381,29 @@ public class DFS {
         for (int i = 0; i < n; i++) {
             points[i] = new ArrayList<>();
         }
-        for (int i = 0; i < N ; i++) {
+        for (int i = 0; i < N; i++) {
             //  现有路方向 1 ，-1 为逆向 ，  遍历时从0开始 ，则反过来
-            points[connections[i][0]].add(new int[]{connections[i][1] ,1});
-            points[connections[i][1]].add(new int[]{connections[i][0] ,-1});
+            points[connections[i][0]].add(new int[]{connections[i][1], 1});
+            points[connections[i][1]].add(new int[]{connections[i][0], -1});
         }
         Queue<Integer> queue = new LinkedList<>();
         boolean[] seen = new boolean[n];
         queue.offer(0);
-        seen[0] =true;
-        int count =0 ;
-        while (!queue.isEmpty()){
-            int i= queue.poll();
-            for (int[] p : points[i]){
+        seen[0] = true;
+        int count = 0;
+        while (!queue.isEmpty()) {
+            int i = queue.poll();
+            for (int[] p : points[i]) {
                 // p0 坐标  p1 方向
-                if(!seen[p[0]] && p[1]==1){
+                if (!seen[p[0]] && p[1] == 1) {
                     queue.offer(p[0]);
-                    seen[p[0]]=true;
+                    seen[p[0]] = true;
                     count++;
                 }
 
-                if(!seen[p[0]] && p[1]==-1){
+                if (!seen[p[0]] && p[1] == -1) {
                     queue.offer(p[0]);
-                    seen[p[0]]=true;
+                    seen[p[0]] = true;
                 }
             }
         }
@@ -1426,67 +1413,67 @@ public class DFS {
     public boolean canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {
         Deque<int[]> deque = new LinkedList<>();
         Set<Long> seen = new HashSet<>();
-        deque.offer(new int[]{0,0});
-        while (!deque.isEmpty()){
+        deque.offer(new int[]{0, 0});
+        while (!deque.isEmpty()) {
             int[] remain = deque.poll();
-            int x = remain[0] , y = remain[1];
-            long hash = getHash(x , y);
-            if(seen.contains(hash)) {
+            int x = remain[0], y = remain[1];
+            long hash = getHash(x, y);
+            if (seen.contains(hash)) {
                 continue;
             }
             seen.add(hash);
-            if(x==targetCapacity || y==targetCapacity || x+y == targetCapacity){
-                return  true;
+            if (x == targetCapacity || y == targetCapacity || x + y == targetCapacity) {
+                return true;
             }
-            deque.add(new int[]{ jug1Capacity,y});
-            deque.add(new int[]{ x,jug2Capacity});
-            deque.add(new int[]{ 0,y});
-            deque.add(new int[]{ x,0});
-            deque.add(new int[]{ x-Math.min(x,jug2Capacity-y),y+Math.min(x,jug2Capacity-y)});
-            deque.add(new int[]{ x+Math.min(y,jug1Capacity-x),y-Math.min(y,jug1Capacity-x)});
+            deque.add(new int[]{jug1Capacity, y});
+            deque.add(new int[]{x, jug2Capacity});
+            deque.add(new int[]{0, y});
+            deque.add(new int[]{x, 0});
+            deque.add(new int[]{x - Math.min(x, jug2Capacity - y), y + Math.min(x, jug2Capacity - y)});
+            deque.add(new int[]{x + Math.min(y, jug1Capacity - x), y - Math.min(y, jug1Capacity - x)});
         }
         return false;
     }
 
-    private long getHash(int x , int y){
-        return x*1000001 + y;
+    private long getHash(int x, int y) {
+        return x * 1000001 + y;
     }
 
 
     public int shortestPathLength(int[][] graph) {
-        int N = graph.length ;
+        int N = graph.length;
         Queue<int[]> queue = new LinkedList<>();
-        boolean[][] seen = new boolean[N][1<<N];
+        boolean[][] seen = new boolean[N][1 << N];
 
         for (int i = 0; i < N; i++) {
             //节点 ，mask， dist 距离
-            queue.add(new int[]{i,1<<i,0});
-            seen[i][1<<i] =true;
+            queue.add(new int[]{i, 1 << i, 0});
+            seen[i][1 << i] = true;
         }
 
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             int[] temp = queue.poll();
-            int u = temp[0] , mask = temp[1] , dist = temp[2];
-            if(mask==(1<<N)-1){
+            int u = temp[0], mask = temp[1], dist = temp[2];
+            if (mask == (1 << N) - 1) {
                 return dist;
             }
 
             for (int v : graph[u]) {
-                int maskV = mask | (1<<v) ;
-                if(!seen[v][maskV]){
-                    queue.offer(new int[]{v,maskV,dist+1});
-                    seen[v][maskV] =true;
+                int maskV = mask | (1 << v);
+                if (!seen[v][maskV]) {
+                    queue.offer(new int[]{v, maskV, dist + 1});
+                    seen[v][maskV] = true;
                 }
             }
         }
-        return -1 ;
+        return -1;
     }
 
 
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
 
         HashSet<String> wordset = new HashSet<>(wordList);
-        if(wordset.size()==0|| !wordset.contains(endWord)) return 0 ;
+        if (wordset.size() == 0 || !wordset.contains(endWord)) return 0;
 
         Queue<String> queue = new LinkedList<>();
         queue.offer(beginWord);
@@ -1494,25 +1481,25 @@ public class DFS {
         Set<String> seen = new HashSet<>();
         seen.add(beginWord);
 
-        int step =1 ;
-        while (!queue.isEmpty()){
+        int step = 1;
+        while (!queue.isEmpty()) {
             step++;
-            int sz = queue.size() ;
+            int sz = queue.size();
             for (int i = 0; i < sz; i++) {
 
-                String temp = queue.poll() ;
+                String temp = queue.poll();
 
                 for (int j = 0; j < temp.length(); j++) {
                     char[] chs = temp.toCharArray();
 
                     for (char k = 'a'; k <= 'z'; k++) {
-                        if(chs[j]==k) continue;
-                        chs[j]=k;
+                        if (chs[j] == k) continue;
+                        chs[j] = k;
                         String w = String.valueOf(chs);
 
-                        if(w.equals(endWord)) return step;
+                        if (w.equals(endWord)) return step;
 
-                        if(wordset.contains(w) && !seen.contains(w)){
+                        if (wordset.contains(w) && !seen.contains(w)) {
                             queue.offer(w);
                             seen.add(w);
                         }

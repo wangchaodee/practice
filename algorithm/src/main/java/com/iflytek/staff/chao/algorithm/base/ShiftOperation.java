@@ -8,18 +8,19 @@ package com.iflytek.staff.chao.algorithm.base;
 public class ShiftOperation {
     /**
      * 计算两数范围内所有数字 按位与运算的结果
+     *
      * @param left
      * @param right
      * @return
      */
     public int rangeBitwiseAnd(int left, int right) {
-        int shift =0 ;
-        while (left<right){
-            left >>=1;
-            right >>=1;
+        int shift = 0;
+        while (left < right) {
+            left >>= 1;
+            right >>= 1;
             shift++;
         }
-        left <<=shift;
+        left <<= shift;
         return left;
     }
 }

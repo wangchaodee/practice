@@ -2,8 +2,6 @@ package com.iflytek.staff.chao.algorithm.base;
 
 import java.util.*;
 
-import static com.iflytek.staff.chao.algorithm.base.SortUtil.less;
-
 /**
  * 数值计算  数学算法
  */
@@ -11,9 +9,9 @@ public class Number {
 
 
     /**
-     * @Description 判断n是否3的次方结果
      * @param n
      * @return
+     * @Description 判断n是否3的次方结果
      */
     public boolean isPowerOfThree(int n) {
         if (n > 1) {
@@ -88,18 +86,19 @@ public class Number {
     }
 
     public int fiber(int n) {
-        if(n<2) return n ;
+        if (n < 2) return n;
         int MOD = 1000000007;
-        int[] dp = new int[n+1];
-        dp[1]=1;
-        for (int i = 2; i < n+1 ; i++) {
-            dp[i] = (dp[i-2] + dp[i-1]) % MOD ;
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        for (int i = 2; i < n + 1; i++) {
+            dp[i] = (dp[i - 2] + dp[i - 1]) % MOD;
         }
-        return  dp[n];
+        return dp[n];
     }
 
     /**
      * 求根
+     *
      * @param x
      * @return
      */
@@ -125,8 +124,6 @@ public class Number {
     }
 
 
-
-
     public int climbStairs2(int n) {
         if (n == 1 || n == 2) {
             return n;
@@ -145,6 +142,7 @@ public class Number {
 
     /**
      * 梯度排列n各硬币， 可以排列的层级高度
+     *
      * @param n
      * @return
      */
@@ -158,25 +156,7 @@ public class Number {
 
     }
 
-    /**
-     * 判断c是否是两个数的平方和
-     * @param c
-     * @return
-     */
-    public boolean judgeSquareSum(int c) {
-        int a = 0;
-        int b = (int) Math.sqrt(c);
-        while (a < b) {
-            if (a * a + b * b == c) {
-                return true;
-            } else if (a * a + b * b > c) {
-                b--;
-            } else {
-                a++;
-            }
-        }
-        return false;
-    }
+
 
     public int hammingWeight(int n) {
         int count = 0;
@@ -207,6 +187,7 @@ public class Number {
 
     /**
      * 翻转数字
+     *
      * @param x
      * @return
      */
@@ -227,6 +208,7 @@ public class Number {
 
     /**
      * 以这个数字 每一位上数字的乘积减去汇总和
+     *
      * @param n
      * @return
      */
@@ -244,47 +226,108 @@ public class Number {
     }
 
     /**
-     * 是否快乐数
-     * @param n
+     * 是否快乐数 ， 快乐数 最终会收敛到1 ， 否则 进入循环
+     *
+     * @param n 正数
      * @return
      */
     public boolean isHappy(int n) {
+        Set<Integer> cycles = new HashSet<>();
+        cycles.add(n);
+        while (n != 1) {
+            int next = 0;
+            int t = n;
+            while (t > 0) {
+                int y = t % 10;
+                next += y * y;
+                t /= 10;
+            }
+            if (cycles.contains(next)) return false;
+            cycles.add(next);
+            n = next;
+        }
+        return true;
+    }
+
+    /**
+     * 是否快乐数
+     *
+     * @param n
+     * @return
+     */
+    public boolean isHappy2(int n) {
         Set<Integer> cycles = new HashSet(Arrays.asList(4, 16, 37, 58, 89, 145, 42, 20));
 
-        while (n != 1 && !cycles.contains(n)){
-            int next =0 ;
-            int t = n ;
-            while (t >0 ){
-                int y= t%10;
-                next += y*y ;
-                t/=10;
+        while (n != 1 && !cycles.contains(n)) {
+            int next = 0;
+            int t = n;
+            while (t > 0) {
+                int y = t % 10;
+                next += y * y;
+                t /= 10;
             }
-            n=next;
+            n = next;
         }
-        return n==1;
+        return n == 1;
     }
 
     /**
      * 最小公倍数
+     *
      * @param a
      * @param b
      * @return
      */
-    public static int gcd(int a , int b){
-        return b==0 ?  a : gcd(b,a%b);
+    public static int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
     }
 
     /**
      * 算阶乘后 尾数为0的个数
+     *
      * @param n
      * @return
      */
     public int trailingZeroes(int n) {
-        int count =0;
-        while (n/5 >0){
-            count += n/5 ;
+        int count = 0;
+        while (n / 5 > 0) {
+            count += n / 5;
         }
-        return count ;
+        return count;
     }
+
+
+    public int mySqrt(int x) {
+        int l = 0, m = 0, r = x;
+        while (l < r) {
+            m = l + (r - l) / 2;
+            long sqrt = (long) m * m;
+            if (sqrt > x) r = m - 1;
+            else l = m;
+        }
+        return l;
+    }
+
+    /**
+     * 获取杨辉三角 第rowIndex行的那列数组
+     *
+     * @param rowIndex
+     * @return 1
+     * 11
+     * 121
+     * 1331
+     * dp[i][j]= dp[i-1][j-1] + dp[i-1][j]    //左右边界只取到一个上层值
+     */
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < rowIndex; i++) {
+            ans.add(1);
+            for (int j = i - 1; j > 0; j--) {
+                ans.set(j, ans.get(j) + ans.get(j - 1));
+            }
+        }
+        return ans;
+    }
+
 
 }

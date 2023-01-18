@@ -12,43 +12,44 @@ import java.util.Map;
  */
 public class TimeMap {
 
-    private Map<String , List<Node>> timeMap ;
+    private Map<String, List<Node>> timeMap;
+
     public TimeMap() {
-        timeMap= new HashMap<>();
+        timeMap = new HashMap<>();
     }
 
     public void set(String key, String value, int timestamp) {
-        List<Node> list = timeMap.getOrDefault(key,new ArrayList<>());
-        list.add(new Node(key,value,timestamp));
-        timeMap.put(key,list);
+        List<Node> list = timeMap.getOrDefault(key, new ArrayList<>());
+        list.add(new Node(key, value, timestamp));
+        timeMap.put(key, list);
     }
 
     public String get(String key, int timestamp) {
-        List<Node> list = timeMap.getOrDefault(key,new ArrayList<>());
-        if(list.isEmpty()) return "" ;
-        int l =0 , r = list.size()-1 ;
-        while (l<=r){
-            int mid = (r-l)/2 +l ;
-            if(list.get(mid).timestamp<= timestamp){
-                l=mid+1;
-            }else {
-                r=mid-1;
+        List<Node> list = timeMap.getOrDefault(key, new ArrayList<>());
+        if (list.isEmpty()) return "";
+        int l = 0, r = list.size() - 1;
+        while (l <= r) {
+            int mid = (r - l) / 2 + l;
+            if (list.get(mid).timestamp <= timestamp) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
             }
         }
-        if(r<0) return "";
+        if (r < 0) return "";
         return list.get(r).value;
     }
 
-}
+    class Node {
+        String key;
+        String value;
+        int timestamp;
 
-class Node {
-    String key ;
-    String value ;
-    int timestamp ;
-
-    public Node(String key, String value, int timestamp) {
-        this.key = key;
-        this.value = value;
-        this.timestamp = timestamp;
+        public Node(String key, String value, int timestamp) {
+            this.key = key;
+            this.value = value;
+            this.timestamp = timestamp;
+        }
     }
 }
+

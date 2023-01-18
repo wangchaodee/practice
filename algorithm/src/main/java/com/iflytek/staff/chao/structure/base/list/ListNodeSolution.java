@@ -203,6 +203,8 @@ public class ListNodeSolution {
     }
 
 
+
+
     public ListNode reverseKGroup(ListNode head, int k) {
 
 
@@ -233,7 +235,11 @@ public class ListNodeSolution {
         return dummy.next;
     }
 
-
+    /**
+     * 141 判断链表是否存在环
+     * @param head
+     * @return
+     */
     public boolean hasCycle(ListNode head) {
         Set<ListNode> seen = new HashSet<>();
         while (head != null) {
@@ -488,29 +494,30 @@ public class ListNodeSolution {
     /**
      * 奇偶链表
      * 给定单链表的头节点 head ，将所有索引为奇数的节点和索引为偶数的节点分别组合在一起，然后返回重新排序的列表
+     *
      * @param head
      * @return
      */
     public ListNode oddEvenList(ListNode head) {
-        if(head ==null) return head ;
+        if (head == null) return head;
 
-        ListNode odd = head ;
+        ListNode odd = head;
         ListNode evenHead = head.next;
-        ListNode even = evenHead ;
+        ListNode even = evenHead;
 
-        while (even!=null && even.next !=null){
+        while (even != null && even.next != null) {
             // 后一个奇数节点  ，可能为null
-            ListNode tmp = even.next ;
+            ListNode tmp = even.next;
             // 修改next指针 为间隔的节点
-            even.next=tmp.next;
-            odd.next= tmp ;
+            even.next = tmp.next;
+            odd.next = tmp;
             //后移指针
-            odd = tmp ;
-            even = tmp.next ;
+            odd = tmp;
+            even = tmp.next;
         }
         // 链接两个链表
-        odd.next = evenHead ;
+        odd.next = evenHead;
 
-        return head ;
+        return head;
     }
 }

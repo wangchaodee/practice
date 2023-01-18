@@ -1,6 +1,6 @@
 package com.iflytek.staff.chao.solution;
 
-import com.iflytek.staff.chao.structure.base.list.TreeNode;
+import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +15,7 @@ import java.util.List;
  * TreeNode(int x) { val = x; }
  * }
  */
+
 /**
  * @author : hamilton
  * @Description: 二叉树序列化与反序列化
@@ -24,30 +25,30 @@ public class CodeSerialize {
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-         StringBuilder  ans = new StringBuilder() ;
-         serialize(root ,ans);
-         return ans.toString();
+        StringBuilder ans = new StringBuilder();
+        serialize(root, ans);
+        return ans.toString();
     }
 
-    public void serialize(TreeNode root , StringBuilder str){
-        if(root==null){
+    public void serialize(TreeNode root, StringBuilder str) {
+        if (root == null) {
             str.append("#,");
-        }else {
+        } else {
             str.append(root.val).append(",");
             serialize(root.left, str);
-            serialize(root.right ,str);
+            serialize(root.right, str);
         }
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
         String[] datas = data.split(",");
-        List<String>  list = new ArrayList<>(Arrays.asList(datas));
-       return deserialize(list);
+        List<String> list = new ArrayList<>(Arrays.asList(datas));
+        return deserialize(list);
     }
 
-    private TreeNode deserialize(List<String> list ){
-        if(list.get(0).equals("#")){
+    private TreeNode deserialize(List<String> list) {
+        if (list.get(0).equals("#")) {
             list.remove(0);
             return null;
         }
@@ -55,7 +56,7 @@ public class CodeSerialize {
         list.remove(0);
         root.left = deserialize(list);
         root.right = deserialize(list);
-        return root ;
+        return root;
     }
 }
 

@@ -333,31 +333,32 @@ public class Recall {
 
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList<>();
-        backtrack(new StringBuilder() ,0,0,n,ans);
+        backtrack(new StringBuilder(), 0, 0, n, ans);
         return ans;
     }
 
-    private void backtrack(StringBuilder path , int left ,int right ,int max , List<String> ans){
-        if(left==max && right == max ) {
+    private void backtrack(StringBuilder path, int left, int right, int max, List<String> ans) {
+        if (left == max && right == max) {
             ans.add(new String(path));
             return;
         }
-        if(left<max){
+        if (left < max) {
             path.append("(");
-            backtrack(path,left+1 ,right,max,ans);
-            path.deleteCharAt(left+right );
+            backtrack(path, left + 1, right, max, ans);
+            path.deleteCharAt(left + right);
         }
 
-        if(right<left){
+        if (right < left) {
             path.append(")");
-            backtrack(path,left ,right+1,max,ans);
-            path.deleteCharAt(left+right );
+            backtrack(path, left, right + 1, max, ans);
+            path.deleteCharAt(left + right);
         }
     }
 
 
     /**
      * 判断矩阵中的相邻字母是否存在能按顺序组成word ,
+     *
      * @param board
      * @param word
      * @return
@@ -366,18 +367,18 @@ public class Recall {
         int m = board.length;
         int n = board[0].length;
         boolean[][] seen = new boolean[m][n];
-        for (int i = 0; i <m ; i++) {
+        for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if( backtrackWord(board, i,j,  word ,0,seen)) return true;
+                if (backtrackWord(board, i, j, word, 0, seen)) return true;
             }
         }
-        return false ;
+        return false;
     }
 
-    private boolean backtrackWord(char[][] board, int r, int l, String word ,int idx,boolean[][] seen) {
-        if(board[r][l] != word.charAt(idx)){
-            return false ;
-        }else  if(idx==word.length()-1) {
+    private boolean backtrackWord(char[][] board, int r, int l, String word, int idx, boolean[][] seen) {
+        if (board[r][l] != word.charAt(idx)) {
+            return false;
+        } else if (idx == word.length() - 1) {
             return true;
         }
 
@@ -397,9 +398,8 @@ public class Recall {
         }
 
         seen[r][l] = false;
-        return  result;
+        return result;
     }
-
 
 
     // x ,y  点 顺序  上 右 下 左

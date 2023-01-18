@@ -13,6 +13,7 @@ public class BFS {
      * -1 表示墙或是障碍物
      * 0 表示一扇门
      * 计算该房间到最近的门的距离
+     *
      * @param rooms
      */
     public void wallsAndGates(int[][] rooms) {

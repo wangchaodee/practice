@@ -1,7 +1,5 @@
 package com.iflytek.staff.chao.structure.base.list;
 
-import java.util.*;
-
 /**
  * @author : hamilton
  * @Description: 链表 算法
@@ -9,8 +7,8 @@ import java.util.*;
  */
 public class ListNode {
 
-    int val;
-    ListNode next;
+    public  int val;
+    public ListNode next;
 
     ListNode() {
     }
@@ -23,7 +21,6 @@ public class ListNode {
         this.val = val;
         this.next = next;
     }
-
 
 
 }

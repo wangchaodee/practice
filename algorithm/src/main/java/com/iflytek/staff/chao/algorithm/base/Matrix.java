@@ -9,35 +9,36 @@ public class Matrix {
 
     /**
      * 设置零  将0 所在的行和列都转变为 0
+     *
      * @param matrix
      */
     public void setZeroes(int[][] matrix) {
         int m = matrix.length;
-        int  n = matrix[0].length;
+        int n = matrix[0].length;
 
         boolean[] line = new boolean[m];
         boolean[] row = new boolean[n];
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if(matrix[i][j]==0){
-                    line[i]=true;
-                    row[j]=true;
+                if (matrix[i][j] == 0) {
+                    line[i] = true;
+                    row[j] = true;
                 }
             }
         }
 
         for (int i = 0; i < m; i++) {
-            if(line[i]){
-                for (int j = 0; j <n ; j++) {
-                    matrix[i][j]=0;
+            if (line[i]) {
+                for (int j = 0; j < n; j++) {
+                    matrix[i][j] = 0;
                 }
             }
         }
         for (int i = 0; i < n; i++) {
-            if(row[i]){
-                for (int j = 0; j <m ; j++) {
-                    matrix[j][i]=0;
+            if (row[i]) {
+                for (int j = 0; j < m; j++) {
+                    matrix[j][i] = 0;
                 }
             }
         }
@@ -69,6 +70,36 @@ public class Matrix {
         }
     }
 
+    /**
+     * 改变矩阵维度
+     *
+     * @param mat
+     * @param r
+     * @param c
+     * @return
+     */
+    public int[][] matrixReshape(int[][] mat, int r, int c) {
+        int m = mat.length;
+        int n = mat[0].length;
+        if (r * c != m * n) {
+            return mat;
+        }
+        int a = 0, b = 0;
+
+        int[][] ans = new int[r][c];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                a = (i * n + j) / c;
+                b = (i * n + j) % c;
+                ans[a][b] = mat[i][j];
+            }
+        }
+
+        // 还可以循环ans矩阵 ，以自增指针 动态计算 相除 取余  计算到原矩阵位置
+
+        return ans;
+    }
+
     public double averageWaitingTime(int[][] customers) {
         int n = customers.length;
         if (n < 1) {
@@ -98,101 +129,70 @@ public class Matrix {
     }
 
 
-
     /**
      * 求经过同一条直线 的最大点数
+     *
      * @param points
      * @return
      */
     public int maxPoints(int[][] points) {
-        int N  = points.length ;
-        if(N<=2) return N ;
+        int N = points.length;
+        if (N <= 2) return N;
 
-        int ans = 0 ;
+        int ans = 0;
 
         for (int i = 0; i < N; i++) {
-            if(ans >= N-i  || ans > N/2){
+            if (ans >= N - i || ans > N / 2) {
                 break;
             }
-            Map<Integer,Integer> map = new HashMap<>();
-            for (int j = i+1; j < N; j++) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int j = i + 1; j < N; j++) {
                 int x = points[i][0] - points[j][0];
                 int y = points[i][1] - points[j][1];
-                if(x==0){
-                    y=1;
-                }else if(y==0){
-                    x=1;
-                }else {
-                    if(y<0){
-                        x=-x;
-                        y=-y;
+                if (x == 0) {
+                    y = 1;
+                } else if (y == 0) {
+                    x = 1;
+                } else {
+                    if (y < 0) {
+                        x = -x;
+                        y = -y;
                     }
-                    int xy=  Number.gcd(y,Math.abs(x));
-                    x /=xy;
-                    y /=xy;
-                    int key = y+ x*20001;
-                    map.put(key,map.getOrDefault(key,0)+1);
+                    int xy = Number.gcd(y, Math.abs(x));
+                    x /= xy;
+                    y /= xy;
+                    int key = y + x * 20001;
+                    map.put(key, map.getOrDefault(key, 0) + 1);
                 }
             }
-            int max =0 ;
-            for (Map.Entry<Integer,Integer> entry : map.entrySet()){
-                max= Math.max(max,entry.getValue()+1);
+            int max = 0;
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                max = Math.max(max, entry.getValue() + 1);
             }
 
-            ans = Math.max(ans,max);
+            ans = Math.max(ans, max);
         }
 
         return ans;
     }
 
+    /**
+     * 搜索二维矩阵 II  Z 字形查找
+     *
+     * @param matrix
+     * @param target
+     * @return
+     */
     public boolean searchMatrix(int[][] matrix, int target) {
-        int n = matrix.length;
-        int l = 0, r = n - 1, m = 0, line = 0;
-        while (l <= r) {
-            m = (r + l) >> 1;
-            if (matrix[m][0] <= target) {
-                line = m;
-                l = m + 1;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int l = 0, r = n - 1;
+        while (l < m && r >= 0) {
+            if (matrix[l][r] == target) return true;
+            if (matrix[l][r] < target) {
+                l++;
             } else {
-                r = m - 1;
-            }
-        }
-        int k = matrix[0].length;
-        l = 0;
-        r = k - 1;
-        m = 0;
-        int lie = 0;
-        while (l <= r) {
-            m = (r + l) >> 1;
-            if (matrix[line][m] == target) {
-                return true;
-            } else if (matrix[line][m] < target) {
-                l = m + 1;
-            } else {
-                r = m - 1;
-            }
-        }
-        return false;
-    }
-
-    public boolean searchMatrix2(int[][] matrix, int target) {
-        int n = matrix.length;
-        int m = matrix[0].length;
-        int l = 0;
-        int r = n * m - 1;
-        int mi = 0;
-        int ri = 0;
-        int li = 0;
-        while (l <= r) {
-            mi = (r - l) / 2 - l;
-            ri = mi / m;
-            li = mi % m;
-            if (matrix[ri][li] == target) {
-                return true;
-            } else if (matrix[ri][li] > target) {
-                r = mi - 1;
-            } else {
-                l = mi + 1;
+                r--;
             }
         }
         return false;
@@ -226,29 +226,28 @@ public class Matrix {
     }
 
     /**
-     *
      * @param mat
      * @return
      */
     public int[] findDiagonalOrder(int[][] mat) {
-        int m = mat.length ;
+        int m = mat.length;
         int n = mat[0].length;
-        int[] ans = new int[m*n];
-        int idx = 0 ;
-        for (int i = 0; i < m+n-1; i++) {
-            if(i%2==0){
-                int x = i<m ? i : m-1;
-                int y = i<m ? 0 : i-m+1;
-                while (x>=0 && y<n){
-                    ans[idx++]= mat[x][y];
+        int[] ans = new int[m * n];
+        int idx = 0;
+        for (int i = 0; i < m + n - 1; i++) {
+            if (i % 2 == 0) {
+                int x = i < m ? i : m - 1;
+                int y = i < m ? 0 : i - m + 1;
+                while (x >= 0 && y < n) {
+                    ans[idx++] = mat[x][y];
                     x--;
                     y++;
                 }
-            }else {
-                int x = i<n ? 0 : i-n+1;
-                int y = i<n ? i : n-1;
-                while (x<m && y>=0){
-                    ans[idx++]= mat[x][y];
+            } else {
+                int x = i < n ? 0 : i - n + 1;
+                int y = i < n ? i : n - 1;
+                while (x < m && y >= 0) {
+                    ans[idx++] = mat[x][y];
                     x++;
                     y--;
                 }
@@ -365,6 +364,12 @@ public class Matrix {
         return true;
     }
 
+    /**
+     * 242 两个字符串包含的字符是否完全相同
+     * @param s
+     * @param t
+     * @return
+     */
     public boolean isAnagram(String s, String t) {
         int[] chars = new int[26];
         for (char c : s.toCharArray()) {
@@ -577,133 +582,134 @@ public class Matrix {
         for (int[] r : roads) {
             city[r[0]]++;
             city[r[1]]++;
-            graph[r[0]][r[1]]=1;
-            graph[r[1]][r[0]]=1;
+            graph[r[0]][r[1]] = 1;
+            graph[r[1]][r[0]] = 1;
         }
-        int ans = 0 ;
+        int ans = 0;
         for (int i = 0; i < n; i++) {
-            for (int j = i+1; j < n; j++) {
-                ans = Math.max(ans,city[i]+city[j] - graph[i][j]);
+            for (int j = i + 1; j < n; j++) {
+                ans = Math.max(ans, city[i] + city[j] - graph[i][j]);
             }
         }
-        return ans ;
+        return ans;
     }
 
 
     public int minRefuelStops(int target, int startFuel, int[][] stations) {
         int N = stations.length;
-        PriorityQueue<Integer>  gas = new PriorityQueue<>(new Comparator<Integer>() {
+        PriorityQueue<Integer> gas = new PriorityQueue<>(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
-                return o2-o1;
+                return o2 - o1;
             }
-        }) ;
-        int count =0 ;
-        for (int i = 0; i <N ; i++) {
-            if(startFuel - stations[i][0]<0) {
-                if(gas.isEmpty()){
+        });
+        int count = 0;
+        for (int i = 0; i < N; i++) {
+            if (startFuel - stations[i][0] < 0) {
+                if (gas.isEmpty()) {
                     return -1;
-                }else {
-                    while (startFuel<stations[i][0] && !gas.isEmpty()){
+                } else {
+                    while (startFuel < stations[i][0] && !gas.isEmpty()) {
                         count++;
                         startFuel += gas.poll();
                     }
-                    if(startFuel<stations[i][0]) return -1;
+                    if (startFuel < stations[i][0]) return -1;
                     gas.offer(stations[i][1]);
                 }
-            }else {
+            } else {
                 gas.offer(stations[i][1]);
             }
         }
-        while (startFuel<target && !gas.isEmpty() ){
+        while (startFuel < target && !gas.isEmpty()) {
             count++;
             startFuel += gas.poll();
         }
-        if(startFuel>=target) return count ;
+        if (startFuel >= target) return count;
         return -1;
     }
 
 
     /**
      * 找出到达所有节点 的最少点
+     *
      * @param n
      * @param edges
      * @return
      */
     public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
         int[] inCount = new int[n];
-        for (List<Integer> edge : edges){
+        for (List<Integer> edge : edges) {
             inCount[edge.get(1)]++;
         }
         List<Integer> ans = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if(inCount[i]==0) {
+            if (inCount[i] == 0) {
                 ans.add(i);
             }
         }
 
-        return ans ;
+        return ans;
     }
 
     public int[][] kClosest(int[][] points, int k) {
         Arrays.sort(points, new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
-                return o1[0]*o1[0] + o1[1]*o1[1]  -  (o2[0]*o2[0] + o2[1]*o2[1]);
+                return o1[0] * o1[0] + o1[1] * o1[1] - (o2[0] * o2[0] + o2[1] * o2[1]);
             }
         });
 
-       return Arrays.copyOfRange(points,0,k);
+        return Arrays.copyOfRange(points, 0, k);
     }
 
     public int[][] kClosest2(int[][] points, int k) {
-       PriorityQueue<int[]> pq = new PriorityQueue<>(k, new Comparator<int[]>() {
-           @Override
-           public int compare(int[] o1, int[] o2) {
-               return o2[0]-o1[0];
-           }
-       }) ;
-        int n = points.length ;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(k, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o2[0] - o1[0];
+            }
+        });
+        int n = points.length;
         for (int i = 0; i < n; i++) {
-            int dist = points[i][0]* points[i][0]    + points[i][1] * points[i][1] ;
-            if(i>=k) {
-                if(dist < pq.peek()[0]){
+            int dist = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+            if (i >= k) {
+                if (dist < pq.peek()[0]) {
                     pq.poll();
                 }
             }
 
-            pq.offer(new int[]{dist,i});
+            pq.offer(new int[]{dist, i});
         }
 
         int[][] ans = new int[k][2];
-        for (int i = 0; i <k ; i++) {
+        for (int i = 0; i < k; i++) {
             ans[i] = points[pq.poll()[1]];
         }
 
-        return  ans ;
+        return ans;
     }
-
 
 
     /**
      * 查看矩阵是否相等   旋转后是否相等
+     *
      * @param mat
      * @param target
      * @return
      */
     public boolean findRotation(int[][] mat, int[][] target) {
         int N = mat.length;
-        boolean res1 = true, res2 = true ,res3 =true , res4 =true ;
+        boolean res1 = true, res2 = true, res3 = true, res4 = true;
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if(mat[i][j] != target[i][j])  res1 = false;
+                if (mat[i][j] != target[i][j]) res1 = false;
 
-                if(mat[j][N-1-i] !=target[i][j]) res2 =false;
+                if (mat[j][N - 1 - i] != target[i][j]) res2 = false;
 
-                if(mat[N-1-i][N-1-j] !=target[i][j]) res3 =false;
+                if (mat[N - 1 - i][N - 1 - j] != target[i][j]) res3 = false;
 
-                if(mat[N-1-j][i] !=target[i][j]) res4 =false;
+                if (mat[N - 1 - j][i] != target[i][j]) res4 = false;
             }
         }
 
@@ -711,29 +717,366 @@ public class Matrix {
     }
 
 
-
     /**
      * 计算矩阵 每一个9宫格中的最大值
+     *
      * @param grid
      * @return
      */
     public int[][] largestLocal(int[][] grid) {
-        int n = grid.length ;
-        int[][] ans = new int[n-2][n-2];
-        for (int i = 0; i < n-2; i++) {
-            for (int j = 0; j < n-2; j++) {
+        int n = grid.length;
+        int[][] ans = new int[n - 2][n - 2];
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = 0; j < n - 2; j++) {
 
                 //比较9宫格的最大值
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        ans[i][j] = Math.max(ans[i][j] ,grid[i+k][j+l]);
+                        ans[i][j] = Math.max(ans[i][j], grid[i + k][j + l]);
                     }
                 }
 
             }
         }
-        return ans ;
+        return ans;
     }
 
+    public boolean checkStraightLine(int[][] coordinates) {
+        // y = ax + b ;   特殊情况 竖线  水平线
+        int[] ratio = calculateRatio(coordinates[0][0], coordinates[0][1],
+                coordinates[1][0], coordinates[1][1]);
+        int N = coordinates.length;
+        int i = 2;
+        if (ratio[0] == 1) {
+            while (i < N && coordinates[i][0] == coordinates[i - 1][0]) i++;
+            return i == N;
+        } else {
+            while (i < N) {
+                int expectY = (coordinates[i][0] * ratio[2] + ratio[1]) / ratio[3];
+                if (expectY != coordinates[i][1]) return false;
+                i++;
+            }
+        }
+        return true;
+
+    }
+
+    private int[] calculateRatio(int x1, int y1, int x2, int y2) {
+        int[] res = new int[4];  // 类型 ，  b 值 ，a值，
+        // 不存重复的点 ，
+        // 竖线
+        if (x1 == x2 && y1 != y2) {
+            res[0] = 1;
+        }//水平线
+        else if (x1 != x2 && y1 == y2) {
+
+            res[1] = y1;
+            res[3] = 1;
+        } else {
+            // 是否会不能整除
+            res[1] = y2 * x1 - y1 * x2;
+
+            res[2] = y1 - y2;
+            res[3] = x1 - x2;
+        }
+        return res;
+    }
+
+    /**
+     * 适用于num值较小  ， 否则占用空间太大
+     *
+     * @param num
+     * @param xPos
+     * @param yPos
+     * @return
+     */
+    public int orchestraLayout2(int num, int xPos, int yPos) {
+
+        int[][] grid = new int[num][num];
+        int[][] direction = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+        int total = num * num;
+        int i = 0, j = 0;
+        int di = 0;
+        for (int k = 0; k < total; k++) {
+            grid[i][j] = (k % 9) + 1;
+
+            int ti = i + direction[di][0];
+            int tj = j + direction[di][1];
+            if (ti < 0 || ti >= num || tj < 0 || tj >= num || grid[ti][tj] != 0) {
+                di = (di + 1) % 4;
+            }
+            i += direction[di][0];
+            j += direction[di][1];
+        }
+        return grid[xPos][yPos];
+    }
+
+    /**
+     * 面积法
+     *
+     * @param num
+     * @param xPos
+     * @param yPos
+     * @return
+     */
+    public int orchestraLayout(int num, int xPos, int yPos) {
+        int quan = (num + 1) / 2;//总圈数
+        //坐标所在圈数
+        int ceng = Math.min(Math.min(xPos, yPos), Math.min(num - 1 - xPos, num - 1 - yPos)) + 1;
+        // 所在圈的边长  , 总边长 减 2层 外层圈边长
+        long innerBian = num - 2 * (ceng - 1);
+        long area = 1L * num * num; // 需要先转long类型
+        long inArae = innerBian * innerBian;
+        long index = ((area - inArae) % 9) + 1; // 前两个值 需要计算时就要用long类型， 否则会出错
+        int left = ceng - 1;
+        int right = num - ceng;
+        // 判断坐标所在内圈的哪一边
+        if (xPos == left) {
+            index += yPos - left;
+        } else if (yPos == right) {
+            index += right - left;
+            index += xPos - left;
+        } else if (xPos == right) {
+            index += 2 * (right - left);
+            index += right - yPos;
+        } else if (yPos == left) {
+            index += 3 * (right - left);
+            index += right - xPos;
+        }
+
+        return (int) (index % 9 == 0 ? 9 : index % 9);
+    }
+
+    public int[] spiralOrder(int[][] matrix) {
+        int N = matrix.length;
+        if (N == 0) {
+            return new int[0];
+        }
+        int M = matrix[0].length;
+        int total = N * M;
+        int[] ans = new int[total];
+
+        boolean[][] seen = new boolean[N][M];
+        int[][] direction = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int di = 0;
+
+        int i = 0, j = 0;
+
+        for (int k = 0; k < total; k++) {
+            ans[k] = matrix[i][j];
+            seen[i][j] = true;
+            int ti = i + direction[di][0];
+            int tj = j + direction[di][1];
+            if (ti < 0 || ti >= N || tj < 0 || tj >= M || seen[ti][tj]) {
+                di = (di + 1) % 4;
+            }
+            i += direction[di][0];
+            j += direction[di][1];
+        }
+
+        return ans;
+    }
+
+    public List<Integer> spiralOrder2(int[][] matrix) {
+        int N = matrix.length;
+        List<Integer> ans = new ArrayList<>();
+        if (N == 0) {
+            return ans;
+        }
+        int M = matrix[0].length;
+        int total = N * M;
+
+        boolean[][] seen = new boolean[N][M];
+        int[][] direction = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int di = 0;
+
+        int i = 0, j = 0;
+
+        for (int k = 0; k < total; k++) {
+            ans.add(matrix[i][j]);
+            seen[i][j] = true;
+            int ti = i + direction[di][0];
+            int tj = j + direction[di][1];
+            if (ti < 0 || ti >= N || tj < 0 || tj >= M || seen[ti][tj]) {
+                di = (di + 1) % 4;
+            }
+            i += direction[di][0];
+            j += direction[di][1];
+        }
+
+        return ans;
+    }
+
+    /**
+     * 平滑处理  九个格的平均值
+     *
+     * @param img
+     * @return
+     */
+    public int[][] imageSmoother(int[][] img) {
+        int m = img.length;
+        int n = img[0].length;
+
+        int[][] ans = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+                int num = 0, sum = 0;
+                for (int k = i - 1; k <= i + 1; k++) {
+                    for (int l = j - 1; l <= j + 1; l++) {
+                        if (k >= 0 && k < m && l >= 0 && l < n) {
+                            num++;
+                            sum += img[k][l];
+                        }
+                    }
+                }
+                ans[i][j] = sum / num;
+            }
+
+        }
+
+        return ans;
+    }
+
+    /**
+     * 范围求和
+     *
+     * @param m
+     * @param n
+     * @param ops
+     * @return
+     */
+    public int maxCount(int m, int n, int[][] ops) {
+        int a = m, b = n;
+        for (int i = 0; i < ops.length; i++) {
+            if (ops[i][0] < a) a = ops[i][0];
+            if (ops[i][1] < b) b = ops[i][1];
+        }
+        return a * b;
+    }
+
+    /**
+     * 统计战舰数量
+     *
+     * @param board
+     * @return
+     */
+    public int countBattleships(char[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'X') {
+                    for (int k = j + 1; k < n && board[i][k] == 'X'; k++) {
+                        board[i][k] = '.';
+                    }
+
+                    for (int k = i + 1; k < m && board[k][j] == 'X'; k++) {
+                        board[k][j] = '.';
+                    }
+                    ans++;
+                }
+            }
+        }
+
+        return ans;
+    }
+
+    /**
+     * 有序矩阵的 Kth Element
+     *
+     * @param matrix
+     * @param k
+     * @return
+     */
+    public int kthSmallest(int[][] matrix, int k) {
+        int m = matrix.length, n = matrix[0].length;
+        int lo = matrix[0][0], hi = matrix[m - 1][n - 1];
+        while (lo <= hi) {
+            int mid = (hi - lo) / 2 + lo;
+            int cnt = 0;
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n && matrix[i][j] < mid; j++) {
+                    cnt++;
+                }
+            }
+            if (cnt < k) {
+                lo = mid + 1;
+            } else {
+                hi = mid - 1;
+            }
+        }
+        return lo;
+    }
+
+    public int kthSmallest2(int[][] matrix, int k) {
+        int m = matrix.length, n = matrix[0].length;
+        PriorityQueue<Tuple> pq = new PriorityQueue<>();
+        for (int i = 0; i < n; i++) {
+            pq.offer(new Tuple(0, i, matrix[0][i]));
+        }
+        for (int i = 0; i < k - 1; i++) {
+            Tuple tuple = pq.poll();
+            if (tuple.x == m - 1) continue; // 到了最下面一行了，不可添加数据
+            pq.offer(new Tuple(tuple.x + 1, tuple.y, matrix[tuple.x + 1][tuple.y]));
+        }
+        return pq.peek().val;
+    }
+
+    class Tuple implements Comparable<Tuple> {
+        int x, y, val;
+
+        public Tuple(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+
+        @Override
+        public int compareTo(Tuple o) {
+            return this.val - o.val;
+        }
+    }
+
+    /**
+     * 给你一个 m x n 的矩阵 matrix 。如果这个矩阵是托普利茨矩阵，返回 true ；否则，返回 false 。
+     * 如果矩阵上每一条由左上到右下的对角线上的元素都相同，那么这个矩阵是 托普利茨矩阵 。
+     * 进阶
+     * 一次最多只能将矩阵的一行加载到内存中，我们将每一行复制到一个连续数组中，随后在读取下一行时，就与内存中此前保存的数组进行比较。
+     *
+     * @param matrix
+     * @return
+     */
+    public boolean isToeplitzMatrix(int[][] matrix) {
+        for (int i = 0; i < matrix.length - 1; i++) {
+            for (int j = 0; j < matrix[i].length - 1; j++) {
+                if (matrix[i][j] != matrix[i + 1][j + 1]) return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isToeplitzMatrix2(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            if (!check(matrix, matrix[i][0], i + 1, 1)) return false;
+        }
+
+        for (int i = 0; i < matrix[0].length; i++) {
+            if (!check(matrix, matrix[0][i], 1, i + 1)) return false;
+        }
+        return true;
+    }
+
+    private boolean check(int[][] matrix, int expect, int i, int j) {
+        if (i >= matrix.length || j >= matrix[0].length) {
+            return true;
+        }
+        if (matrix[i][j] != expect) {
+            return false;
+        }
+        return check(matrix, expect, i + 1, j + 1);
+    }
 
 }
