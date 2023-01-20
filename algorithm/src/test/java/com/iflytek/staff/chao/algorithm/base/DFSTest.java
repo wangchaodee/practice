@@ -27,12 +27,5 @@ public class DFSTest extends TestCase {
 
     }
 
-    public void testLadderLength() {
-        DFS bst = new DFS();
 
-        int step = bst.ladderLength("hit",
-                "cog",
-                Arrays.asList("hot","dot","dog","lot","log","cog") );
-        System.out.println(step);
-    }
 }

@@ -74,45 +74,46 @@ public class HashSolution {
 
     /**
      * 594. 最长和谐子序列
+     *
      * @param nums
      * @return
      */
     public int findLHS(int[] nums) {
-        Map<Integer,Integer> countNum = new HashMap<>();
-        for(int num : nums){
-            countNum.put(num, countNum.getOrDefault(num,0)+1);
+        Map<Integer, Integer> countNum = new HashMap<>();
+        for (int num : nums) {
+            countNum.put(num, countNum.getOrDefault(num, 0) + 1);
         }
-        int longest =0 ;
+        int longest = 0;
         for (int num : countNum.keySet()) {
-            if(countNum.containsKey(num+1)){
-                longest = Math.max(longest,countNum.get(num) + countNum.get(num+1));
+            if (countNum.containsKey(num + 1)) {
+                longest = Math.max(longest, countNum.get(num) + countNum.get(num + 1));
             }
         }
         return longest;
     }
 
     /**
-     *  128. 最长连续序列
+     * 128. 最长连续序列
      */
     public int longestConsecutive(int[] nums) {
 
-        if(nums.length<=1) return nums.length;
+        if (nums.length <= 1) return nums.length;
 
         TreeSet<Integer> treeSet = new TreeSet<>();
-        for(int num : nums){
+        for (int num : nums) {
             treeSet.add(num);
         }
 
-        int longest=0;
-        int pre =treeSet.pollFirst() ;
-        int  preCnt= 1;
+        int longest = 0;
+        int pre = treeSet.pollFirst();
+        int preCnt = 1;
         while (!treeSet.isEmpty()) {
             int num = treeSet.pollFirst();
-            if(num == pre+1){
+            if (num == pre + 1) {
                 preCnt++;
-               longest = Math.max(longest, preCnt);
-            }else {
-                preCnt=1;
+                longest = Math.max(longest, preCnt);
+            } else {
+                preCnt = 1;
             }
             pre = num;
         }
@@ -121,20 +122,20 @@ public class HashSolution {
 
     public int longestConsecutive2(int[] nums) {
 
-        if(nums.length<=1) return nums.length;
+        if (nums.length <= 1) return nums.length;
 
         HashSet<Integer> treeSet = new HashSet<>();
-        for(int num : nums){
+        for (int num : nums) {
             treeSet.add(num);
         }
 
-        int longest=0;
-        for (int num : treeSet){
-            if(!treeSet.contains(num-1)){
-                int cnt =1 ;
-                int curNum= num;
-                while (treeSet.contains(curNum+1)){
-                    curNum= curNum+1;
+        int longest = 0;
+        for (int num : treeSet) {
+            if (!treeSet.contains(num - 1)) {
+                int cnt = 1;
+                int curNum = num;
+                while (treeSet.contains(curNum + 1)) {
+                    curNum = curNum + 1;
                     cnt++;
                 }
                 longest = Math.max(longest, cnt);
@@ -143,7 +144,6 @@ public class HashSolution {
 
         return longest;
     }
-
 
 
     /**

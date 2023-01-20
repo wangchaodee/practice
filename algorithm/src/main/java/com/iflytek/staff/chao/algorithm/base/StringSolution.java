@@ -288,7 +288,6 @@ public class StringSolution {
     }
 
 
-
     public int countSegments(String s) {
 
         String[] strs = s.split(" ");
@@ -678,7 +677,6 @@ public class StringSolution {
     }
 
 
-
     public String mergeAlternately(String word1, String word2) {
         int l1 = word1.length();
         int l2 = word2.length();
@@ -958,9 +956,6 @@ public class StringSolution {
     }
 
 
-
-
-
     public String reformat(String s) {
         Queue<Character> abc = new LinkedList<>();
         Queue<Character> num = new LinkedList<>();
@@ -1003,64 +998,66 @@ public class StringSolution {
     public int longestPalindrome(String s) {
 
         int[] cnts = new int[256];
-        for (char c : s.toCharArray()){
+        for (char c : s.toCharArray()) {
             cnts[c]++;
         }
         int palindrome = 0;
-        for (int cnt : cnts){
-            palindrome += ( cnt/2 ) *2 ;
+        for (int cnt : cnts) {
+            palindrome += (cnt / 2) * 2;
         }
-        if(palindrome < s.length()) palindrome+=1 ;
-        return palindrome ;
+        if (palindrome < s.length()) palindrome += 1;
+        return palindrome;
     }
-
 
 
     /**
      * 205 字符串同构
+     *
      * @param s
      * @param t
      * @return
      */
     public boolean isIsomorphic(String s, String t) {
         // 记录一个字符上次出现的位置，如果两个字符串中的字符上次出现的位置一样，那么就属于同构。
-        int[] preIndexS = new int[256] ;
-        int[] preIndexT = new int[256] ;
+        int[] preIndexS = new int[256];
+        int[] preIndexT = new int[256];
 
-        for (int i = 0; i <s.length() ; i++) {
-            char ss = s.charAt(i) , tt= t.charAt(i) ;
-            if(preIndexS[ss] !=preIndexT[tt]){
+        for (int i = 0; i < s.length(); i++) {
+            char ss = s.charAt(i), tt = t.charAt(i);
+            if (preIndexS[ss] != preIndexT[tt]) {
                 return false;
             }
             // 默认值为0 ， 初始i=0 , 所以加1 以区别
-            preIndexT[tt] = i+ 1;
-            preIndexS[ss] = i+1 ;
+            preIndexT[tt] = i + 1;
+            preIndexS[ss] = i + 1;
         }
-        return true ;
+        return true;
     }
 
     /**
      * 647 回文子串
+     *
      * @param s
      * @return
      */
     public int countSubstrings(String s) {
-        int total =0  ;
-        int n = s.length() ;
+        int total = 0;
+        int n = s.length();
         for (int i = 0; i < n; i++) {
-           total +=countSubstrings(s,i,i,n);
-            total +=countSubstrings(s,i,i+1,n);
+            total += countSubstrings(s, i, i, n);
+            total += countSubstrings(s, i, i + 1, n);
         }
-        return total ;
+        return total;
     }
-    private int countSubstrings(String s ,int left ,int right ,int n) {
-         int cnt =0 ;
-         while (left>=0 &&right<n && s.charAt(left) ==s.charAt(right) ){
-           left--;
-           right++;
-           cnt++;
-         }
-         return cnt;
+
+    private int countSubstrings(String s, int left, int right, int n) {
+        int cnt = 0;
+        while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+            cnt++;
+        }
+        return cnt;
     }
 
     /**
@@ -1069,46 +1066,48 @@ public class StringSolution {
      * @param s
      * @return
      */
-    int max=0;
-    String subString ;
+    int max = 0;
+    String subString;
+
     public String longestPalindrome2(String s) {
-        int n = s.length() ;
-        if(n<=1) return s;
+        int n = s.length();
+        if (n <= 1) return s;
         for (int i = 0; i < n; i++) {
-            findSubstrings(s,i,i,n);
-            findSubstrings(s,i,i+1,n);
+            findSubstrings(s, i, i, n);
+            findSubstrings(s, i, i + 1, n);
         }
-        return subString ;
+        return subString;
     }
 
-    private void findSubstrings(String s ,int left ,int right ,int n) {
+    private void findSubstrings(String s, int left, int right, int n) {
 
-        while (left>=0 &&right<n && s.charAt(left) ==s.charAt(right) ){
+        while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
             left--;
             right++;
         }
-        if(right-left -2 >max) {
-            max= right-left -2;
-            subString = s.substring(left+1,right);
+        if (right - left - 2 > max) {
+            max = right - left - 2;
+            subString = s.substring(left + 1, right);
         }
     }
 
     /**
      * 696. 计数二进制子串
+     *
      * @param s
      * @return
      */
     public int countBinarySubstrings(String s) {
-        int preLen= 0 ,curLen =1 ,count =0 ;
+        int preLen = 0, curLen = 1, count = 0;
         for (int i = 1; i < s.length(); i++) {
-            if(s.charAt(i)==s.charAt(i-1)){
+            if (s.charAt(i) == s.charAt(i - 1)) {
                 curLen++;
-            }else {
-                preLen=curLen ;
-                curLen=1;
+            } else {
+                preLen = curLen;
+                curLen = 1;
             }
 
-            if(preLen>=curLen){
+            if (preLen >= curLen) {
                 count++;
             }
         }
@@ -1123,7 +1122,6 @@ public class StringSolution {
 //    public int longestPalindromeSubseq(String s) {
 //
 //    }
-
 
 
 }

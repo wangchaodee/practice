@@ -13,16 +13,6 @@ import static com.iflytek.staff.chao.algorithm.base.SortUtil.less;
 public class ArrayTraversal {
 
 
-
-
-
-
-
-
-
-
-
-
     /**
      * 给定两个数组 nums1 和 nums2 ，返回 它们的交集 。输出结果中的每个元素一定是 唯一 的。我们可以 不考虑输出结果的顺序 。
      *
@@ -143,23 +133,6 @@ public class ArrayTraversal {
             ans ^= nums[i];
         }
         return ans;
-    }
-
-
-    public int findMin(int[] nums) {
-
-        int N = nums.length;
-        int l = 0, m = 0, r = N - 1;
-        while (l < r) {
-            m = (r - l) + l;
-            if (nums[m] < nums[r]) {
-                r = m;
-            } else {
-                l = m + 1;
-            }
-        }
-
-        return nums[l];
     }
 
 
@@ -405,7 +378,6 @@ public class ArrayTraversal {
     }
 
 
-
     public int longestSubarray(int[] nums, int limit) {
         int l = 0;
         int r = 1;
@@ -424,31 +396,6 @@ public class ArrayTraversal {
             r++;
         }
         return max;
-    }
-
-    public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n + 1];
-        int len = 1;
-        dp[len] = nums[0];
-        for (int i = 0; i < n; i++) {
-            if (nums[i] > dp[len]) {
-                dp[++len] = nums[i];
-            } else {
-                int l = 1, r = len, m = 0, p = 0;
-                while (l <= r) {
-                    m = (r - l) / 2 + l;
-                    if (dp[m] >= nums[i]) {
-                        r = m - 1;
-                    } else {
-                        p = m;
-                        l = m + 1;
-                    }
-                }
-                dp[p + 1] = nums[i];
-            }
-        }
-        return len;
     }
 
 
@@ -663,8 +610,6 @@ public class ArrayTraversal {
     }
 
 
-
-
     public int peakIndexInMountainArray(int[] arr) {
         int l = 0, r = arr.length - 1;
         int m = 0;
@@ -677,26 +622,6 @@ public class ArrayTraversal {
             if (arr[m] > arr[m - 1] && arr[m] > arr[m + 1]) break;
         }
         return m;
-    }
-
-
-    public char nextGreatestLetter(char[] letters, char target) {
-        int l = 0, r = letters.length - 1;
-        int m = 0;
-        while (l < r) {
-
-            m = (r - l) / 2 + l;
-            if (letters[m] - target <= 0) {
-                l = m + 1;
-            } else {
-                r = m;
-            }
-        }
-        if (l < letters.length) {
-            return letters[l];
-        } else {
-            return letters[0];
-        }
     }
 
 
@@ -1041,9 +966,6 @@ public class ArrayTraversal {
     }
 
 
-
-
-
     /**
      * 最少操作次数， 使数组都变为 0
      *
@@ -1172,9 +1094,6 @@ public class ArrayTraversal {
     }
 
 
-
-
-
     /**
      * 给你三个整数数组 nums1、nums2 和 nums3 ，请你构造并返回一个 元素各不相同的 数组，且由 至少 在 两个 数组中出现的所有值组成。数组中的元素可以按 任意 顺序排列。
      *
@@ -1284,8 +1203,6 @@ public class ArrayTraversal {
         }
         return cnt;
     }
-
-
 
 
     /**

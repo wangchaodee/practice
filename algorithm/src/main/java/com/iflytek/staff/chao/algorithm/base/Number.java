@@ -60,41 +60,6 @@ public class Number {
         return primes.size();
     }
 
-    /**
-     * 爬楼梯， 每次只可以走一步，或两步，   n步楼梯，有多少中走法，
-     * 变化的斐波拉切数列 问题
-     *
-     * @param n
-     * @return
-     */
-    public int climbStairs(int n) {
-        return fiber2(n, 1, 1);
-    }
-
-    private Integer fiber2(int n, int a, int b) {
-        if (n <= 1) {
-            return 1;
-        }
-        Integer ret = 0;
-        for (int i = 2; i <= n; i++) {
-            ret = a + b;
-            a = b;
-            b = ret;
-
-        }
-        return ret;
-    }
-
-    public int fiber(int n) {
-        if (n < 2) return n;
-        int MOD = 1000000007;
-        int[] dp = new int[n + 1];
-        dp[1] = 1;
-        for (int i = 2; i < n + 1; i++) {
-            dp[i] = (dp[i - 2] + dp[i - 1]) % MOD;
-        }
-        return dp[n];
-    }
 
     /**
      * 求根
@@ -124,22 +89,6 @@ public class Number {
     }
 
 
-    public int climbStairs2(int n) {
-        if (n == 1 || n == 2) {
-            return n;
-        }
-        int n1 = 1;
-        int n2 = 2;
-        int t = 0;
-        for (int i = 3; i <= n; i++) {
-            t = n2;
-            n2 = n1 + n2;
-            n1 = t;
-        }
-        return n2;
-
-    }
-
     /**
      * 梯度排列n各硬币， 可以排列的层级高度
      *
@@ -155,7 +104,6 @@ public class Number {
         return k - 1;
 
     }
-
 
 
     public int hammingWeight(int n) {
@@ -297,17 +245,6 @@ public class Number {
     }
 
 
-    public int mySqrt(int x) {
-        int l = 0, m = 0, r = x;
-        while (l < r) {
-            m = l + (r - l) / 2;
-            long sqrt = (long) m * m;
-            if (sqrt > x) r = m - 1;
-            else l = m;
-        }
-        return l;
-    }
-
     /**
      * 获取杨辉三角 第rowIndex行的那列数组
      *
@@ -329,5 +266,38 @@ public class Number {
         return ans;
     }
 
+    /**
+     * 2016. 增量元素之间的最大差值
+     * 其中 0 <= i < j < n 且 nums[i] < nums[j] 。
+     *
+     * @param nums
+     * @return
+     */
+    public int maximumDifference(int[] nums) {
+        int n = nums.length;
+        int preMin = nums[0];
+        int curMax = -1;
+        for (int i = 1; i < n; i++) {
+            curMax = Math.max(curMax, nums[i] - preMin);
+            preMin = Math.min(preMin, nums[i]);
+        }
+        return curMax > 0 ? curMax : -1;
+    }
 
+    /**
+     * 1342. 将数字变成 0 的操作次数
+     * @param num
+     * @return
+     */
+    public int numberOfSteps(int num) {
+        int cnt = 0 ;
+        while (num > 0 ){
+            if((num & 1) == num) {
+                num--;
+            }else {
+                num /=2 ;
+            }
+        }
+        return cnt ;
+    }
 }

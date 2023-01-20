@@ -298,15 +298,16 @@ public class Sort {
     /**
      * 215. 数组中的第K个最大元素
      * 堆 ：时间复杂度 O(NlogK)，空间复杂度 O(K)。
+     *
      * @param nums
      * @param k
      * @return
      */
     public int findKthLargest(int[] nums, int k) {
-        PriorityQueue<Integer> queue = new PriorityQueue<>(k+1);
+        PriorityQueue<Integer> queue = new PriorityQueue<>(k + 1);
         for (int j = 0; j < nums.length; j++) {
             queue.offer(nums[j]);
-            if (queue.size()>k) {
+            if (queue.size() > k) {
                 queue.poll();
             }
         }
@@ -315,27 +316,27 @@ public class Sort {
 
     //快速选择 ：时间复杂度 O(N)，空间复杂度 O(1)
     public int findKthLargest2(int[] nums, int k) {
-       k=nums.length-k;
-       int l= 0 , h=nums.length-1;
-       while (l<h){
-           int j = partition(nums,l,h);
-           if (j==k){
-               break;
-           }else if(j<k){
-               l=j+1;
-           }else {
-               h=j-1;
-           }
-       }
-       return nums[k];
+        k = nums.length - k;
+        int l = 0, h = nums.length - 1;
+        while (l < h) {
+            int j = partition(nums, l, h);
+            if (j == k) {
+                break;
+            } else if (j < k) {
+                l = j + 1;
+            } else {
+                h = j - 1;
+            }
+        }
+        return nums[k];
     }
 
     private int partition(int[] array, int lo, int hi) {
         int i = lo, j = hi + 1;
         int v = array[lo];
         while (true) {
-            while (less(array[++i], v)&& i < hi) ;
-            while (less(v, array[--j])&&j > lo) ;
+            while (less(array[++i], v) && i < hi) ;
+            while (less(v, array[--j]) && j > lo) ;
             if (i >= j) break;
             exchange(array, i, j);
         }
@@ -345,6 +346,7 @@ public class Sort {
 
     /**
      * 347. 前 K 个高频元素
+     *
      * @param nums
      * @param k
      * @return
@@ -383,6 +385,7 @@ public class Sort {
 
     /**
      * 451. 按照字符出现次数对字符串排序
+     *
      * @param s
      * @return
      */
@@ -420,6 +423,7 @@ public class Sort {
 
     /**
      * 75. 颜色分类
+     *
      * @param nums
      */
     public void sortColors(int[] nums) {
@@ -459,15 +463,15 @@ public class Sort {
     }
 
     public void sortColors3(int[] nums) {
-        int z = -1,o=0,t=nums.length;
-        while (o<t){
+        int z = -1, o = 0, t = nums.length;
+        while (o < t) {
             if (nums[o] == 0) {
                 // 同步后移 替换的是最左边靠近0的1
-                exchange(nums, ++z,o++);
-            }else if(nums[o] == 2) {
+                exchange(nums, ++z, o++);
+            } else if (nums[o] == 2) {
                 // o 还要指向 换完后的数据
-                exchange(nums, --t,o);
-            }else {
+                exchange(nums, --t, o);
+            } else {
                 ++o;
             }
         }

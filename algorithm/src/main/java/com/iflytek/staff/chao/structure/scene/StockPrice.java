@@ -20,15 +20,15 @@ public class StockPrice {
 
     }
 
-    public int current() {
-
-    }
-
-    public int maximum() {
-
-    }
-
-    public int minimum() {
-
-    }
+//    public int current() {
+//
+//    }
+//
+//    public int maximum() {
+//
+//    }
+//
+//    public int minimum() {
+//
+//    }
 }

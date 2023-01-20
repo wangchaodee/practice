@@ -2,7 +2,10 @@ package com.iflytek.staff.chao.algorithm.base;
 
 import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author : hamilton
@@ -11,97 +14,6 @@ import java.util.*;
  */
 public class DynamicPlan {
 
-
-
-
-
-    /**
-     * 打家劫舍 情况一  一排房子  相邻房子被偷会报警
-     *
-     * @param nums
-     * @return
-     */
-    public int rob(int[] nums) {
-        int N = nums.length;
-        int[] dp = new int[N + 1];
-        dp[0] = 0;
-        dp[1] = nums[0];
-        for (int i = 2; i <= N; i++) {
-            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
-        }
-        return dp[N];
-    }
-
-    /**
-     * 小偷抢劫  房子相邻  连续偷则报警
-     *
-     * @param nums
-     * @return
-     */
-    public int rob_2(int[] nums) {
-        int max1 = 0; //没
-        int max2 = nums[0];//偷了  nums[0]
-
-        for (int i = 1; i < nums.length; i++) {
-            int curr = Math.max(max2, max1 + nums[i]);
-            max1 = max2;
-            max2 = curr;
-        }
-//        return max1 > max2 ? max1 : max2;
-        return max2;
-    }
-
-    /**
-     * 打家劫舍 情况二  围成一圈的房子  相邻房子被偷会报警
-     *
-     * @param nums
-     * @return
-     */
-    public int robCase2(int[] nums) {
-        int N = nums.length;
-        int[] dp = new int[N + 1];
-        dp[0] = 0;
-        dp[1] = nums[0];
-        for (int i = 2; i <= N - 1; i++) {
-            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
-        }
-        int preN1 = dp[N - 1];
-
-        dp[1] = 0;
-        for (int i = 2; i <= N; i++) {
-            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
-        }
-        int preN = dp[N];
-
-        return preN > preN1 ? preN : preN1;
-    }
-
-    public int robCase2_2(int[] nums) {
-        int N = nums.length;
-        if (N == 1) return nums[0];
-
-        int n1 = 0;
-        int n2 = 0;
-        int t = 0;
-        for (int i = 0; i < N - 1; i++) {
-            t = n2;
-            n2 = Math.max(n2, n1 + nums[i]);
-            n1 = t;
-        }
-        int max1 = n2;
-
-        n1 = 0;
-        n2 = 0;
-        t = 0;
-        for (int i = 1; i < N; i++) {
-            t = n2;
-            n2 = Math.max(n2, n1 + nums[i]);
-            n1 = t;
-        }
-        int max2 = n2;
-
-        return max1 > max2 ? max1 : max2;
-    }
 
     /**
      * 打家劫舍 情况三  房子是二叉树型相邻
@@ -184,32 +96,6 @@ public class DynamicPlan {
 
 
     /**
-     * 统计有多少路径从左上角到右下角
-     *
-     * @param m
-     * @param n
-     * @return
-     */
-    public int uniquePaths(int m, int n) {
-        int[][] dp = new int[m][n];
-
-        for (int i = 0; i < m; i++) {
-            dp[i][0] = 1;
-        }
-        for (int i = 0; i < n; i++) {
-            dp[0][i] = 1;
-        }
-
-        for (int i = 1; i < m; i++) {
-            for (int j = 1; j < n; j++) {
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-            }
-        }
-
-        return dp[m - 1][n - 1];
-    }
-
-    /**
      * 统计有多少路径从左上角到右下角   可能存在障碍物
      *
      * @param obstacleGrid
@@ -249,51 +135,6 @@ public class DynamicPlan {
         return dp[m - 1][n - 1];
     }
 
-    /**
-     * 最小路径 从左上角到右下角
-     *
-     * @param grid
-     * @return
-     */
-    public int minPathSum(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-
-        int[][] dp = new int[m][n];
-        dp[0][0] = grid[0][0];
-
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i > 0 && j > 0) {
-                    dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
-                } else if (i > 0) {
-                    dp[i][j] = dp[i - 1][j] + grid[i][j];
-                } else {
-                    //j>0
-                    dp[i][j] = dp[i][j - 1] + grid[i][j];
-                }
-            }
-        }
-
-        return dp[m - 1][n - 1];
-    }
-
-    public int numberOfArithmeticSlices(int[] nums) {
-        int N = nums.length;
-        if (N < 3) return 0;
-        int d = nums[0] - nums[1];
-        int ans = 0, t = 0;
-        for (int i = 2; i < N; i++) {
-            if (nums[i - 1] - nums[i] == d) {
-                t++;
-            } else {
-                d = nums[i - 1] - nums[i];
-                t = 0;
-            }
-            ans += t;
-        }
-        return ans;
-    }
 
     public int numDecodings(String s) {
         int N = s.length();
@@ -412,27 +253,6 @@ public class DynamicPlan {
 
 
     /**
-     * 将n 拆分成两个以上的正整数 ， 求 最大的乘积
-     *
-     * @param n
-     * @return
-     */
-    public int integerBreak(int n) {
-        int[] dp = new int[n + 1];
-
-        for (int i = 2; i <= n; i++) {
-            int max = 1;
-            for (int j = 1; j < i; j++) {
-                max = Math.max(max, Math.max(j * (i - j), j * dp[i - j]));
-            }
-            dp[i] = max;
-        }
-
-        return dp[n];
-    }
-
-
-    /**
      * 最长的公共子序列
      *
      * @param text1
@@ -537,33 +357,6 @@ public class DynamicPlan {
             tb[i] = tb[i - 3] + tb[i - 2] + tb[i - 1];
         }
         return tb[n];
-    }
-
-    /**
-     * 爬楼梯
-     *
-     * @param n
-     * @return
-     */
-    public int climbStairs(int n) {
-        int[] dp = new int[n + 2];
-        dp[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            dp[i] = dp[i - 2] + dp[i - 1];
-        }
-        return dp[n];
-    }
-
-    public int minCostClimbingStairs(int[] cost) {
-        int N = cost.length;
-        int[] dp = new int[N + 1];
-
-        dp[0] = cost[0];
-        dp[1] = cost[1];
-        for (int i = 2; i < N; i++) {
-            dp[i] = Math.min(dp[i - 2], dp[i - 1]) + cost[i];
-        }
-        return Math.min(dp[N - 1], dp[N - 2]);
     }
 
 

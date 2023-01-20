@@ -1,11 +1,17 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import com.iflytek.staff.chao.util.DirectionUtil;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * @author : hamilton
- * @Description: 广度和深度搜索
+ * @Description: 深度优先搜索
+ * 求解可达性
+ * 在程序实现 DFS 时需要考虑以下问题：
+ * 栈：用栈来保存当前节点信息，当遍历新节点返回时能够继续遍历当前节点。可以使用递归栈。
+ * 标记：和 BFS 一样同样需要对已经遍历过的节点进行标记。
  * @date Date : 2022年06月24日 下午1:10
  */
 public class DFS {
@@ -14,7 +20,7 @@ public class DFS {
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
         int curColor = image[sr][sc];
         if (curColor != color) {
-            dst(image, sr, sc, curColor, color);
+            dfs(image, sr, sc, curColor, color);
         }
         return image;
     }
@@ -29,61 +35,26 @@ public class DFS {
      * @param color
      * @param newColor
      */
-    public void dst(int[][] image, int sr, int sc, int color, int newColor) {
+    public void dfs(int[][] image, int sr, int sc, int color, int newColor) {
         int curColor = image[sr][sc];
         if (curColor == color) {
             image[sr][sc] = newColor;
-            for (int i = 0; i < 4; i++) {
-                int srr = sr + x[i];
-                int scc = sc + y[i];
+            for (int[] xy : DirectionUtil.directions) {
+                int srr = sr + xy[0];
+                int scc = sc + xy[1];
                 if (0 <= srr && srr < image.length && 0 <= scc && scc < image[sr].length) {
-                    dst(image, srr, scc, color, newColor);
+                    dfs(image, srr, scc, color, newColor);
                 }
             }
         }
-    }
-
-
-    public int[][] floodFill2(int[][] image, int sr, int sc, int color) {
-        int curColor = image[sr][sc];
-        if (curColor == color) {
-            return image;
-        }
-
-        Queue<int[]> queue = new LinkedList();
-        queue.offer(new int[]{sr, sc});
-
-        while (!queue.isEmpty()) {
-            int[] s = queue.poll();
-            image[s[0]][s[1]] = color;
-            bst(image, s[0], s[1], curColor, queue);
-        }
-
-        return image;
     }
 
     /**
-     * 广度优先搜索
+     * 695. 岛屿的最大面积
      *
-     * @param image
-     * @param sr
-     * @param sc
-     * @param color
-     * @param newColor
+     * @param grid
+     * @return
      */
-    public void bst(int[][] image, int sr, int sc, int color, Queue queue) {
-
-        for (int i = 0; i < 4; i++) {
-            int srr = sr + x[i];
-            int scc = sc + y[i];
-            if (0 <= srr && srr < image.length && 0 <= scc && scc < image[sr].length) {
-                if (image[srr][scc] == color) {
-                    queue.offer(new int[]{srr, scc});
-                }
-            }
-        }
-    }
-
     public int maxAreaOfIsland(int[][] grid) {
 
         int depth = 0;
@@ -91,23 +62,24 @@ public class DFS {
         int m = grid[0].length;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                depth = Math.max(depth, depth(grid, i, j, n, m));
+                depth = Math.max(depth, dfsDepth(grid, i, j, n, m));
             }
         }
         return depth;
     }
 
-    private int depth(int[][] grid, int r, int l, int n, int m) {
-        if (0 <= r && r < n && 0 <= l && l < m && grid[r][l] == 1) {
-            int d = 1;
-            grid[r][l] = 0;
-            for (int i = 0; i < 4; i++) {
-                d += depth(grid, r + x[i], l + y[i], n, m);
-            }
-            return d;
-        } else {
+    private int dfsDepth(int[][] grid, int r, int l, int n, int m) {
+        if (r < 0 || r >= n || l < 0 || l >= m || grid[r][l] == 0) {
             return 0;
         }
+        int d = 1;
+        grid[r][l] = 0;
+        for (int[] xy : DirectionUtil.directions) {
+            int srr = r + xy[0];
+            int scc = l + xy[1];
+            d += dfsDepth(grid, srr, scc, n, m);
+        }
+        return d;
     }
 
     public int[][] updateMatrix(int[][] mat) {
@@ -132,9 +104,9 @@ public class DFS {
             int[] xy = queue.poll();
             int sr = xy[0];
             int sc = xy[1];
-            for (int i = 0; i < 4; i++) {
-                int srr = sr + x[i];
-                int scc = sc + y[i];
+            for (int[] dir : DirectionUtil.directions) {
+                int srr = sr + dir[0];
+                int scc = sc + dir[1];
                 if (0 <= srr && srr < n && 0 <= scc && scc < m && seen[srr][scc] == false) {
                     queue.offer(new int[]{srr, scc});
                     dist[srr][scc] = dist[sr][sc] + 1;
@@ -171,9 +143,9 @@ public class DFS {
                 int[] xy = queue.poll();
                 int sr = xy[0];
                 int sc = xy[1];
-                for (int i = 0; i < 4; i++) {
-                    int srr = sr + x[i];
-                    int scc = sc + y[i];
+                for (int[] dir : DirectionUtil.directions) {
+                    int srr = sr + dir[0];
+                    int scc = sc + dir[1];
                     if (0 <= srr && srr < n && 0 <= scc && scc < m && seen[srr][scc] == false && grid[srr][scc] == 1) {
                         queue.offer(new int[]{srr, scc});
                         grid[srr][scc] = 2;
@@ -212,11 +184,15 @@ public class DFS {
         return ans;
     }
 
+    /**
+     * 200 岛屿数量
+     *
+     * @param grid
+     * @return
+     */
     public int numIslands(char[][] grid) {
         int n = grid.length;
         int m = grid[0].length;
-
-//        boolean[][] seen = new boolean[n][m];
 
         int count = 0;
         for (int i = 0; i < n; i++) {
@@ -224,13 +200,11 @@ public class DFS {
                 if (grid[i][j] == '1') {
                     //
                     numOfIslandDfs(i, j, grid, n, m);
-
                     count++;
                 }
             }
         }
         return count;
-
     }
 
     private void numOfIslandDfs(int i, int j, char[][] grid, int n, int m) {
@@ -238,9 +212,9 @@ public class DFS {
         grid[i][j] = '0';
         int sr = i;
         int sc = j;
-        for (int k = 0; k < 4; k++) {
-            int srr = sr + x[k];
-            int scc = sc + y[k];
+        for (int[] dir : DirectionUtil.directions) {
+            int srr = sr + dir[0];
+            int scc = sc + dir[1];
             if (0 <= srr && srr < n && 0 <= scc && scc < m && grid[srr][scc] == '1') {
                 numOfIslandDfs(srr, scc, grid, n, m);
             }
@@ -260,9 +234,9 @@ public class DFS {
             int[] xy = queue.poll();
             int sr = xy[0];
             int sc = xy[1];
-            for (int k = 0; k < 4; k++) {
-                int srr = sr + x[k];
-                int scc = sc + y[k];
+            for (int[] dir : DirectionUtil.directions) {
+                int srr = sr + dir[0];
+                int scc = sc + dir[1];
                 if (0 <= srr && srr < n && 0 <= scc && scc < m && seen[srr][scc] == false && grid[srr][scc] == '1') {
                     queue.offer(new int[]{srr, scc});
                     seen[srr][scc] = true;
@@ -271,37 +245,6 @@ public class DFS {
         }
 
         return ans;
-    }
-
-    public int numSquares(int n) {
-        Queue<Integer> queue = new LinkedList<>();
-        Set<Integer> seen = new HashSet<>();
-
-        queue.add(0);
-        seen.add(0);
-        int level = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            level++;
-            for (int i = 0; i < size; i++) {
-                int pre_num = queue.poll();
-                for (int j = 1; j < n; j++) {
-                    int cur_num = pre_num + j * j;
-                    if (cur_num == n) {
-                        return level;
-                    } else if (cur_num > n) {
-                        break;
-                    } else {
-                        if (!seen.contains(cur_num)) {
-                            queue.add(cur_num);
-                            seen.add(cur_num);
-                        }
-                    }
-                }
-            }
-        }
-
-        return level;
     }
 
 
@@ -412,34 +355,6 @@ public class DFS {
         }
     }
 
-    public int maxAreaOfIsland2(int[][] grid) {
-
-        int count = 0;
-        int n = grid.length;
-        int m = grid[0].length;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (grid[i][j] == 1) {
-                    count = Math.max(count, dfs(grid, i, j, n, m));
-                }
-            }
-        }
-        return count;
-    }
-
-    private int dfs(int[][] grid, int r, int l, int n, int m) {
-
-        int d = 1;
-        grid[r][l] = 0;
-        for (int i = 0; i < 4; i++) {
-            int r1 = r + x[i];
-            int l1 = l + y[i];
-            if (0 <= r1 && r1 < n && 0 <= l1 && l1 < m && grid[r1][l1] == 1) {
-                d += dfs(grid, r1, l1, n, m);
-            }
-        }
-        return d;
-    }
 
     /**
      * 统计被水域完全包围的 岛屿数量
@@ -475,9 +390,10 @@ public class DFS {
 
     private void dfsClosed(int[][] grid, int r, int l, int n, int m) {
         grid[r][l] = 1;
-        for (int i = 0; i < 4; i++) {
-            int r1 = r + x[i];
-            int l1 = l + y[i];
+
+        for (int[] dir : DirectionUtil.directions) {
+            int r1 = r + dir[0];
+            int l1 = l + dir[1];
             if (0 <= r1 && r1 < n && 0 <= l1 && l1 < m && grid[r1][l1] == 0) {
                 dfsClosed(grid, r1, l1, n, m);
             }
@@ -502,7 +418,7 @@ public class DFS {
         for (int i = 1; i < n - 1; i++) {
             for (int j = 1; j < m - 1; j++) {
                 if (grid[i][j] == 0) {
-                    count += dfs(grid, i, j, n, m);
+                    count += dfsDepth(grid, i, j, n, m);
                 }
             }
         }
@@ -530,9 +446,9 @@ public class DFS {
 
         grid[r][l] = 0;
         boolean res = true;
-        for (int i = 0; i < 4; i++) {
-            int r1 = r + x[i];
-            int l1 = l + y[i];
+        for (int[] dir : DirectionUtil.directions) {
+            int r1 = r + dir[0];
+            int l1 = l + dir[1];
             if (0 <= r1 && r1 < n && 0 <= l1 && l1 < m && grid[r1][l1] == 1) {
                 res &= dfsIslandValid(grid, gridCheck, r1, l1, n, m);
             }
@@ -564,9 +480,9 @@ public class DFS {
                 int[] xy = queue.poll();
                 int sr = xy[0];
                 int sc = xy[1];
-                for (int k = 0; k < 4; k++) {
-                    int srr = sr + x[k];
-                    int scc = sc + y[k];
+                for (int[] dir : DirectionUtil.directions) {
+                    int srr = sr + dir[0];
+                    int scc = sc + dir[1];
                     if (0 <= srr && srr < n && 0 <= scc && scc < m && grid[srr][scc] == 0) {
                         grid[srr][scc] = ans;
                         queue.offer(new int[]{srr, scc});
@@ -579,6 +495,12 @@ public class DFS {
 
     }
 
+    /**
+     * 417. 太平洋大西洋水流问题
+     *
+     * @param heights
+     * @return
+     */
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
         int N = heights.length;
         int M = heights.length;
@@ -606,9 +528,9 @@ public class DFS {
     private void dfsOean(int[][] heights, int r, int l, int n, int m, boolean[][] oean) {
         if (oean[r][l]) return;
         oean[r][l] = true;
-        for (int i = 0; i < 4; i++) {
-            int r1 = r + x[i];
-            int l1 = l + y[i];
+        for (int[] dir : DirectionUtil.directions) {
+            int r1 = r + dir[0];
+            int l1 = l + dir[1];
             if (0 <= r1 && r1 < n && 0 <= l1 && l1 < m && heights[r1][l1] >= heights[r][l]) {
                 dfsOean(heights, r1, l1, n, m, oean);
             }
@@ -637,9 +559,9 @@ public class DFS {
                 int[] xy = queue.poll();
                 int sr = xy[0];
                 int sc = xy[1];
-                for (int i = 0; i < 4; i++) {
-                    int srr = sr + x[i];
-                    int scc = sc + y[i];
+                for (int[] dir : DirectionUtil.directions) {
+                    int srr = sr + dir[0];
+                    int scc = sc + dir[1];
                     if (0 <= srr && srr < n && 0 <= scc && scc < m && mat[srr][scc] == 1) {
                         queue.offer(new int[]{srr, scc});
                         dist[srr][scc] = distance;
@@ -652,36 +574,12 @@ public class DFS {
         return dist;
     }
 
-    public int shortestPathBinaryMatrix(int[][] grid) {
-
-        int n = grid.length;
-        if (grid[0][0] == 1) return -1;
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{0, 0});
-        grid[0][0] = 1;
-        int distance = 0;
-        while (!queue.isEmpty()) {
-            distance++;
-
-            int size = queue.size();
-            for (int k = 0; k < size; k++) {
-                int[] xy = queue.poll();
-                int sr = xy[0];
-                int sc = xy[1];
-                if (sr == n - 1 && sc == n - 1) return distance;
-                for (int i = 0; i < 8; i++) {
-                    int srr = sr + eightDots[i][0];
-                    int scc = sc + eightDots[i][1];
-                    if (0 <= srr && srr < n && 0 <= scc && scc < n && grid[srr][scc] == 0) {
-                        queue.offer(new int[]{srr, scc});
-                        grid[srr][scc] = 1;
-                    }
-                }
-            }
-        }
-        return -1;
-    }
-
+    /**
+     * 547. 省份数量
+     *
+     * @param isConnected
+     * @return
+     */
     public int findCircleNum(int[][] isConnected) {
 
         int n = isConnected.length;
@@ -708,158 +606,6 @@ public class DFS {
             }
         }
         return count;
-    }
-
-    /**
-     * 只有两个岛屿， 求它们之间的最小距离
-     *
-     * @param grid
-     * @return
-     */
-    public int shortestBridge(int[][] grid) {
-        int N = grid.length;
-        int color = 2;
-        int target = 1;
-
-        //将其中一个岛标记为2 ，
-        colorIsland(grid, N, color);
-
-        Queue<NodeXy> stack = new LinkedList<>();
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (grid[i][j] == color) {
-                    stack.add(new NodeXy(i, j));
-                }
-            }
-        }
-
-        int step = 0;
-        while (!stack.isEmpty()) {
-            step++;
-            int size = stack.size();
-            for (int k = 0; k < size; k++) {
-                NodeXy idx = stack.poll();
-                for (int i = 0; i < 4; i++) {
-                    int r1 = idx.x + x[i];
-                    int l1 = idx.y + y[i];
-                    if (0 <= r1 && r1 < N && 0 <= l1 && l1 < N && grid[r1][l1] != color) {
-                        if (grid[r1][l1] == 0) {
-                            grid[r1][l1] = color;
-                            stack.add(new NodeXy(r1, l1));
-                        } else {
-                            // 遇到target 的岛屿了
-                            return step;
-                        }
-                    }
-                }
-            }
-        }
-        return step;
-    }
-
-    private void colorIsland(int[][] grid, int N, int color) {
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (grid[i][j] == 1) {
-                    dfsColorIsland(grid, i, j, N, N, color);
-                    return;
-                }
-            }
-        }
-    }
-
-
-    private void dfsColorIsland(int[][] grid, int r, int l, int n, int m, int color) {
-        grid[r][l] = color;
-        for (int i = 0; i < 4; i++) {
-            int r1 = r + x[i];
-            int l1 = l + y[i];
-            if (0 <= r1 && r1 < n && 0 <= l1 && l1 < m && grid[r1][l1] == 1) {
-                dfsColorIsland(grid, r1, l1, n, m, color);
-            }
-        }
-    }
-
-
-    class NodeXy {
-        int x;
-        int y;
-
-        public NodeXy(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-
-    public int nearestExit(char[][] maze, int[] entrance) {
-        int m = maze.length;
-        int n = maze[0].length;
-
-        //将其中一个岛标记为2
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(entrance);
-        maze[entrance[0]][entrance[1]] = '+';
-        int step = 0;
-        while (!queue.isEmpty()) {
-            step++;
-            int size = queue.size();
-            for (int k = 0; k < size; k++) {
-                int[] idx = queue.poll();
-                for (int i = 0; i < 4; i++) {
-                    int r1 = idx[0] + x[i];
-                    int l1 = idx[1] + y[i];
-                    if (0 <= r1 && r1 < m && 0 <= l1 && l1 < n && maze[r1][l1] == '.') {
-                        if (r1 == 0 || r1 == m - 1 || l1 == 0 || l1 == n - 1) {
-                            return step;
-                        } else {
-                            maze[r1][l1] = '+';
-                            queue.add(new int[]{r1, l1});
-                        }
-                    }
-                }
-            }
-        }
-        return -1;
-    }
-
-    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
-        List<List<Integer>> ans = new ArrayList<>();
-        Deque<Integer> deque = new ArrayDeque<>();
-        dfsGraph(graph, deque, 0, graph.length - 1, ans);
-        return ans;
-    }
-
-    private void dfsGraph(int[][] graph, Deque<Integer> deque, int next, int target, List<List<Integer>> ans) {
-        deque.addLast(next);
-        if (next == target) {
-            ans.add(new ArrayList<>(deque));
-        } else {
-            for (int n : graph[next]) {
-                dfsGraph(graph, deque, n, target, ans);
-            }
-        }
-        deque.removeLast();
-    }
-
-    public boolean canVisitAllRooms2(List<List<Integer>> rooms) {
-        int N = rooms.size();
-        int[] seen = new int[N];
-
-        visitRoomDfs2(rooms, seen, 0);
-
-        int count = Arrays.stream(seen).sum();
-
-        return count == N;
-    }
-
-    private void visitRoomDfs2(List<List<Integer>> rooms, int[] seen, int roomNo) {
-        seen[roomNo] = 1;
-
-        for (Integer room : rooms.get(roomNo)) {
-            if (seen[room] == 0) visitRoomDfs2(rooms, seen, room);
-
-        }
     }
 
 
@@ -914,7 +660,161 @@ public class DFS {
         return count;
     }
 
+
     /**
+     * 只有两个岛屿， 求它们之间的最小距离
+     *
+     * @param grid
+     * @return
+     */
+    public int shortestBridge(int[][] grid) {
+        int N = grid.length;
+        int color = 2;
+        int target = 1;
+
+        //将其中一个岛标记为2 ，
+        colorIsland(grid, N, color);
+
+        Queue<NodeXy> stack = new LinkedList<>();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (grid[i][j] == color) {
+                    stack.add(new NodeXy(i, j));
+                }
+            }
+        }
+
+        int step = 0;
+        while (!stack.isEmpty()) {
+            step++;
+            int size = stack.size();
+            for (int k = 0; k < size; k++) {
+                NodeXy idx = stack.poll();
+                for (int[] xy : DirectionUtil.directions) {
+                    int r1 = idx.x + xy[0];
+                    int l1 = idx.y + xy[1];
+                    if (0 <= r1 && r1 < N && 0 <= l1 && l1 < N && grid[r1][l1] != color) {
+                        if (grid[r1][l1] == 0) {
+                            grid[r1][l1] = color;
+                            stack.add(new NodeXy(r1, l1));
+                        } else {
+                            // 遇到target 的岛屿了
+                            return step;
+                        }
+                    }
+                }
+            }
+        }
+        return step;
+    }
+
+    private void colorIsland(int[][] grid, int N, int color) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (grid[i][j] == 1) {
+                    dfsColorIsland(grid, i, j, N, N, color);
+                    return;
+                }
+            }
+        }
+    }
+
+
+    private void dfsColorIsland(int[][] grid, int r, int l, int n, int m, int color) {
+        grid[r][l] = color;
+        for (int[] xy : DirectionUtil.directions) {
+            int r1 = r + xy[0];
+            int l1 = l + xy[1];
+            if (0 <= r1 && r1 < n && 0 <= l1 && l1 < m && grid[r1][l1] == 1) {
+                dfsColorIsland(grid, r1, l1, n, m, color);
+            }
+        }
+    }
+
+
+    class NodeXy {
+        int x;
+        int y;
+
+        public NodeXy(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+
+    public int nearestExit(char[][] maze, int[] entrance) {
+        int m = maze.length;
+        int n = maze[0].length;
+
+        //将其中一个岛标记为2
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(entrance);
+        maze[entrance[0]][entrance[1]] = '+';
+        int step = 0;
+        while (!queue.isEmpty()) {
+            step++;
+            int size = queue.size();
+            for (int k = 0; k < size; k++) {
+                int[] idx = queue.poll();
+                for (int[] dir : DirectionUtil.directions) {
+                    int r1 = idx[0] + dir[0];
+                    int l1 = idx[1] + dir[1];
+                    if (0 <= r1 && r1 < m && 0 <= l1 && l1 < n && maze[r1][l1] == '.') {
+                        if (r1 == 0 || r1 == m - 1 || l1 == 0 || l1 == n - 1) {
+                            return step;
+                        } else {
+                            maze[r1][l1] = '+';
+                            queue.add(new int[]{r1, l1});
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Deque<Integer> deque = new ArrayDeque<>();
+        dfsGraph(graph, deque, 0, graph.length - 1, ans);
+        return ans;
+    }
+
+    private void dfsGraph(int[][] graph, Deque<Integer> deque, int next, int target, List<List<Integer>> ans) {
+        deque.addLast(next);
+        if (next == target) {
+            ans.add(new ArrayList<>(deque));
+        } else {
+            for (int n : graph[next]) {
+                dfsGraph(graph, deque, n, target, ans);
+            }
+        }
+        deque.removeLast();
+    }
+
+    public boolean canVisitAllRooms2(List<List<Integer>> rooms) {
+        int N = rooms.size();
+        int[] seen = new int[N];
+
+        visitRoomDfs2(rooms, seen, 0);
+
+        int count = Arrays.stream(seen).sum();
+
+        return count == N;
+    }
+
+    private void visitRoomDfs2(List<List<Integer>> rooms, int[] seen, int roomNo) {
+        seen[roomNo] = 1;
+
+        for (Integer room : rooms.get(roomNo)) {
+            if (seen[room] == 0) visitRoomDfs2(rooms, seen, room);
+
+        }
+    }
+
+    /**
+     * 130 被围绕的区域
      * 给你一个 m x n 的矩阵 board ，由若干字符 'X' 和 'O' ，找到所有被 'X' 围绕的区域，并将这些区域里所有的 'O' 用 'X' 填充。
      *
      * @param board
@@ -946,9 +846,9 @@ public class DFS {
 
     private void dfsMark(char[][] board, int[][] grid, int r, int l, int n, int m) {
         grid[r][l] = 1;
-        for (int i = 0; i < 4; i++) {
-            int r1 = r + x[i];
-            int l1 = l + y[i];
+        for (int[] dir : DirectionUtil.directions) {
+            int r1 = r + dir[0];
+            int l1 = l + dir[1];
             if (0 <= r1 && r1 < n && 0 <= l1 && l1 < m && grid[r1][l1] == 0 && board[r1][l1] == 'O') {
                 dfsMark(board, grid, r1, l1, n, m);
             }
@@ -957,9 +857,9 @@ public class DFS {
 
     private void dfsReplace(char[][] board, int[][] grid, int r, int l, int n, int m) {
         board[r][l] = 'X';
-        for (int i = 0; i < 4; i++) {
-            int r1 = r + x[i];
-            int l1 = l + y[i];
+        for (int[] dir : DirectionUtil.directions) {
+            int r1 = r + dir[0];
+            int l1 = l + dir[1];
             if (0 <= r1 && r1 < n && 0 <= l1 && l1 < m && grid[r1][l1] == 0 && board[r1][l1] == 'O') {
                 dfsReplace(board, grid, r1, l1, n, m);
             }
@@ -1470,52 +1370,4 @@ public class DFS {
     }
 
 
-    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-
-        HashSet<String> wordset = new HashSet<>(wordList);
-        if (wordset.size() == 0 || !wordset.contains(endWord)) return 0;
-
-        Queue<String> queue = new LinkedList<>();
-        queue.offer(beginWord);
-
-        Set<String> seen = new HashSet<>();
-        seen.add(beginWord);
-
-        int step = 1;
-        while (!queue.isEmpty()) {
-            step++;
-            int sz = queue.size();
-            for (int i = 0; i < sz; i++) {
-
-                String temp = queue.poll();
-
-                for (int j = 0; j < temp.length(); j++) {
-                    char[] chs = temp.toCharArray();
-
-                    for (char k = 'a'; k <= 'z'; k++) {
-                        if (chs[j] == k) continue;
-                        chs[j] = k;
-                        String w = String.valueOf(chs);
-
-                        if (w.equals(endWord)) return step;
-
-                        if (wordset.contains(w) && !seen.contains(w)) {
-                            queue.offer(w);
-                            seen.add(w);
-                        }
-                    }
-                }
-            }
-        }
-
-        return 0;
-    }
-
-
-    // x ,y  点 顺序  上 右 下 左
-    int[] x = new int[]{0, 1, 0, -1};
-    int[] y = new int[]{1, 0, -1, 0};
-
-    // x ,y  点 顺序  上 右 下 左 加上4个对角
-    int[][] eightDots = new int[][]{{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
 }

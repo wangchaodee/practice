@@ -1,13 +1,25 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import com.iflytek.staff.chao.util.DirectionUtil;
+
 import java.util.*;
 
 /**
  * @author : hamilton
- * @Description: 回溯算法
+ * @Description: 回溯算法  Backtracking（回溯）属于 DFS
+ * 普通 DFS 主要用在 可达性问题 ，这种问题只需要执行到特点的位置然后返回即可。
+ * 而 Backtracking 主要用于求解 排列组合 问题，例如有 { 'a','b','c' } 三个字符，求解所有由这三个字符排列得到的字符串，这种问题在执行到特定的位置返回之后还会继续执行求解过程。
+ * 注意事项 ：
+ * 在访问一个新元素进入新的递归调用时，需要将新元素标记为已经访问，这样才能在继续递归调用时不用重复访问该元素；
+ * 但是在递归返回时，需要将元素标记为未访问，因为只需要保证在一个递归链中不同时访问一个元素，可以访问已经访问过但是不在当前递归链中的元素。
  * @date Date : 2022年07月19日 17:05
  */
-public class Recall {
+public class BackTracking {
+
+
+//    // x ,y  点 顺序  上 右 下 左
+//    int[] x = new int[]{0, 1, 0, -1};
+//    int[] y = new int[]{1, 0, -1, 0};
 
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
@@ -357,7 +369,7 @@ public class Recall {
 
 
     /**
-     * 判断矩阵中的相邻字母是否存在能按顺序组成word ,
+     * 79 判断矩阵中的相邻字母是否存在能按顺序组成word ,
      *
      * @param board
      * @param word
@@ -386,9 +398,9 @@ public class Recall {
 
         boolean result = false;
 
-        for (int i = 0; i < 4; i++) {
-            int srr = r + x[i];
-            int scc = l + y[i];
+        for (int[] dir : DirectionUtil.directions) {
+            int srr = r + dir[0];
+            int scc = l + dir[1];
             if (0 <= srr && srr < board.length && 0 <= scc && scc < board[0].length && !seen[srr][scc]) {
                 if (backtrackWord(board, srr, scc, word, idx + 1, seen)) {
                     result = true;
@@ -401,9 +413,5 @@ public class Recall {
         return result;
     }
 
-
-    // x ,y  点 顺序  上 右 下 左
-    int[] x = new int[]{0, 1, 0, -1};
-    int[] y = new int[]{1, 0, -1, 0};
 
 }

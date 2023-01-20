@@ -11,6 +11,141 @@ public class BinarySearch {
 
 
     /**
+     * 二分查找
+     *
+     * @param arr
+     * @param target
+     * @return
+     */
+    private int binarySearch(int arr[], int target) {
+        int l = 0, m = 0, r = arr.length - 1;
+        while (l <= r) {
+            m = l + (r - l) / 2;
+            if (arr[m] < target) l = m + 1;
+            else r = m;
+        }
+        return l;
+    }
+
+    /**
+     * 二分查找  基本模式
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int binarySearch_1(int[] nums, int target) {
+        int lo = 0, hi = nums.length - 1;
+        while (lo <= hi) {
+            int mid = (hi - lo) / 2 + lo;
+            if (nums[mid] < target) {
+                lo = mid + 1;
+            } else if (nums[mid] > target) {
+                hi = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+
+    /**
+     * @param arr
+     * @param target
+     * @param l
+     * @param r
+     * @return
+     */
+    private int binarySearchLeft(int arr[], int target, int l, int r) {
+        int m = 0;
+        while (l <= r) {
+            m = l + (r - l) / 2;
+            if (arr[m] < target) l = m + 1;
+            else r = m - 1;
+        }
+        return l;
+    }
+
+    private int binarySearchRight(int arr[], int target, int l, int r) {
+        int m = 0;
+        while (l <= r) {
+            m = l + (r - l) / 2;
+            if (arr[m] <= target) l = m + 1;
+            else r = m - 1;
+        }
+        return r;
+    }
+
+    /**
+     * 二分查找   查左侧起始位置 ，需要在调用端判断一下返回位置上的值和 target 是否相等。
+     *
+     * @param arr
+     * @param target
+     * @return
+     */
+    private int binarySearchLeft(int arr[], int target) {
+        int l = 0, m = 0, r = arr.length; // 起始值
+        while (l < r) {
+            m = l + (r - l) / 2;
+            if (arr[m] < target) l = m + 1;
+            else r = m;
+        }
+        return l;
+    }
+
+    /******************************************************************************/
+
+    /**
+     * 69. x 的平方根
+     *
+     * @param x
+     * @return
+     */
+    public int mySqrt(int x) {
+        if (x <= 1) return x;
+        int l = 0, m = 0, r = x;
+        while (l <= r) {
+            m = l + (r - l) / 2;
+            int sqrt = x / m;
+            if (sqrt == m) {
+                return m;
+            } else if (sqrt < m) {
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+        return l;
+    }
+
+    /**
+     * 744. Find Smallest Letter Greater Than Target (Easy)
+     *
+     * @param letters
+     * @param target
+     * @return
+     */
+    public char nextGreatestLetter(char[] letters, char target) {
+        int l = 0, r = letters.length - 1;
+        int m = 0;
+        while (l < r) {
+            m = (r - l) / 2 + l;
+            if (letters[m] <= target) {
+                l = m + 1;
+            } else {
+                r = m;
+            }
+        }
+        if (l < letters.length) {
+            return letters[l];
+        } else {
+            return letters[0];
+        }
+    }
+
+
+    /**
      * 在最多操作maxOperations次数内， 可以将数组 切割后的最小值
      *
      * @param nums
@@ -122,7 +257,7 @@ public class BinarySearch {
     }
 
     /**
-     * 寻找峰值  同时大于左右值为峰值，相邻元素不相等  找到一个即可  @TODO
+     * 寻找峰值  同时大于左右值为峰值，相邻元素不相等  找到一个即可
      *
      * @param nums
      * @return
@@ -155,7 +290,6 @@ public class BinarySearch {
     }
 
     public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
-
 
         int cnt = 0;
 
@@ -190,7 +324,6 @@ public class BinarySearch {
                 }
             }
 
-
             if (p - 1 >= 0) {
                 if (Math.abs(arr1[i] - arr2[p - 1]) - d <= 0) {
                     ok = false;
@@ -205,15 +338,6 @@ public class BinarySearch {
 
     }
 
-    private int binarySearch(int arr[], int target) {
-        int l = 0, m = 0, r = arr.length - 1;
-        while (l <= r) {
-            m = l + (r - l) / 2;
-            if (arr[m] < target) l = m + 1;
-            else r = m;
-        }
-        return l;
-    }
 
     public int specialArray(int[] nums) {
         int N = nums.length;
@@ -234,37 +358,6 @@ public class BinarySearch {
             }
         }
         return ans;
-    }
-
-    public int search2(int[] nums, int target) {
-        int lo = 0, hi = nums.length - 1;
-        while (lo <= hi) {
-            int mid = (hi - lo) / 2 + lo;
-            if (nums[mid] < target) {
-                lo = mid + 1;
-            } else if (nums[mid] > target) {
-                hi = mid - 1;
-            } else {
-                return mid;
-            }
-        }
-        return -1;
-    }
-
-    public int search(int[] nums, int target) {
-        return binarySearch(nums, target, 0, nums.length - 1);
-    }
-
-    public int binarySearch(int[] nums, int target, int lo, int hi) {
-        if (hi - lo < 0) return -1;
-        int mid = (hi - lo) / 2 + lo;
-        if (nums[mid] < target) {
-            return binarySearch(nums, target, mid + 1, hi);
-        } else if (nums[mid] > target) {
-            return binarySearch(nums, target, lo, mid - 1);
-        } else {
-            return mid;
-        }
     }
 
     public int minSpeedOnTime(int[] dist, double hour) {
@@ -367,33 +460,26 @@ public class BinarySearch {
     }
 
     /**
-     * 有序数组 在都重复两次的数据中找只出现一次的数据
+     * 540 有序数组 在都重复两次的数据中找只出现一次的数据
      *
      * @param nums
      * @return
      */
     public int singleNonDuplicate(int[] nums) {
         int N = nums.length;
-        int l = 0, r = N - 1, mid = 0, ans = 0;
-        while (l <= r) {
+        int l = 0, r = N - 1, mid = 0;
+        while (l < r) {
             mid = l + r >> 1;
             if (mid % 2 == 1) {
-                if (nums[mid] == nums[mid - 1]) {
-                    l = mid + 1;
-                } else {
-                    ans = mid;
-                    r = mid;
-                }
+                mid--;  // 保证 l m h , 在偶数区间
+            }
+            if (nums[mid] == nums[mid + 1]) {
+                l = mid + 2;
             } else {
-                if (nums[mid] == nums[mid + 1]) {
-                    l = mid + 1;
-                } else {
-                    ans = mid;
-                    r = mid;
-                }
+                r = mid;
             }
         }
-        return ans;
+        return nums[l];
     }
 
     /**
@@ -423,54 +509,13 @@ public class BinarySearch {
         return (int) (totalCount % 1000000007);
     }
 
-
-    private int binarySearchLeft(int arr[], int target, int l, int r) {
-        int m = 0;
-        while (l <= r) {
-            m = l + (r - l) / 2;
-            if (arr[m] < target) l = m + 1;
-            else r = m - 1;
-        }
-        return l;
-    }
-
-    private int binarySearchRight(int arr[], int target, int l, int r) {
-        int m = 0;
-        while (l <= r) {
-            m = l + (r - l) / 2;
-            if (arr[m] <= target) l = m + 1;
-            else r = m - 1;
-        }
-        return r;
-    }
-
-
     public int[] searchRange(int[] nums, int target) {
         int l = binarySearchLeft(nums, target);
-        int r = binarySearchRight(nums, target);
-        if (l > nums.length || r < 0) return new int[]{-1, -1};
-        return new int[]{l, r};
+        int r = binarySearchLeft(nums, target + 1) - 1;
+        if (l == nums.length || nums[l] != target) return new int[]{-1, -1};
+        return new int[]{l, Math.max(l, r)};
     }
 
-    private int binarySearchLeft(int arr[], int target) {
-        int l = 0, m = 0, r = arr.length - 1;
-        while (l <= r) {
-            m = l + (r - l) / 2;
-            if (arr[m] < target) l = m + 1;
-            else r = m - 1;
-        }
-        return l;
-    }
-
-    private int binarySearchRight(int arr[], int target) {
-        int l = 0, m = 0, r = arr.length - 1;
-        while (l <= r) {
-            m = l + (r - l) / 2;
-            if (arr[m] <= target) l = m + 1;
-            else r = m - 1;
-        }
-        return r;
-    }
 
     public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
         int N = worker.length;
@@ -495,7 +540,8 @@ public class BinarySearch {
         }
 
         for (int i = 0; i < N; i++) {
-            int j = binarySearchRight(difficulty, worker[i]);
+//            int j = binarySearchRight(difficulty, worker[i]);  原先写法 ， 待验证left方式
+            int j = binarySearchLeft(difficulty, worker[i] + 1);
             if (j < 0) continue;
             arrange[i] = diffProfit[j][1];
         }
@@ -506,21 +552,25 @@ public class BinarySearch {
         return total;
     }
 
-
+    /**
+     * 153. 寻找旋转排序数组中的最小值  ， 旋转后 至多产生两个递增的分段
+     *
+     * @param nums
+     * @return
+     */
     public int findMin(int[] nums) {
         int N = nums.length;
-        int l = 0, r = N - 1, mid = 0, ans = -1;
-        while (l <= r) {
-            mid = (r - l) / 2 + l;
-
-            if (nums[mid] < nums[r]) {
-                r = mid;
-            } else if (nums[mid] == nums[r]) {
-                r--;
+        int l = 0, m = 0, r = N - 1;
+        while (l < r) {
+            m = (r - l) / 2 + l;
+            //只有和右侧值比较 才能确认m 所在分段
+            if (nums[m] < nums[r]) {
+                r = m;
             } else {
-                l = mid + 1;
+                l = m + 1;
             }
         }
+
         return nums[l];
     }
 
@@ -723,7 +773,6 @@ public class BinarySearch {
         }
 
         return checkPeek(mat, i, j) || dfs(mat, i, j + 1) || dfs(mat, i + 1, j);
-
     }
 
     private boolean checkPeek(int[][] mat, int i, int j) {
@@ -938,19 +987,15 @@ public class BinarySearch {
         int l = 1;
         int h = n;
 
-        while (l <= h) {
+        while (l < h) {
             int mid = l + (h - l) / 2;
             if (isBadVersion(mid)) {
-                if (!isBadVersion(mid - 1)) {
-                    return mid;
-                } else {
-                    h = mid - 1;
-                }
+                h = mid;
             } else {
                 l = mid + 1;
             }
         }
-        return -1;
+        return l;
 
     }
 
