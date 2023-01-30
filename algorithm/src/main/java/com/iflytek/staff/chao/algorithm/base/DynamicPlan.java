@@ -41,7 +41,7 @@ public class DynamicPlan {
     }
 
     /**
-     * 跳跃游戏
+     * 55 跳跃游戏  贪心算法
      *
      * @param nums
      * @return
@@ -49,16 +49,16 @@ public class DynamicPlan {
     public boolean canJump(int[] nums) {
         int N = nums.length;
         int i = 0;
-        int curMax = 0;
-        while (i < N && i <= curMax && curMax < N - 1) {
-            curMax = Math.max(curMax, i + nums[i]);
+        int curMax = nums[0];
+        while ( i < curMax && curMax < N-1) {
             i++;
+            curMax = Math.max(curMax, i + nums[i]);
         }
-        return curMax >= N - 1;
+        return curMax >= N-1;
     }
 
     /**
-     * 跳跃到最后节点 需要的最少次数
+     * 45 跳跃到最后节点 需要的最少次数
      *
      * @param nums
      * @return
@@ -136,22 +136,6 @@ public class DynamicPlan {
     }
 
 
-    public int numDecodings(String s) {
-        int N = s.length();
-        int[] dp = new int[N + 1];
-        dp[0] = 1;
-        for (int i = 1; i <= N; i++) {
-            char c = s.charAt(i - 1);
-            if (c != '0') {
-                dp[i] += dp[i - 1];
-            }
-            if (i > 1 && s.charAt(i - 2) != 0 && ((s.charAt(i - 2) - '0') * 10 + (c - '0') <= 26)) {
-                dp[i] += dp[i - 2];
-            }
-
-        }
-        return dp[N];
-    }
 
 
     /**
@@ -344,20 +328,7 @@ public class DynamicPlan {
         return dp[m][n];
     }
 
-    /**
-     * 泰波那契数字  三数相加
-     *
-     * @param n
-     * @return
-     */
-    public int tribonacci(int n) {
-        int[] tb = new int[n + 3];
-        tb[1] = tb[2] = 1;
-        for (int i = 3; i <= n; i++) {
-            tb[i] = tb[i - 3] + tb[i - 2] + tb[i - 1];
-        }
-        return tb[n];
-    }
+
 
 
     /**
@@ -381,19 +352,6 @@ public class DynamicPlan {
         }
         return dp[max];
 
-    }
-
-
-    public boolean canJump2(int[] nums) {
-        int N = nums.length;
-        int[] dp = new int[N + 1];
-        dp[0] = nums[0];
-        int i = 1;
-        while (i < N && dp[i - 1] >= i) {
-            dp[i] = Math.max(dp[i - 1], i + nums[i]);
-            i++;
-        }
-        return i == N;
     }
 
     /**
@@ -713,4 +671,13 @@ public class DynamicPlan {
         }
         return total;
     }
+
+    /**
+     * 32. 最长有效括号
+     * @param s
+     * @return
+     */
+//    public int longestValidParentheses(String s) {
+//
+//    }
 }

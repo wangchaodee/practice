@@ -97,7 +97,16 @@ public class StringSolution {
         return next;
     }
 
-
+    /**
+     * 28. 找出字符串中第一个匹配项的下标
+     * "mississippi"  "issip"
+     * "mississippi" "pi"
+     * "mississippi" "issipi"
+     *
+     * @param haystack
+     * @param needle
+     * @return
+     */
     public int strStr(String haystack, String needle) {
         if (needle.length() == 0) return 0;
 
@@ -123,15 +132,7 @@ public class StringSolution {
         return -1;
     }
 
-    /**
-     * "mississippi"  "issip"
-     * "mississippi" "pi"
-     * "mississippi" "issipi"
-     *
-     * @param haystack
-     * @param needle
-     * @return
-     */
+
     public int strStr2(String haystack, String needle) {
         if (needle.length() == 0) return 0;
 
@@ -155,6 +156,23 @@ public class StringSolution {
         return -1;
     }
 
+    public int strStr3(String haystack, String needle) {
+        int nl = needle.length();
+        int hl = haystack.length();
+        if(nl >hl) return -1 ;
+        int end = hl-nl ;
+        for (int i = 0; i <= end ; i++) {
+            int n = 0 ;
+            while (n<nl && haystack.charAt(i+n) == needle.charAt(n)) {
+                n++;
+            }
+
+            if (n == nl) {
+                return i ;
+            }
+        }
+        return -1;
+    }
 
     public boolean repeatedSubstringPattern(String s) {
         int N = s.length();

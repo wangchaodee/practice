@@ -84,7 +84,7 @@ public class BinarySearch {
      * @param target
      * @return
      */
-    private int binarySearchLeft(int arr[], int target) {
+    public static int binarySearchLeft(int arr[], int target) {
         int l = 0, m = 0, r = arr.length; // 起始值
         while (l < r) {
             m = l + (r - l) / 2;
@@ -93,6 +93,7 @@ public class BinarySearch {
         }
         return l;
     }
+
 
     /******************************************************************************/
 
@@ -1022,5 +1023,7 @@ public class BinarySearch {
         }
         return l;
     }
+
+
 
 }

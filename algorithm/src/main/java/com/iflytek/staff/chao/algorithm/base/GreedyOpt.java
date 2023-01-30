@@ -291,11 +291,11 @@ public class GreedyOpt {
      * @return
      */
     public int maxSubArray(int[] nums) {
-        int pre = nums[0];
-        int max = pre;
+        int cur = nums[0];
+        int max = cur;
         for (int i = 1; i < nums.length; i++) {
-            pre = Math.max(pre + nums[i], nums[i]);
-            max = Math.max(max, pre);
+            cur = Math.max(cur + nums[i], nums[i]);
+            max = Math.max(max, cur);
         }
         return max;
     }
@@ -304,12 +304,12 @@ public class GreedyOpt {
         int N = nums.length;
         int[] dp = new int[N];
         dp[0] = nums[0];
-        int max = dp[0];
+//        int max = dp[0];
         for (int i = 1; i < N; i++) {
             dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);
-            max = Math.max(dp[i], max);
+//            max = Math.max(dp[i], max);
         }
-        return max;
+        return Arrays.stream(dp).max().getAsInt();
     }
 
     /**

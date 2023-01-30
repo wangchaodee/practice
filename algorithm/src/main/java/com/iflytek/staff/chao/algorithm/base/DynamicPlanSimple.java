@@ -1,6 +1,8 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author : hamilton
@@ -60,6 +62,30 @@ public class DynamicPlanSimple {
             dp[i] = (dp[i - 2] + dp[i - 1]) % MOD;
         }
         return dp[n];
+    }
+
+    public int fib(int n) {
+        int[] dp = new int[n + 2];
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 2] + dp[i - 1];
+        }
+        return dp[n];
+    }
+
+    /**
+     * 1137 泰波那契数字  三数相加
+     *
+     * @param n
+     * @return
+     */
+    public int tribonacci(int n) {
+        int[] tb = new int[n + 3];
+        tb[1] = tb[2] = 1;
+        for (int i = 3; i <= n; i++) {
+            tb[i] = tb[i - 3] + tb[i - 2] + tb[i - 1];
+        }
+        return tb[n];
     }
 
     public int minCostClimbingStairs(int[] cost) {
@@ -206,7 +232,7 @@ public class DynamicPlanSimple {
 
 
     /**
-     * 将n 拆分成两个以上的正整数 ， 求 最大的乘积
+     * 343 将n 拆分成两个以上的正整数 ， 求 最大的乘积
      *
      * @param n
      * @return
@@ -215,7 +241,6 @@ public class DynamicPlanSimple {
         int[] dp = new int[n + 1];
         dp[1] = 1;
         for (int i = 2; i <= n; i++) {
-
             for (int j = 1; j < i; j++) {
                 dp[i] = Math.max(dp[i], Math.max(j * (i - j), j * dp[i - j]));
             }
@@ -224,7 +249,69 @@ public class DynamicPlanSimple {
         return dp[n];
     }
 
+/**
+ * 分割整数
+ * 1. 分割整数的最大乘积
+ * 2. 按平方数来分割整数
+ * 3. 分割整数构成字母字符串
+ */
+    /**
+     * 279 完全平方数
+     * @param n
+     * @return
+     */
+    public int numSquares(int n) {
+        List<Integer> sqList = generateSquareList(n);
+        int[] dp = new int[n+1];
+        for (int i = 1 ; i <= n; i++) {
+            int min = i ;
+            for ( int square : sqList){
+                if(square > i) break;
+                min = Math.min(min , dp[i-square] +1);
+            }
+            dp[i] = min;
+        }
+        return dp[n];
+    }
 
+    private List<Integer> generateSquareList(int n){
+        List<Integer> sqList= new ArrayList<>();
+        int diff =3 ;
+        int square = 1 ;
+        while (square<=n){
+            sqList.add(square);
+            square+=diff;
+            diff+=2;
+        }
+        return sqList;
+    }
+
+    /**
+     * 91 分割整数构成字母字符串
+     * @param s
+     * @return
+     */
+    public int numDecodings(String s) {
+        int N = s.length();
+        int[] dp = new int[N + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= N; i++) {
+            char c = s.charAt(i - 1);
+            if (c != '0') {
+                dp[i] += dp[i - 1];
+            }
+            if (i > 1 && s.charAt(i - 2) != 0 && ((s.charAt(i - 2) - '0') * 10 + (c - '0') <= 26)) {
+                dp[i] += dp[i - 2];
+            }
+
+        }
+        return dp[N];
+    }
+
+//    最长递增子序列
+//1. 最长递增子序列
+//2. 一组整数对能够构成的最长链
+//3. 最长摆动子序列
     /**
      * 300. 最长递增子序列
      *
@@ -246,5 +333,38 @@ public class DynamicPlanSimple {
         }
         return Arrays.stream(dp).max().orElse(0);
     }
+
+    /**
+     * 646. 最长数对链
+     * @param pairs
+     * @return
+     */
+    public int findLongestChain(int[][] pairs) {
+        int n = pairs.length ;
+
+        Arrays.sort(pairs,(a,b)-> a[0] - b[0]);
+
+        int[] dp = new int[n] ;
+        Arrays.fill(dp,1);
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if(pairs[j][1] < pairs[i][0]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        return Arrays.stream(dp).max().getAsInt();
+    }
+
+
+    /**
+     * 376. 摆动序列
+     * @param nums
+     * @return
+     */
+//    public int wiggleMaxLength(int[] nums) {
+//
+//    }
 
 }
