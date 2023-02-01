@@ -29,7 +29,7 @@ public class DynamicPlanSimple {
      */
     public int climbStairs(int n) {
         int[] dp = new int[n + 2];
-        dp[1] = 1;
+        dp[0]=1 ;dp[1] = 1;
         for (int i = 2; i <= n; i++) {
             dp[i] = dp[i - 2] + dp[i - 1];
         }
@@ -88,16 +88,21 @@ public class DynamicPlanSimple {
         return tb[n];
     }
 
+    /**
+     * 746. 使用最小花费爬楼梯
+     * @param cost
+     * @return
+     */
     public int minCostClimbingStairs(int[] cost) {
         int N = cost.length;
-        int[] dp = new int[N + 1];
+        int[] dp = new int[N+1 ];
 
-        dp[0] = cost[0];
-        dp[1] = cost[1];
-        for (int i = 2; i < N; i++) {
-            dp[i] = Math.min(dp[i - 2], dp[i - 1]) + cost[i];
+        dp[0] = 0;
+        dp[1] = 0;
+        for (int i = 2; i <= N; i++) {
+            dp[i] = Math.min(dp[i - 2] + cost[i-2] , dp[i - 1]+cost[i-1])  ;
         }
-        return Math.min(dp[N - 1], dp[N - 2]);
+        return dp[N ];
     }
 
     /**
@@ -109,7 +114,6 @@ public class DynamicPlanSimple {
     public int rob(int[] nums) {
         int N = nums.length;
         int[] dp = new int[N + 1];
-        dp[0] = 0;
         dp[1] = nums[0];
         for (int i = 2; i <= N; i++) {
             dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
@@ -357,14 +361,89 @@ public class DynamicPlanSimple {
         return Arrays.stream(dp).max().getAsInt();
     }
 
-
     /**
      * 376. 摆动序列
      * @param nums
      * @return
      */
-//    public int wiggleMaxLength(int[] nums) {
-//
-//    }
+    public int wiggleMaxLength(int[] nums) {
+        if(nums==null || nums.length ==0) return 0;
+        int down = 1, up =1 ;
+        for (int i = 1; i < nums.length; i++) {
+            if(nums[i] > nums[i-1]) {
+                up = down+1;
+            } else if(nums[i] < nums[i-1]) {
+                down = up+1;
+            }
+        }
+        return Math.max(up,down);
+    }
+
+    /**
+     * 1143 最长的公共子序列
+     *
+     * @param text1
+     * @param text2
+     * @return
+     */
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            char c1 = text1.charAt(i - 1);
+            for (int j = 1; j <= n; j++) {
+                char c2 = text2.charAt(j - 1);
+                if (c1 == c2) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    // 背包问题
+    public int knapsack(int W ,int N , int[] weights ,int[] values ){
+        int[][] dp = new int[N+1][W+1] ;
+        for (int i = 1; i < N; i++) {
+            //w体积成本  ， v 价值
+            int w = weights[i]  , v = values[i] ;
+            for (int j = 1; j < W; j++) {
+                if(j>=w){
+                    //能放进去
+                    dp[i][j] = Math.max(dp[i-1][j],dp[i-1][j-w] +v );
+                }else {
+                    // 放不进去
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[N][W];
+    }
+
+    public int knapsack2(int W ,int N , int[] weights ,int[] values ){
+        int[] dp = new int[W+1] ;
+        for (int i = 1; i < N; i++) {
+            //w体积成本  ， v 价值
+            int w = weights[i]  , v = values[i] ;
+            for (int j = 1; j < W; j++) {
+                if(j>=w){
+                    //能放进去
+                    dp[j] = Math.max(dp[j],dp[j-w] +v );
+                }
+            }
+        }
+        return dp[W];
+    }
+//    变种
+//    完全背包：物品数量为无限个
+//    多重背包：物品数量有限制
+//    多维费用背包：物品不仅有重量，还有体积，同时考虑这两种限制
+//    其它：物品之间相互约束或者依赖
+
+
 
 }

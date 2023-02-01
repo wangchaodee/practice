@@ -1,6 +1,7 @@
 package com.iflytek.staff.chao.structure.base.list;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author : hamilton
@@ -23,20 +24,61 @@ public class StackSolution {
             if (fuhao.contains(tokens[i])) {
                 int num2 = stack.pop();
                 int num1 = stack.pop();
-                if ("+".equals(tokens[i])) {
-                    stack.push(num1 + num2);
-                } else if ("-".equals(tokens[i])) {
-                    stack.push(num1 - num2);
-                } else if ("*".equals(tokens[i])) {
-                    stack.push(num1 * num2);
-                } else if ("/".equals(tokens[i])) {
-                    stack.push(num1 / num2);
+                switch (tokens[i]){
+                    case "+" :
+                        stack.push(num1 + num2);
+                        break;
+                    case "-" :
+                        stack.push(num1 - num2);
+                        break;
+                    case "*":
+                        stack.push(num1 * num2);
+                        break;
+                    case "/":
+                        stack.push(num1 / num2);
+                        break;
                 }
+
             } else {
                 stack.push(Integer.valueOf(tokens[i]));
             }
         }
         return stack.pop();
+    }
+
+    String[] tokens ;
+    int idx ;
+    public int evalRPN2(String[] tokens) {
+        this.tokens = tokens ;
+        this.idx = tokens.length -1 ;
+        return calc();
+    }
+    private int calc(){
+        switch (tokens[idx--]) {
+            case "+": {
+                int right = calc();
+                idx--;
+                return calc() + right;
+            }
+            case "-": {
+                int right = calc();
+                idx--;
+                return calc() - right;
+            }
+            case "*": {
+                int right = calc();
+                idx--;
+                return calc() * right;
+            }
+            case "/": {
+                int right = calc();
+                idx--;
+                return calc() / right;
+            }
+
+            default:
+                return Integer.valueOf(tokens[++idx]);
+        }
     }
 
     public String minRemoveToMakeValid(String s) {

@@ -553,6 +553,7 @@ public class ArrayTraversal {
 
 
     /**
+     * 66. 加一
      * int[] result =new ArraySolution().plusOne(new int[]{8, 9, 9, 9});
      * for (int e : result) {
      * System.out.print(e);
@@ -563,10 +564,8 @@ public class ArrayTraversal {
      */
     public int[] plusOne(int[] digits) {
 
-        int sum = digits[digits.length - 1] + 1;
-        digits[digits.length - 1] = sum % 10;
-        int tmp = sum / 10;
-        for (int i = digits.length - 2; i >= 0; i--) {
+        int tmp =1;
+        for (int i = digits.length - 1; i >= 0; i--) {
             int t = digits[i] + tmp;
             tmp = t / 10;
             digits[i] = t % 10;
@@ -886,33 +885,6 @@ public class ArrayTraversal {
         return count;
     }
 
-
-    public int[] plusOne2(int[] digits) {
-        int N = digits.length;
-
-        int i = N - 1;
-        int add = 1;
-        while (i >= 0) {
-            int t = digits[i] + add;
-            digits[i] = t % 10;
-            add = t / 10;
-            if (add == 0) {
-                break;
-            }
-            i--;
-        }
-        //最高位 未进位
-        if (add == 0) {
-            return digits;
-        } else {
-            int[] ans = new int[N + 1];
-            ans[0] = add;
-            for (int j = 0; j < N; j++) {
-                ans[j + 1] = digits[j];
-            }
-            return ans;
-        }
-    }
 
 
     public List<Integer> addToArrayForm(int[] num, int k) {

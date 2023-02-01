@@ -174,28 +174,39 @@ public class StringSolution {
         return -1;
     }
 
+    /**
+     *459. 重复的子字符串
+     * @param s
+     * @return
+     */
     public boolean repeatedSubstringPattern(String s) {
         int N = s.length();
         if (N <= 1) return false;
-        // 至少是重复个两遍的
+        //  i 代表子串的长度 ，子串长度的上限为原始串的一半 超过的不用遍历筛查
         for (int i = 1; i * 2 <= N; i++) {
-            //是否为整数倍数
+            //是否为整数倍数  不为整数倍的代表不是这个i长度的字串重复多遍生成的，可以跳过
             if (N % i == 0) {
                 boolean match = true;
+                // 前面的i长度代表重复的子串
                 for (int j = i; j < N; j++) {
+                    // 依次判断间隔长度 i 的首位两端 字符是否相等即可 ，j-i 指向首字符 ，j 指向尾子符
                     if (s.charAt(j) != s.charAt(j - i)) {
                         // 代表 字段长度i 的不是正确解
                         match = false;
                         break;
                     }
                 }
-                // 代表 长度i的字串 是一种重复的字串
+                // 代表 长度i的字串 是一种重复的字串  ，代表找到了个最小程度 直接结束筛查即可
                 if (match) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public boolean repeatedSubstringPattern2(String s) {
+        return (s+s).indexOf(s,1) != s.length() ;
     }
 
 
