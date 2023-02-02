@@ -150,9 +150,9 @@ public class DynamicPlanSimple {
 
     private int robCase2(int[] nums, int start, int end) {
         int max1 = 0; //没
-        int max2 = 0;//偷了
+        int max2 = nums[start];//偷了
 
-        for (int i = start; i < end; i++) {
+        for (int i = start+1; i < end; i++) {
             int curr = Math.max(max2, max1 + nums[i]);
             max1 = max2;
             max2 = curr;
@@ -443,6 +443,57 @@ public class DynamicPlanSimple {
 //    多重背包：物品数量有限制
 //    多维费用背包：物品不仅有重量，还有体积，同时考虑这两种限制
 //    其它：物品之间相互约束或者依赖
+
+    /**
+     * 416 分割等和子集
+     * @param nums  非空
+     * @return
+     */
+    public boolean canPartition(int[] nums) {
+        int sum = getSum(nums);
+        if(sum %2 ==1) return false ;
+        int W = sum/2 ;
+        boolean[] dp = new boolean[W+1] ;
+        dp[0] = true;
+        for (int num : nums) {
+            for (int i = W; i >= num &&  !dp[W]; i--) {
+                dp[i] = dp[i] || dp[i-num];
+            }
+        }
+        return dp[W];
+    }
+
+    private int getSum(int[] nums){
+        int sum=0 ;
+        for(int n : nums){
+            sum +=n;
+        }
+        return sum;
+    }
+
+    /**
+     * 494. 目标和
+     * @param nums
+     * @param target
+     *  sum(P) - sum(N) = target
+     * sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
+     *                        2 * sum(P) = target + sum(nums)
+     * @return  种类数量
+     */
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = getSum(nums) ;
+        int diff = sum -target ;
+        if(diff<0 || diff %2 ==1) return  0 ;
+        int W =  diff /2 ;
+        int[] dp = new int[W+1] ;
+        dp[0] = 1;
+        for (int num : nums) {
+            for (int i = W; i >= num ; i--) {
+                dp[i] = dp[i] + dp[i-num];
+            }
+        }
+        return dp[W];
+    }
 
 
 

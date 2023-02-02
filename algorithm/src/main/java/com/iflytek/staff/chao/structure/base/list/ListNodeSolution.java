@@ -48,9 +48,10 @@ public class ListNodeSolution {
      * @return
      */
     public ListNode reverseList(ListNode head) {
-        ListNode prev = new ListNode(-1);
+        ListNode prev = new ListNode();
         while (head != null) {
             ListNode temp = head.next;
+            //头插法
             head.next = prev.next;
             prev.next = head;
             head = temp;
@@ -63,9 +64,9 @@ public class ListNodeSolution {
             return head;
         }
         ListNode next = head.next;
-        ListNode newHead = reverseList2(next);
-        next.next = head;
+        ListNode newHead = reverseList2(head.next);
         head.next = null;
+        next.next = head;
         return newHead;
     }
 
@@ -194,8 +195,8 @@ public class ListNodeSolution {
 
         while (twoStep != null) {
             twoStep = twoStep.next;
-            oneStep = oneStep.next;
             if (twoStep != null) {
+                oneStep = oneStep.next;
                 twoStep = twoStep.next;
             }
         }
@@ -250,6 +251,26 @@ public class ListNodeSolution {
             head = head.next;
         }
         return false;
+    }
+
+    //142
+    public ListNode detectCycle(ListNode head) {
+
+        ListNode oneStep = head;
+        ListNode twoStep = head;
+
+        while (twoStep != null && twoStep.next != null ) {
+            twoStep = twoStep.next.next;
+            oneStep = oneStep.next;
+            if(twoStep == oneStep) break;
+        }
+        if(twoStep == null || twoStep.next ==null) return null ;
+        twoStep =head ;
+        while (twoStep !=oneStep){
+            twoStep = twoStep.next;
+            oneStep = oneStep.next;
+        }
+        return oneStep;
     }
 
 

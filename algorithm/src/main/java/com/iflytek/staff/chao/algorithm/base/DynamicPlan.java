@@ -40,22 +40,7 @@ public class DynamicPlan {
                 + Math.max(choose.getOrDefault(root.right, 0), ignore.getOrDefault(root.right, 0)));
     }
 
-    /**
-     * 55 跳跃游戏  贪心算法
-     *
-     * @param nums
-     * @return
-     */
-    public boolean canJump(int[] nums) {
-        int N = nums.length;
-        int i = 0;
-        int curMax = nums[0];
-        while ( i < curMax && curMax < N-1) {
-            i++;
-            curMax = Math.max(curMax, i + nums[i]);
-        }
-        return curMax >= N-1;
-    }
+
 
     /**
      * 45 跳跃到最后节点 需要的最少次数
@@ -64,31 +49,15 @@ public class DynamicPlan {
      * @return
      */
     public int jump(int[] nums) {
-        int N = nums.length;
-        int position = N - 1;
-        int step = 0;
-        while (position > 0) {
-            int i = position - 1;
-            while (i >= 0 && i + nums[i] >= position) {
-                i--;
-            }
-            step++;
-            position = i + 1;
-        }
-        return step;
-    }
-
-    public int jump2(int[] nums) {
-        int N = nums.length;
-
-        int position = 0;
+        int start = 0;
         int end = 0;
         int step = 0;
-        for (int i = 0; i < N - 1; i++) {
-            position = Math.max(position, i + nums[i]);
+        for (int i = 0; i < nums.length - 1; i++) {
+            start = Math.max(start, i + nums[i]);
             if (i == end) {
-                end = position;
+                end = start;
                 step++;
+                if(end >=nums.length) break;
             }
         }
         return step;
@@ -308,6 +277,7 @@ public class DynamicPlan {
 
 
     /**
+     * 740. 删除并获得点数
      * @param nums
      * @return
      */
@@ -320,14 +290,29 @@ public class DynamicPlan {
         }
 
         int[] dp = new int[max + 1];
-        dp[0] = 0;
         dp[1] = numCount[1];
-
         for (int j = 2; j <= max; j++) {
             dp[j] = Math.max(dp[j - 2] + numCount[j] * j, dp[j - 1]);
         }
         return dp[max];
+    }
 
+    public int deleteAndEarn2(int[] nums) {
+        int[] cost = new int[10001];
+        int max = 0;
+        for (int num : nums) {
+            if (num > max) max = num;
+            cost[num] +=num;
+        }
+
+        int first = cost[1];
+        int second = Math.max(first,cost[2]);
+        for (int j = 3; j <= max; j++) {
+            int t = second ;
+            second = Math.max(first + cost[j], second);
+            first = t ;
+        }
+        return second;
     }
 
     /**

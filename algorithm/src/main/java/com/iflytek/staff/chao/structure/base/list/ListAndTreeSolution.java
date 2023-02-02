@@ -10,14 +10,15 @@ import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 public class ListAndTreeSolution {
 
     /**
-     * 判断链表是否与二叉树的某一条路径相同  ，运用深度优先算法和递归算法实现判断
+     * 1367 判断链表是否与二叉树的某一条路径相同  ，运用深度优先算法和递归算法实现判断
      *
      * @param head
      * @param root
      * @return
      */
     public boolean isSubPath(ListNode head, TreeNode root) {
-        return dfsSubPath(head, root) || isSubPath(head, root.left) || isSubPath(head, root.right);
+        if(root==null) return false;
+        return dfsSubPath(head,root) || isSubPath(head,root.left) || isSubPath(head,root.right);
     }
 
     private boolean dfsSubPath(ListNode head, TreeNode root) {

@@ -886,13 +886,18 @@ public class ArrayTraversal {
     }
 
 
-
+    /**
+     * 989 数组形式的整数加个整数
+     * @param num
+     * @param k
+     * @return
+     */
     public List<Integer> addToArrayForm(int[] num, int k) {
         List<Integer> ans = new ArrayList<>();
         int i = num.length - 1;
         int add = 0;
         while (i >= 0 || k > 0 || add > 0) {
-            int number = i >= 0 ? num[i] : 0;
+            int number = i >= 0 ? num[i--] : 0;
             int k1 = k % 10;
             int t = number + k1 + add;
 
@@ -901,14 +906,31 @@ public class ArrayTraversal {
 
             // 迭代
             add = t / 10;
-            i--;
             k /= 10;
         }
+
         List<Integer> reverse = new ArrayList<>();
         for (int j = ans.size() - 1; j >= 0; j--) {
             reverse.add(ans.get(j));
         }
         return reverse;
+    }
+
+    public List<Integer> addToArrayForm2(int[] num, int k) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        int i = num.length - 1;
+        while (i >= 0 || k > 0 ) {
+            int number = i >= 0 ? num[i--] : 0;
+
+            k += number  ;
+
+            // 按位结果
+            ans.addFirst(k % 10);
+
+            // 迭代
+            k /= 10;
+        }
+        return ans;
     }
 
 
@@ -1106,6 +1128,48 @@ public class ArrayTraversal {
         return -1 ;
     }
 
+    /**
+     * 18 四数之和
+     * @param nums
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int N = nums.length ;
+        if(N<4) return ans ;
+        Arrays.sort(nums);
 
+        for (int i = 0; i < N-3; i++) {
+            if(i>0 && nums[i]==nums[i-1]) continue; // 重复值
+            if((long)nums[i] + nums[i+1]+nums[i+2] + nums[i+3] > target) continue; // 超出范围
+            if((long)nums[i] + nums[N-1]+nums[N-2] + nums[N-3] < target) continue; // 范围值过小
+            int a = nums[i];
+            for (int j = i+1; j < N-2  ; j++) {
+                if(j>i+1 && nums[j]==nums[j-1]) continue; // 重复值
+                if((long)nums[i] + nums[j]+nums[j+1] + nums[j+2] > target) continue; // 超出范围
+                if((long)nums[i] + nums[j]+nums[N-2] + nums[N-1] < target) continue; // 范围值过小
+
+                int b = nums[j];
+                int l = j+1 ,h = N-1 ;
+                while (l<h ){
+                    long sum =(long) a +b+ nums[l] + nums[h] ;
+                    if(sum==target) {
+                        ans.add( Arrays.asList(a,b, nums[l] , nums[h]));
+                        while (l<h&& nums[l] == nums[l+1]) l++;
+                        l++;
+                        while (l<h&& nums[h] == nums[h-1]) h--;
+                        h--;
+                    }else if(sum<target){
+                        l++;
+                    }else {
+                        h--;
+                    }
+                }
+            }
+
+        }
+        return ans;
+    }
 
 }

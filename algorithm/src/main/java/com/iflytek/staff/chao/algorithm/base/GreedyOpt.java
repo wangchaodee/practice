@@ -162,7 +162,6 @@ public class GreedyOpt {
         int buy = prices[0];
         int max = 0;
         for (int i = 1; i < prices.length; i++) {
-
             if (prices[i] > buy) {
                 max = Math.max(max, prices[i] - buy);
             } else {
@@ -222,16 +221,15 @@ public class GreedyOpt {
      * @return
      */
     public boolean isSubsequence(String s, String t) {
-        int i = 0;
-        int tl = t.length();
-        for (char c : s.toCharArray()) {
-            while (i < tl && t.charAt(i) != c) {
+        int i = 0 ,j=0 ;
+        int sl=s.length(),tl = t.length()  ;
+        while (i<sl && j<tl) {
+            if (s.charAt(i)== t.charAt(j) ) {
                 i++;
             }
-            if (i == tl) return false;
-            i++;
+            j++;
         }
-        return true;
+        return i==sl;
     }
 
     public boolean isSubsequence2(String s, String t) {
@@ -304,10 +302,8 @@ public class GreedyOpt {
         int N = nums.length;
         int[] dp = new int[N];
         dp[0] = nums[0];
-//        int max = dp[0];
         for (int i = 1; i < N; i++) {
             dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);
-//            max = Math.max(dp[i], max);
         }
         return Arrays.stream(dp).max().getAsInt();
     }
@@ -373,5 +369,28 @@ public class GreedyOpt {
         return ans;
     }
 
-
+    /**
+     * 55 跳跃游戏  贪心算法
+     *
+     * @param nums
+     * @return
+     */
+    public boolean canJump(int[] nums) {
+        int N = nums.length;
+        int i = 0;
+        int curMax = nums[0];
+        while ( i < curMax && curMax < N-1) {
+            i++;
+            curMax = Math.max(curMax, i + nums[i]);
+        }
+        return curMax >= N-1;
+    }
+    public boolean canJump2(int[] nums) {
+        int curMax = 0;
+        for (int i = 0; i < nums.length ; i++) {
+            if(i>curMax) return false ;
+            curMax = Math.max(curMax, i + nums[i]);
+        }
+        return true;
+    }
 }

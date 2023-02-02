@@ -210,6 +210,12 @@ public class StringSolution {
     }
 
 
+    /**
+     * 67 二进制求和
+     * @param a
+     * @param b
+     * @return
+     */
     public String addBinary(String a, String b) {
 
         int add = 0;
@@ -219,18 +225,14 @@ public class StringSolution {
         // 以逆序的方式 存入结果  结果需要翻转
         StringBuilder ans = new StringBuilder();
         while (i >= 0 || j >= 0 || add > 0) {
-            int a1 = i >= 0 ? a.charAt(i) - '0' : 0;
-            int b1 = j >= 0 ? b.charAt(j) - '0' : 0;
+            int a1 = i >= 0 ? a.charAt(i--) - '0' : 0;
+            int b1 = j >= 0 ? b.charAt(j--) - '0' : 0;
 
             int t = a1 + b1 + add;
             //位计算结果
             ans.append(t % 2);
-
             //进位值
             add = t / 2;
-            //指针迭代
-            i--;
-            j--;
         }
         return ans.reverse().toString();
     }
@@ -906,6 +908,12 @@ public class StringSolution {
         return sb.reverse().toString();
     }
 
+    /**
+     * 43. 字符串相乘
+     * @param num1
+     * @param num2
+     * @return
+     */
     public String multiply(String num1, String num2) {
 
         if (num1.equals("0") || num2.equals("0")) return "0";
@@ -940,6 +948,39 @@ public class StringSolution {
         }
 
         return ans;
+    }
+
+    public String multiply2(String num1, String num2) {
+
+        if (num1.equals("0") || num2.equals("0")) return "0";
+
+        int N1 = num1.length();
+        int N2 = num2.length();
+
+        int[] ans = new int[N1+N2] ;
+        //设定num2的下标 从后往前
+        for (int i = N2 - 1; i >= 0; i--) {
+            int y = num2.charAt(i) - '0';
+            //循环num1 从尾部
+            for (int j = N1 - 1; j >= 0; j--) {
+                int x = num1.charAt(j) - '0';
+                ans[i+j+1] += y*x;
+            }
+        }
+
+        for (int i = N1+N2 -1; i >0 ; i--) {
+            ans[i-1] += ans[i] /10 ;
+            ans[i] %=10 ;
+        }
+
+        int idx =0 ;
+        if(ans[idx] == 0 ) idx++ ;
+        StringBuffer sb = new StringBuffer();
+       while (idx < N1 + N2){
+           sb.append(ans[idx++]);
+       }
+
+        return sb.toString();
     }
 
 
@@ -1019,27 +1060,6 @@ public class StringSolution {
     }
 
     /**
-     * 409. 计算一组字符集合可以组成的回文字符串的最大长度
-     *
-     * @param s
-     * @return
-     */
-    public int longestPalindrome(String s) {
-
-        int[] cnts = new int[256];
-        for (char c : s.toCharArray()) {
-            cnts[c]++;
-        }
-        int palindrome = 0;
-        for (int cnt : cnts) {
-            palindrome += (cnt / 2) * 2;
-        }
-        if (palindrome < s.length()) palindrome += 1;
-        return palindrome;
-    }
-
-
-    /**
      * 205 字符串同构
      *
      * @param s
@@ -1060,6 +1080,25 @@ public class StringSolution {
             preIndexT[tt] = i + 1;
             preIndexS[ss] = i + 1;
         }
+        return true;
+    }
+
+    public boolean isIsomorphic2(String s, String t) {
+        int L = s.length();
+        char[] cArr = new char[128];
+        for (int i = 0; i <L ; i++) {
+            int j = s.charAt(i);
+            char m = t.charAt(i);
+            if(cArr[j]==0){
+                for (int k = 0; k <128 ; k++) {
+                    if(k!=j && cArr[k]==m) return false;
+                }
+                cArr[j]=m;
+            }else {
+                if(cArr[j] !=m) return false;
+            }
+        }
+
         return true;
     }
 
@@ -1087,6 +1126,26 @@ public class StringSolution {
             cnt++;
         }
         return cnt;
+    }
+
+    /**
+     * 409. 计算一组字符集合可以组成的回文字符串的最大长度
+     *
+     * @param s
+     * @return
+     */
+    public int longestPalindrome(String s) {
+
+        int[] cnts = new int[128];
+        for (char c : s.toCharArray()) {
+            cnts[c]++;
+        }
+        int palindrome = 0;
+        for (int cnt : cnts) {
+            palindrome += (cnt / 2) * 2;
+        }
+        if (palindrome < s.length()) palindrome += 1;
+        return palindrome;
     }
 
     /**
