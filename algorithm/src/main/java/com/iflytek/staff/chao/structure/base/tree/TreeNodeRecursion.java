@@ -295,6 +295,11 @@ public class TreeNodeRecursion {
         return root;
     }
 
+    /**
+     * 98. 验证二叉搜索树
+     * @param root
+     * @return
+     */
     public boolean isValidBST2(TreeNode root) {
         if (root == null) return true;
         Stack<TreeNode> stack = new Stack<>();
@@ -314,9 +319,9 @@ public class TreeNodeRecursion {
         return true;
     }
 
-    private boolean isValidBST(TreeNode root, int low, int high) {
+    private boolean isValidBST(TreeNode root, long low, long high) {
         if (root == null) return true;
-        if (root.val < low || root.val > high) {
+        if (root.val <= low || root.val >= high) {
             return false;
         }
         return isValidBST(root.left, low, root.val) && isValidBST(root.right, root.val, high);

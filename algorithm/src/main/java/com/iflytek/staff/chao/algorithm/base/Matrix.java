@@ -1,5 +1,7 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import com.iflytek.staff.chao.util.DirectionUtil;
+
 import java.util.*;
 
 /**
@@ -440,9 +442,14 @@ public class Matrix {
         return ans + 1;
     }
 
+    /**
+     * 48 旋转图像
+     * @param matrix
+     */
     public void rotate(int[][] matrix) {
         int N = matrix.length;
         int temp;
+        //上下翻转
         for (int i = 0; i < N / 2; i++) {
             for (int j = 0; j < N; j++) {
                 temp = matrix[N - i - 1][j];
@@ -450,7 +457,7 @@ public class Matrix {
                 matrix[i][j] = temp;
             }
         }
-
+        // 按对角线 翻转
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
                 temp = matrix[j][i];
@@ -667,6 +674,7 @@ public class Matrix {
         PriorityQueue<int[]> pq = new PriorityQueue<>(k, new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
+                // 变为大顶堆
                 return o2[0] - o1[0];
             }
         });
@@ -676,10 +684,12 @@ public class Matrix {
             if (i >= k) {
                 if (dist < pq.peek()[0]) {
                     pq.poll();
+                    // 放入距离平方  、  位置参数
+                    pq.offer(new int[]{dist, i});
                 }
+            }else {
+                pq.offer(new int[]{dist, i});
             }
-
-            pq.offer(new int[]{dist, i});
         }
 
         int[][] ans = new int[k][2];
@@ -692,7 +702,7 @@ public class Matrix {
 
 
     /**
-     * 查看矩阵是否相等   旋转后是否相等
+     * 1886. 判断矩阵经轮转后是否一致  旋转后是否相等
      *
      * @param mat
      * @param target
@@ -711,10 +721,14 @@ public class Matrix {
                 if (mat[N - 1 - i][N - 1 - j] != target[i][j]) res3 = false;
 
                 if (mat[N - 1 - j][i] != target[i][j]) res4 = false;
+
+                if(!(res1 || res2 || res3 || res4)) {
+                    return false ;
+                }
             }
         }
 
-        return res1 || res2 || res3 || res4;
+        return true;
     }
 
 
@@ -794,21 +808,19 @@ public class Matrix {
     public int orchestraLayout2(int num, int xPos, int yPos) {
 
         int[][] grid = new int[num][num];
-        int[][] direction = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-
         int total = num * num;
         int i = 0, j = 0;
         int di = 0;
         for (int k = 0; k < total; k++) {
             grid[i][j] = (k % 9) + 1;
 
-            int ti = i + direction[di][0];
-            int tj = j + direction[di][1];
+            int ti = i + DirectionUtil.directions[di][0];
+            int tj = j + DirectionUtil.directions[di][1];
             if (ti < 0 || ti >= num || tj < 0 || tj >= num || grid[ti][tj] != 0) {
                 di = (di + 1) % 4;
             }
-            i += direction[di][0];
-            j += direction[di][1];
+            i += DirectionUtil.directions[di][0];
+            j += DirectionUtil.directions[di][1];
         }
         return grid[xPos][yPos];
     }
@@ -849,57 +861,33 @@ public class Matrix {
         return (int) (index % 9 == 0 ? 9 : index % 9);
     }
 
-    public int[] spiralOrder(int[][] matrix) {
+    /**
+     * 54. 螺旋矩阵
+     * @param matrix
+     * @return
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
         int N = matrix.length;
         if (N == 0) {
-            return new int[0];
+            return null;
         }
         int M = matrix[0].length;
         int total = N * M;
-        int[] ans = new int[total];
-
-        boolean[][] seen = new boolean[N][M];
-        int[][] direction = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-        int di = 0;
-
-        int i = 0, j = 0;
-
-        for (int k = 0; k < total; k++) {
-            ans[k] = matrix[i][j];
-            seen[i][j] = true;
-            int ti = i + direction[di][0];
-            int tj = j + direction[di][1];
-            if (ti < 0 || ti >= N || tj < 0 || tj >= M || seen[ti][tj]) {
-                di = (di + 1) % 4;
-            }
-            i += direction[di][0];
-            j += direction[di][1];
-        }
-
-        return ans;
-    }
-
-    public List<Integer> spiralOrder2(int[][] matrix) {
-        int N = matrix.length;
         List<Integer> ans = new ArrayList<>();
-        if (N == 0) {
-            return ans;
-        }
-        int M = matrix[0].length;
-        int total = N * M;
 
         boolean[][] seen = new boolean[N][M];
+        // 向有 、 下 、 左 、上
         int[][] direction = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         int di = 0;
 
         int i = 0, j = 0;
-
         for (int k = 0; k < total; k++) {
-            ans.add(matrix[i][j]);
+            ans.add( matrix[i][j]);
             seen[i][j] = true;
             int ti = i + direction[di][0];
             int tj = j + direction[di][1];
             if (ti < 0 || ti >= N || tj < 0 || tj >= M || seen[ti][tj]) {
+                // 越界 或者 走到重复位置  则转换方向
                 di = (di + 1) % 4;
             }
             i += direction[di][0];

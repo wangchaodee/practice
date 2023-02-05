@@ -134,7 +134,13 @@ public class ArrayMultiple {
         return (sum - maxReplace + M) % M;
     }
 
-
+    /**
+     * 1630. 等差子数组
+     * @param nums
+     * @param l
+     * @param r
+     * @return
+     */
     public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
         int n = l.length;
         List<Boolean> ans = new ArrayList<>();

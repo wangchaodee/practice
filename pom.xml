@@ -19,7 +19,7 @@
     <properties>
         <jdk.version>17</jdk.version>
         <springfox.version>3.0.0</springfox.version>
-        <springboot.version>2.4.4</springboot.version>
+        <springboot.version>3.0.1</springboot.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     </properties>
 

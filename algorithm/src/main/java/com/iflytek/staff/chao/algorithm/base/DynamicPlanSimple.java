@@ -495,6 +495,159 @@ public class DynamicPlanSimple {
         return dp[W];
     }
 
+    /**
+     * 474. 一和零
+     * @param strs
+     * @param m
+     * @param n
+     * @return
+     */
+    public int findMaxForm(String[] strs, int m, int n) {
+        int[][] dp = new int[m+1][n+1];
+        for (String str : strs){
+            int zeros =0 , ones = 0;
+            for (int i = 0; i < str.length(); i++) {
+                if(str.charAt(i) =='0'){
+                    zeros++;
+                }else {
+                    ones++;
+                }
+            }
 
+            for (int i = m; i >=zeros ; i--) {
+                for (int j = n; j >=ones ; j--) {
+                    dp[i][j] = Math.max( dp[i][j] ,dp[i-zeros][j-ones] +1) ;
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    /**
+     * 322 硬币兑换
+     *
+     * @param coins
+     * @param amount
+     * @return
+     */
+    public int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        int min = amount + 1;
+        Arrays.fill(dp, min);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if (coin <= i) {
+                    dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+                }
+            }
+        }
+        return dp[amount] == min ? -1 : dp[amount];
+    }
+
+    public int coinChange2(int[] coins, int amount) {
+        if (amount == 0 || coins == null) return 0;
+        int[] dp = new int[amount + 1];
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++) {
+                if (coin == i) {
+                    dp[i] = 1;
+                }else if(dp[i]==0 && dp[i-coin] !=0){
+                    dp[i] =  1 + dp[i - coin];
+                }else if(dp[i-coin] !=0){
+                    dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+                }
+            }
+        }
+        return dp[amount]==0 ?-1 :dp[amount] ;
+    }
+
+    /**
+     * 518 硬币兑换  兑换的总数量
+     *
+     * @param coins
+     * @param amount
+     * @return
+     */
+    public int change(int amount, int[] coins) {
+        if (amount == 0 || coins == null) return 1;
+        int[] dp = new int[amount + 1];
+        dp[0] = 1 ;
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++) {
+                dp[i] += dp[i - coin];
+            }
+        }
+        return dp[amount] ;
+    }
+
+    /**
+     * 139 单词拆分
+     *
+     * @param s
+     * @param wordDict
+     * @return
+     */
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int N = s.length();
+        boolean[] dp = new boolean[N + 1];
+        dp[0] = true;
+        for (int i = 1; i <= N; i++) {
+            for (String w : wordDict) {
+                int len = w.length();
+                if (len<=i && w.equals(s.substring(i-len, i))) {
+                    dp[i] = dp[i] || dp[i-len] ;
+                }
+            }
+        }
+        return dp[N];
+    }
+
+    /**
+     * 377 组合总和  涉及顺序的完全背包。
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int combinationSum4(int[] nums, int target) {
+        if (target == 0 || nums == null) return 0;
+        int[] dp = new int[target + 1];
+        dp[0] = 1 ;
+        Arrays.sort(nums);
+        for (int i = 1; i <= target; i++) {
+            for (int j=0 ;j<nums.length && nums[j] <= i;j++) {
+                dp[i] += dp[i - nums[j]];
+            }
+        }
+        return dp[target] ;
+    }
+
+    /**
+     * 650. 只有两个键的键盘
+     * @param n
+     * @return
+     */
+    public int minSteps(int n) {
+        if(n==1) return 0;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if(n%i==0) return i+ minSteps(n/i);
+        }
+        return n;
+    }
+
+    public int minSteps2(int n) {
+        int h = (int) Math.sqrt(n) ;
+        int[] dp = new int[n+1];
+        for (int i = 2; i <= n; i++) {
+            dp[i] = i ;
+            for (int j = 2; j <= h; j++) {
+                if(i%j==0){
+                    dp[i] = dp[j] + dp[i/j] ;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
 
 }

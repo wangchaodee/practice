@@ -1203,6 +1203,28 @@ public class StringSolution {
     }
 
     /**
+     * 58. 最后一个单词的长度
+     * @param s
+     * @return
+     */
+    public int lengthOfLastWord(String s) {
+        int cnt = 0 ;
+        boolean empty = false ;
+        for (char c : s.toCharArray()) {
+            if(c == ' ') {
+                empty = true ;
+            }else {
+                if(empty){
+                    empty = false ;
+                    cnt =0 ;
+                }
+                cnt++;
+            }
+        }
+        return cnt ;
+    }
+
+    /**
      * 516. 最长回文子序列
      * @param s
      * @return

@@ -22,6 +22,8 @@ public class TreeNode {
         this.right = right;
     }
 
+    /****************************************************************/
+
     /**
      * 前序层遍历
      *
@@ -115,6 +117,101 @@ public class TreeNode {
         res.addAll(postorderTraversal(root.right));
         res.add(root.val);
         return res;
+    }
+
+    /**
+     *102. 二叉树的层序遍历
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root == null) return ans;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int sz = queue.size();
+            List<Integer> line = new ArrayList<>();
+            for (int i = 0; i < sz; i++) {
+                TreeNode node = queue.poll();
+
+                line.add(node.val);
+
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            ans.add(line);
+        }
+        return ans;
+    }
+
+    /**
+     * 107. 二叉树的层序遍历 II   , 自底层到上层
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+
+        List<List<Integer>> ans = new LinkedList<>();
+        if (root == null) return ans;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int sz = queue.size();
+            List<Integer> line = new ArrayList<>();
+            for (int i = 0; i < sz; i++) {
+                TreeNode node = queue.poll();
+
+                line.add(node.val);
+
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            ans.add(0,line);
+        }
+        return ans;
+    }
+
+    /**
+     * 637. 二叉树的层平均值
+     * @param root
+     * @return
+     */
+    public List<Double> averageOfLevels(TreeNode root) {
+
+        List<Double> ans = new ArrayList<>();
+        if (root == null) return ans;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int sz = queue.size();
+            double avg = 0 ;
+            for (int i = 0; i < sz; i++) {
+                TreeNode node = queue.poll();
+
+                avg +=node.val;
+
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            ans.add(avg/sz);
+        }
+        return ans;
     }
 
     /**

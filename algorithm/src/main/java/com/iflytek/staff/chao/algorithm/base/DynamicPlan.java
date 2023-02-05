@@ -107,39 +107,8 @@ public class DynamicPlan {
 
 
 
-    /**
-     * 单词拆分
-     *
-     * @param s
-     * @param wordDict
-     * @return
-     */
-    public boolean wordBreak(String s, List<String> wordDict) {
-        int N = s.length();
 
-        int len = 0;
-        for (String w : wordDict) {
-            len = Math.max(len, w.length());
-        }
 
-        boolean[] dp = new boolean[N + 1];
-        dp[0] = true;
-        for (int i = 1; i <= N; i++) {
-            int j = Math.max(0, i - len);
-            while (j < i) {
-                if (dp[j] && checkWord(s.substring(j, i), wordDict)) {
-                    dp[i] = true;
-                    break;
-                }
-                j++;
-            }
-        }
-        return dp[N];
-    }
-
-    private boolean checkWord(String w, List<String> wordDict) {
-        return wordDict.contains(w);
-    }
 
     /**
      * 最长递增子序列的个数
@@ -180,35 +149,11 @@ public class DynamicPlan {
         return maxcnt;
     }
 
-    /**
-     * 硬币兑换
-     *
-     * @param coins
-     * @param amount
-     * @return
-     */
-    public int coinChange(int[] coins, int amount) {
-        int[] dp = new int[amount + 1];
-
-        int min = amount + 1;
-        Arrays.fill(dp, min);
-        dp[0] = 0;
-        for (int i = 1; i <= amount; i++) {
-            for (int coin : coins) {
-                if (coin <= i) {
-                    dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
-                }
-            }
-        }
-
-        return dp[amount] == min ? -1 : dp[amount];
-    }
-
 
 
 
     /**
-     * 只允许删除操作  ，求最小删除次数
+     * 583 只允许删除操作  ，求最小删除次数
      *
      * @param word1
      * @param word2
@@ -234,6 +179,7 @@ public class DynamicPlan {
     }
 
     /**
+     * 72. 编辑距离
      * 可以删除  、修改  、插入 字符， 求最少操作次数
      *
      * @param word1
@@ -337,7 +283,7 @@ public class DynamicPlan {
     }
 
     /**
-     * 714 包含冷冻期
+     * 714. 买卖股票的最佳时机含手续费
      *
      * @param prices
      * @return
@@ -355,6 +301,57 @@ public class DynamicPlan {
         return dp[n - 1][0] > dp[n - 1][1] ? dp[n - 1][0] : dp[n - 1][1];
     }
 
+    /**
+     * 123. 买卖股票的最佳时机 III   ,只能买卖两次
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        int firstBuy = Integer.MIN_VALUE ,firstSell= 0  ;
+        int secondBuy  = Integer.MIN_VALUE  ,  secondSell =0 ;
+        for (int curPrice : prices) {
+           if(firstBuy < -curPrice ) {
+               firstBuy= -curPrice ;
+           }
+           if(firstSell < firstBuy + curPrice ){
+               firstSell= firstBuy + curPrice ;
+           }
+           if(secondBuy < firstSell -curPrice ){
+               secondBuy = firstSell -curPrice ;
+           }
+            if(secondSell < secondBuy + curPrice ){
+                secondSell = curPrice + secondBuy ;
+            }
+        }
+        return secondSell ;
+    }
+
+    /**
+     * 188. 买卖股票的最佳时机 IV
+     * @param k
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int k, int[] prices) {
+        int[] buy = new int[k+1] ;
+        Arrays.fill(buy ,Integer.MIN_VALUE);
+        int[] sell = new int[k+1];
+
+        for (int curPrice : prices) {
+            for (int i = 1; i <= k; i++) {
+
+                if (buy[i] < sell[i - 1] - curPrice) {
+                    buy[i] = sell[i - 1] - curPrice;
+                }
+
+                if(sell[i] < buy[i] + curPrice) {
+                    sell[i] = buy[i] + curPrice ;
+                }
+
+            }
+        }
+        return sell[k];
+    }
 
     public int minimumTotal(List<List<Integer>> triangle) {
         int N = triangle.size();

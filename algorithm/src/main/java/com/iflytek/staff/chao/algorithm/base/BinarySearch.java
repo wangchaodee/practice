@@ -987,7 +987,6 @@ public class BinarySearch {
     public int firstBadVersion(int n) {
         int l = 1;
         int h = n;
-
         while (l < h) {
             int mid = l + (h - l) / 2;
             if (isBadVersion(mid)) {
@@ -997,7 +996,6 @@ public class BinarySearch {
             }
         }
         return l;
-
     }
 
     /**
