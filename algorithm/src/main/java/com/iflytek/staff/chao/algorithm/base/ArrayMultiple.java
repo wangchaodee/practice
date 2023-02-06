@@ -144,23 +144,53 @@ public class ArrayMultiple {
     public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
         int n = l.length;
         List<Boolean> ans = new ArrayList<>();
-
         for (int i = 0; i < n; i++) {
             int[] arr = Arrays.copyOfRange(nums, l[i], r[i] + 1);
-            Arrays.sort(arr);
-            int d = arr[1] - arr[0];
-            boolean flag = true;
-            for (int j = 2; j < arr.length; j++) {
-                if (arr[j] - arr[j - 1] != d) {
-                    flag = false;
-                    break;
-                }
-            }
-            ans.add(flag);
+            ans.add(check(arr));
         }
         return ans;
     }
 
+    private boolean check(int[] arr){
+        Arrays.sort(arr);
+        int d = arr[1] - arr[0];
+        boolean flag = true;
+        for (int j = 2; j < arr.length; j++) {
+            if (arr[j] - arr[j - 1] != d) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    private boolean check2(int[] arr){
+        int n = arr.length ;
+        if(n<=2) return true ;
+        int min = 100000, max = -100000 ;
+        for (int num : arr){
+            if(num >max) max= num ;
+            if(num<min) min = num ;
+        }
+        if(max == min) return true ;
+        if((max - min) % (n-1) != 0) return false ;
+
+        int diff = (max - min) / (n-1);
+        Set<Integer> set = new HashSet<>() ;
+        int diffMin = n , diffMax = -1;
+        for (int num : arr) {
+            if((num- min ) % diff != 0 ) return false ;
+            num = (num- min ) / diff ;
+            if(!set.add(num)){
+                //重复
+                return false ;
+            }
+
+            if(num >diffMax) diffMax= num ;
+            if(num<diffMin) diffMin = num ;
+        }
+        return diffMin == 0 && diffMax == n-1;
+    }
 
     /**
      * 给你三个整数数组 nums1、nums2 和 nums3 ，请你构造并返回一个 元素各不相同的 数组，且由 至少 在 两个 数组中出现的所有值组成。数组中的元素可以按 任意 顺序排列。

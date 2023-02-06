@@ -159,13 +159,15 @@ public class GreedyOpt {
      * 121. 买卖股票的最佳时机
      */
     public int maxProfit(int[] prices) {
-        int buy = prices[0];
-        int max = 0;
-        for (int i = 1; i < prices.length; i++) {
-            if (prices[i] > buy) {
-                max = Math.max(max, prices[i] - buy);
-            } else {
-                buy = prices[i];
+        int buy = Integer.MIN_VALUE;
+        int max =0;
+        for (int i = 0; i <prices.length ; i++) {
+            if(buy < -prices[i]) {
+                buy= -prices[i];
+            }
+
+            if(max < prices[i]+buy ){
+                max=prices[i]+buy;
             }
         }
         return max;
@@ -179,15 +181,15 @@ public class GreedyOpt {
      */
     public int maxProfit2(int[] prices) {
         int max = 0;
-        int m = prices.length;
         int buy = prices[0];
-        for (int r = 0; r < m; r++) {
+        for (int r = 1; r < prices.length; r++) {
+            // 获取所有差价的利润
             if (prices[r] > buy) {
                 max += prices[r] - buy;
             }
             buy = prices[r];
-
         }
+
         return max;
     }
 

@@ -17,6 +17,14 @@ import java.util.stream.Collectors;
 public class DFS {
 
 
+    /**
+     * 733. 图像渲染
+     * @param image
+     * @param sr
+     * @param sc
+     * @param color
+     * @return
+     */
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
         int curColor = image[sr][sc];
         if (curColor != color) {
@@ -47,6 +55,39 @@ public class DFS {
                 }
             }
         }
+    }
+
+    /**
+     * 463. 岛屿的周长
+     * @param grid
+     * @return
+     */
+    public int islandPerimeter(int[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if(grid[i][j]==1) {
+                    boolean[][] seen = new boolean[grid.length][grid[i].length] ;
+                    return  dfsSide(grid,i,j,seen);
+                }
+            }
+        }
+        return 0;
+    }
+
+    public int dfsSide(int[][] grid, int sr, int sc, boolean[][] seen ) {
+        seen[sr][sc] = true ;
+        int cnt = 0 ;
+
+        for (int[] xy : DirectionUtil.directions) {
+            int srr = sr + xy[0];
+            int scc = sc + xy[1];
+            if(0 > srr || srr >= grid.length || 0 > scc || scc >= grid[sr].length || grid[srr][scc]==0){
+                cnt++;
+            } else if(!seen[srr][scc] && grid[srr][scc]==1) {
+                cnt +=dfsSide(grid,srr,scc,seen);
+            }
+        }
+        return cnt ;
     }
 
     /**

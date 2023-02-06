@@ -282,6 +282,28 @@ public class DynamicPlan {
         return dp[n - 1][1] > dp[n - 1][2] ? dp[n - 1][1] : dp[n - 1][2];
     }
 
+    public int maxProfit3_3(int[] prices) {
+        int buy = -prices[0]; // 拥有股票
+        int sell = 0; // 无股票
+        int coldSell = 0; // 无股票 且在冷冻期
+
+        for (int i = 1; i < prices.length; i++) {
+
+            int newSell = Math.max(sell,buy + prices[i]);
+            int newBuy = Integer.MIN_VALUE;
+            if(i<2){
+                newBuy = Math.max(buy,  -prices[i]);
+            }else {
+                newBuy = Math.max(buy, coldSell - prices[i]);
+            }
+             buy = newBuy;
+             coldSell = sell;
+             sell = newSell;
+
+        }
+        return sell ;
+    }
+
     /**
      * 714. 买卖股票的最佳时机含手续费
      *

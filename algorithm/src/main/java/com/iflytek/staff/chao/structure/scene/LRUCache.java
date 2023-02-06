@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * 146. LRU 缓存
+ */
 public class LRUCache {
 
     private Map<Integer, DLinkNode> indexs;
@@ -15,7 +18,7 @@ public class LRUCache {
     private int index;
 
     public LRUCache(int capacity) {
-        indexs = new HashMap<>();
+        indexs = new HashMap<>(capacity);
         this.capacity = capacity;
         this.index = 0;
         this.head = new DLinkNode();
@@ -97,6 +100,5 @@ public class LRUCache {
         DLinkNode() {
 
         }
-
     }
 }
