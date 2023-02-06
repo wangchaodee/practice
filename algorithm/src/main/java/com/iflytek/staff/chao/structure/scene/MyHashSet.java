@@ -2,44 +2,61 @@ package com.iflytek.staff.chao.structure.scene;
 
 /**
  * @author : hamilton
- * @Description: 模拟哈希表    固定数组+链表
- * @date Date : 2022年07月13日 08:52
+ * @Description: 705. 设计哈希集合
+ * @date Date : 2023年02月06日 14:41
  */
-public class MyHashMap {
+public class MyHashSet {
+
+    // 定长数组
+/*    boolean[] set;
+    public MyHashSet() {
+        set = new boolean[1000001];
+    }
+
+    public void add(int key) {
+        set[key] = true ;
+    }
+
+    public void remove(int key) {
+        set[key] = false ;
+    }
+
+    public boolean contains(int key) {
+        return set[key] ;
+    }*/
 
     HashNode[] array;
     int size;
 
-    public MyHashMap() {
+    public MyHashSet() {
         size = 256;
         array = new HashNode[size];
     }
 
-    public void put(int key, int value) {
+    public void add(int key) {
         int index = key % size;
         HashNode node = array[index];
         while (node != null) {
             if (node.key == key) {
-                node.value = value;
                 return;
             } else {
                 node = node.next;
             }
         }
-        array[index] = new HashNode(key, value, array[index]);
+        array[index] = new HashNode(key, array[index]);
     }
 
-    public int get(int key) {
+    public boolean contains(int key) {
         int index = key % size;
         HashNode node = array[index];
         while (node != null) {
             if (node.key == key) {
-                return node.value;
+                return true;
             } else {
                 node = node.next;
             }
         }
-        return -1;
+        return false;
     }
 
     public void remove(int key) {
@@ -64,15 +81,11 @@ public class MyHashMap {
 
     class HashNode {
         int key;
-        int value;
         HashNode next;
 
-        public HashNode(int key, int value, HashNode next) {
+        public HashNode(int key, HashNode next) {
             this.key = key;
-            this.value = value;
             this.next = next;
         }
     }
 }
-
-
