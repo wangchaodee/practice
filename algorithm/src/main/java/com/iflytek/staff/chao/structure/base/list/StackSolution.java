@@ -186,6 +186,7 @@ public class StackSolution {
     }
 
     /**
+     * 503. 下一个更大元素 II
      * 循环数组  计算下一个更大元素
      *
      * @param nums
@@ -258,6 +259,33 @@ public class StackSolution {
             }
         }
         return stack.isEmpty();
+    }
+
+    /**
+     * 32. 最长有效括号
+     * @param s
+     * @return
+     */
+    public int longestValidParentheses(String s) {
+        int max = 0 ;
+        Stack<Integer> stack = new Stack();
+        stack.push(-1);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if(c==')'){
+               if(stack.peek()!=-1 && s.charAt(stack.peek())=='('){
+                   // 去掉成对的括号
+                   stack.pop();
+                   // 计算长度    当前位置 减去 上一个不匹配位置 即为当前长度
+                   max = Math.max(max,i-stack.peek());
+               }else {
+                   stack.push(i) ;
+               }
+            }else {
+                stack.push(i);
+            }
+        }
+        return  max ;
     }
 
 }

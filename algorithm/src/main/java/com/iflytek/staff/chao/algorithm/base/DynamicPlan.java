@@ -582,6 +582,11 @@ public class DynamicPlan {
         return max;
     }
 
+    /**
+     * 42. 接雨水
+     * @param height
+     * @return
+     */
     public int trap(int[] height) {
         int n = height.length;
         int preMax = height[0];
@@ -612,6 +617,37 @@ public class DynamicPlan {
         }
         return sum;
     }
+
+    public int trap2(int[] height) {
+        int n = height.length;
+        int left = 0;
+        int sum = 0;
+        for (int i = 1; i < n; i++) {
+            if (height[i] >= height[left]) {
+                sum += getSum(height,left,i);
+                left = i;
+            }
+        }
+
+        int right = n-1;
+        for (int i = n - 2; i >= left; i--) {
+            if (height[i] >= height[right]) {
+                sum += getSum(height,i,right);
+                right = i;
+            }
+        }
+        return sum;
+    }
+
+    private int getSum(int[] height , int l ,int r ){
+        int min = Math.min(height[l], height[r]) ;
+        int cnt = 0 ;
+        for (int i = l+1; i <r ; i++) {
+            cnt += min - height[i] ;
+        }
+        return cnt ;
+    }
+
 
     /**
      * 可以组成二叉搜索树的种类
