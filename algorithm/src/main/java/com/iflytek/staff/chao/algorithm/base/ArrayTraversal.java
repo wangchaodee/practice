@@ -169,6 +169,7 @@ public class ArrayTraversal {
         Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();
         for (int i = 0; i < n - 2; i++) {
+            //去除重复
             if (i > 0) {
                 if (nums[i] == nums[i - 1]) {
                     continue;
@@ -178,12 +179,15 @@ public class ArrayTraversal {
             int ci = n - 1;
             int target = 0 - nums[i];
             for (int j = i + 1; j < n - 1; j++) {
+
+                //去除重复
                 if (j > i + 1) {
                     if (nums[j] == nums[j - 1]) {
                         continue;
                     }
                 }
 
+                // 双指针方式寻找
                 while (j < ci && nums[j] + nums[ci] > target) {
                     ci--;
                 }
@@ -192,7 +196,7 @@ public class ArrayTraversal {
                     break;
                 }
 
-                if (j < ci) {
+                if (nums[j] + nums[ci] == target) {
                     ans.add(Arrays.asList(nums[i], nums[j], nums[ci]));
                 }
             }
@@ -731,20 +735,6 @@ public class ArrayTraversal {
     }
 
 
-    public int numSubarrayProductLessThanK(int[] nums, int k) {
-        int N = nums.length;
-        int pro = 1;
-        int j = 0;
-        int count = 0;
-        for (int i = 0; i < N; i++) {
-            pro *= nums[i];
-            while (j <= i && pro >= k) {
-                pro /= nums[j++];
-            }
-            count += (i - j + 1);
-        }
-        return count;
-    }
 
     public boolean increasingTriplet(int[] nums) {
         int N = nums.length;

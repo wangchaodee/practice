@@ -2,10 +2,7 @@ package com.iflytek.staff.chao.algorithm.base;
 
 import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author : hamilton
@@ -323,6 +320,21 @@ public class DynamicPlan {
         return dp[n - 1][0] > dp[n - 1][1] ? dp[n - 1][0] : dp[n - 1][1];
     }
 
+    public int maxProfit4_2(int[] prices, int fee) {
+        int n = prices.length;
+        int a = -prices[0]; // 拥有股票
+         int b = 0; // 无股票
+
+        for (int i = 1; i < n; i++) {
+            int a_ = Math.max(a, b - prices[i]);
+            int b_ = Math.max(b, a + prices[i] - fee);
+            a=a_;
+            b=b_;
+        }
+//        return a > b ? a : b;
+        return b;
+    }
+
     /**
      * 123. 买卖股票的最佳时机 III   ,只能买卖两次
      * @param prices
@@ -487,7 +499,7 @@ public class DynamicPlan {
     }
 
     /**
-     * 环形数组的 最大子序列和
+     * 918 环形数组的 最大子序列和
      *
      * @param nums
      * @return
@@ -508,36 +520,36 @@ public class DynamicPlan {
 
         int[] dp2 = new int[n];
         dp2[0] = nums[0];
-        int min = dp2[0];
+        int min = 0;
 
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 1; i < n - 1; i++) {
             dp2[i] = Math.min(dp2[i - 1] + nums[i], nums[i]);
             min = Math.min(min, dp2[i]);
         }
         return Math.max(max, sum - min);
     }
 
+    /**
+     * 152. 乘积最大子数组
+     * @param nums
+     * @return
+     */
     public int maxProduct(int[] nums) {
-        int n = nums.length;
-        int[][] dp = new int[n][2];
-        dp[0][0] = nums[0];
-        dp[0][1] = nums[0];
-        int max = nums[0];
-        int min = nums[0];
-        for (int i = 1; i < n; i++) {
-            dp[i][0] = Math.max(dp[i - 1][0] * nums[i], nums[i]);
-            dp[i][0] = Math.max(dp[i - 1][1] * nums[i], dp[i][0]);
-
-
-            dp[i][1] = Math.min(dp[i - 1][1] * nums[i], nums[i]);
-            dp[i][1] = Math.min(dp[i - 1][0] * nums[i], dp[i][1]);
-
-            max = Math.max(max, dp[i][0]);
+        int max = nums[0];// 代表最大值
+        int min = nums[0]; // 代表最小值  可能负值
+        int ans = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            int max_  = Math.max(max * nums[i], Math.max(min * nums[i], nums[i]));
+            int min_= Math.min(max * nums[i], Math.min(min * nums[i], nums[i]));
+            max = max_;
+            min = min_;
+            ans = Math.max(ans, max);
         }
-        return max;
+        return ans;
     }
 
     /**
+     * 1567. 乘积为正数的最长子数组长度
      * 乘积为正数时  最长子串的长度
      *
      * @param nums
@@ -566,7 +578,7 @@ public class DynamicPlan {
     }
 
     /**
-     * 最大景点对 得分
+     * 1014 最大景点对 得分
      *
      * @param values
      * @return
@@ -580,6 +592,23 @@ public class DynamicPlan {
             }
         }
         return max;
+    }
+
+    /**
+     * 最大化 values[i]+i+values[j]−j
+     * 的值其实就等价于求 [0,j−1] 中 values[i]+i的最大值 max
+     *
+     * @param values
+     * @return
+     */
+    public int maxScoreSightseeingPair2(int[] values) {
+        int max = values[0] ;
+        int ans = 0;
+        for (int i = 1; i < values.length; i++) {
+            ans = Math.max(ans, max+ values[i] -i);
+            max = Math.max(max,values[i] + i);
+        }
+        return ans;
     }
 
     /**
@@ -689,11 +718,54 @@ public class DynamicPlan {
     }
 
     /**
-     * 32. 最长有效括号
-     * @param s
+     * 375. 猜数字大小 II
+     * @param n
      * @return
      */
-//    public int longestValidParentheses(String s) {
-//
-//    }
+    public int getMoneyAmount(int n) {
+       int[][] dp = new int[n+1][n+1] ;
+        for (int i = n-1; i >=1 ; i--) {
+            for (int j = i+1; j <=n ; j++) {
+                dp[i][j] = j + dp[i][j-1];
+                for (int k = i; k < j; k++) {
+                    dp[i][j] = Math.min(dp[i][j] ,k + Math.max(dp[i][k-1] , dp[k+1][j]));
+                }
+            }
+        }
+        return dp[1][n] ;
+    }
+
+    //118. 杨辉三角
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> row = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    row.add(1);
+                } else {
+                    row.add(ans.get(i - 1).get(j - 1) + ans.get(i - 1).get(j));
+                }
+            }
+            ans.add(row);
+        }
+        return ans;
+    }
+
+    public List<List<Integer>> generate2(int numRows) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> row = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            row.add(1);
+            int j =i-1 ;
+            while (j>0) {
+                    row.set(j, row.get(j)+ row.get(j-1)  );
+                    j--;
+            }
+            ans.add(new ArrayList<>(row));
+        }
+        return ans;
+    }
+
+
 }

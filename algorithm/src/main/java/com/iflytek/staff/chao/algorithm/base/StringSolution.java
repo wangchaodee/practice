@@ -9,6 +9,9 @@ import java.util.*;
  */
 public class StringSolution {
 
+    /**
+     * 49. 字母异位词分组
+     */
     public List<List<String>> groupAnagrams(String[] strs) {
         Map<String, List<String>> strMap = new HashMap<>();
 
@@ -32,47 +35,7 @@ public class StringSolution {
         return new String(chars);
     }
 
-    public List<List<String>> groupAnagrams2(String[] strs) {
 
-        Arrays.sort(strs, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.length() - o2.length();
-            }
-        });
-
-        List<List<String>> ansList = new ArrayList<>();
-
-        boolean[] seen = new boolean[strs.length];
-
-        for (int i = 0; i < strs.length; i++) {
-            if (!seen[i]) {
-                List<String> ans = new ArrayList<>();
-                ans.add(strs[i]);
-                int[] count = new int[127];
-                int j = 0;
-                while (j < strs[i].length()) {
-                    char c = strs[i].charAt(j++);
-                    count[c]++;
-                }
-
-                for (int k = i + 1; k < strs.length; k++) {
-                    if (seen[k]) continue; //已标记的跳过
-                    // 验证字母频率是否一致
-                    int[] countCopy = count.clone();
-                    if (strs[i].length() < strs[k].length()) break;
-                    if (isYiWeiCi(countCopy, strs[i].length(), strs[k])) {
-                        ans.add(strs[k]);
-                        seen[k] = true;
-                    }
-                }
-
-                seen[i] = true;
-                ansList.add(ans);
-            }
-        }
-        return ansList;
-    }
 
     /**
      * KMP 算法  获取k的值
@@ -332,57 +295,6 @@ public class StringSolution {
     }
 
 
-    public boolean checkInclusion(String s1, String s2) {
-
-        int N1 = s1.length();
-        int N2 = s2.length();
-        if (N2 < N1) {
-            return false;
-        }
-        int[] dict = new int[26];
-        for (int i = 0; i < N1; i++) {
-            dict[s1.charAt(i) - 'a']++;
-            dict[s2.charAt(i) - 'a']--;
-        }
-
-        int diff = 0;
-        for (int i = 0; i < 26; i++) {
-            if (dict[i] != 0) diff++;
-        }
-
-        if (diff == 0) {
-            return true;
-        }
-
-        for (int i = N1; i < N2; i++) {
-            int x = s2.charAt(i) - 'a';
-            int y = s2.charAt(i - N1) - 'a';
-            if (x == y) {
-                continue;
-            }
-            if (dict[x] == 0) {
-                diff++;
-            }
-            dict[x]++;
-            if (dict[x] == 0) {
-                diff--;
-            }
-            if (dict[y] == 0) {
-                diff++;
-            }
-            dict[y]--;
-            if (dict[y] == 0) {
-                diff--;
-            }
-            if (diff == 0) {
-                return true;
-            }
-        }
-
-        return false;
-
-    }
-
 
     public char findTheDifference(String s, String t) {
         int N = s.length();
@@ -569,6 +481,12 @@ public class StringSolution {
         return ans.toString();
     }
 
+    /**
+     * 844. 比较含退格的字符串
+     * @param s
+     * @param t
+     * @return
+     */
     public boolean backspaceCompare(String s, String t) {
         int sidx = s.length() - 1;
         int tidx = t.length() - 1;
@@ -617,32 +535,6 @@ public class StringSolution {
         return sidx == tidx;
     }
 
-    public List<Integer> findAnagrams(String s, String p) {
-        int PL = p.length();
-        int SL = s.length();
-        List<Integer> ans = new ArrayList<>();
-        int[] pchars = new int[26];
-        for (char pchar : p.toCharArray()) {
-            ++pchars[pchar - 'a'];
-        }
-        int prev = -1;
-        for (int i = 0; i < SL; i++) {
-            int c = s.charAt(i) - 'a';
-            // 不符合， 左指正需要移动
-            while (pchars[c] == 0) {
-                int pr = s.charAt(++prev) - 'a';
-                // 将💺指针的对应的字符 频率补回去
-                ++pchars[pr];
-            }
-            //扣掉当前字符
-            --pchars[c];
-            if (i - prev == PL) {
-                ans.add(prev + 1);
-            }
-
-        }
-        return ans;
-    }
 
 
     public boolean areAlmostEqual(String s1, String s2) {

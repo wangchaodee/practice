@@ -395,4 +395,45 @@ public class GreedyOpt {
         }
         return true;
     }
+
+    /**
+     * 908. 最小差值 I
+     *
+     *
+     * 0 <= nums[i] <= 10^4
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int smallestRangeI(int[] nums, int k) {
+        int min = 10000;
+        int max = 0 ;
+        for (int num : nums){
+            if(num <min) min = num ;
+            if(num > max) max = num ;
+        }
+        return max -min > 2*k ? max -min -2*k : 0;
+    }
+
+    /**
+     * 910. 最小差值 II
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int smallestRangeII(int[] nums, int k) {
+        int N = nums.length ;
+        Arrays.sort(nums);
+        int ans = nums[N-1] - nums[0];
+
+        // 假定i 是需要增加k的最大位置， i+1及之后的 都是需要 -k的
+        for (int i = 0; i < N-1; i++) {
+            int a = nums[i] , b= nums[i+1] ;
+            int high = Math.max(nums[N-1] -k , a+k);
+            int low = Math.min(nums[0] +k , b-k);
+            ans = Math.min(ans,high -low);
+        }
+        return ans ;
+    }
 }

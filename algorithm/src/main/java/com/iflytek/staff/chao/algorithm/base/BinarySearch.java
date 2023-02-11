@@ -1022,6 +1022,29 @@ public class BinarySearch {
         return l;
     }
 
+    /**
+     * 374. 猜数字大小
+     * @param n
+     * @return
+     */
+    public int guessNumber(int n) {
+        int l = 1 , h = n;
+        while (l<h){
+            int m = (h-l)/2 +l;
+            if(guess(m) <= 0 ) {
+               h=m;
+            }else {
+                l = m+1;
+            }
+        }
+        return l ;
+    }
+
+    private int guess(int m) {
+        return  0 ; //0 ,-1 ,1
+    }
+
+
 
 
 }

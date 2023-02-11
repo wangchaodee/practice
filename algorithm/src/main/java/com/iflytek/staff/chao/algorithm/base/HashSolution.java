@@ -13,7 +13,7 @@ public class HashSolution {
     // HashMap    预设容量 可以减少扩容的性能消耗
 
     /**
-     * 查找是否存在两数之和等于target
+     * 1 查找是否存在两数之和等于target
      *
      * @param nums
      * @param target
@@ -26,19 +26,6 @@ public class HashSolution {
             }
         }
         return new int[2];
-    }
-
-
-    public int[] twoSum3(int[] nums, int target) {
-        HashMap<Integer, Integer> indexForNum = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (indexForNum.containsKey(target - nums[i])) {
-                return new int[]{indexForNum.get(target - nums[i]), i};
-            } else {
-                indexForNum.put(nums[i], i);
-            }
-        }
-        return null;
     }
 
     public int[] twoSumNoOrder(int[] numbers, int target) {
@@ -201,6 +188,35 @@ public class HashSolution {
             arr[i] = arrIndex.get(arr[i]);
         }
         return arr;
+    }
+
+    /**
+     * 299. 猜数字游戏
+     * @param secret
+     * @param guess
+     * @return
+     */
+    public String getHint(String secret, String guess) {
+        // 数字 ， 数字位置列表
+        int[] sa= new int[10] , ga = new int[10];
+        int cntBulls = 0 ;
+        int cntCows = 0 ;
+        // 公牛的数量
+        for (int i = 0; i < guess.length(); i++) {
+            int a = Integer.valueOf(guess.charAt(i));
+            int b = Integer.valueOf(secret.charAt(i));
+            if(a==b) {
+                cntBulls++;
+            }else {
+                sa[a]++;
+                ga[b]++;
+            }
+        }
+        for (int i = 0; i < 10; i++) {
+            cntCows +=Math.min(sa[i],ga[i]);
+        }
+
+        return cntBulls+"A" + cntCows+"B";
     }
 
 }

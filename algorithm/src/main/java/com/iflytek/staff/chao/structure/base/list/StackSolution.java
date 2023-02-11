@@ -1,5 +1,7 @@
 package com.iflytek.staff.chao.structure.base.list;
 
+import com.iflytek.staff.chao.algorithm.base.SortUtil;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -114,7 +116,12 @@ public class StackSolution {
 
     }
 
-    public String decodeString(String s) {
+    /**
+     * 394. 字符串解码
+     * @param s
+     * @return
+     */
+    public String decodeString2(String s) {
         StringBuilder res = new StringBuilder();
         int k = 0;
         Stack<Integer> kstack = new Stack<>();
@@ -143,6 +150,65 @@ public class StackSolution {
         }
         return res.toString();
 
+    }
+
+
+    public String decodeString(String str) {
+        if(onlyString(str)){
+            return str;
+        }
+        int index = 0;
+        int size = str.length();
+        StringBuilder res = new StringBuilder();
+        while(index < size){
+            char ch = str.charAt(index);
+            if(Character.isLetter(ch)){
+                res.append(ch);
+                index++;
+            } else {
+                int num = 0;
+                int left = index;
+                int right = index;
+                while(right < size && Character.isDigit(str.charAt(right))){
+                    right++;
+                }
+                num = Integer.parseInt(str.substring(left, right));
+                left = right; // 指向了 [
+                right++;
+                int leftP = 1;
+                while(leftP != 0){
+                    char temp = str.charAt(right);
+                    if(temp == '['){
+                        leftP ++;
+                    }else if(temp == ']'){
+                        leftP --;
+                    }
+                    if(leftP == 0){
+                        break;
+                    }
+                    right++;
+                }
+                // 递归调用 子字符串
+                String smallFrag = decodeString(str.substring(left + 1, right));
+                for(int i = 0; i < num; i++){
+                    res.append(smallFrag);
+                }
+                index = right + 1;
+            }
+        }
+        return res.toString();
+    }
+
+    public boolean onlyString(String str){
+        int index = 0;
+        while(index < str.length()){
+            char ch = str.charAt(index);
+            if(ch == '[' || ch == ']'){
+                return false;
+            }
+            index++;
+        }
+        return true;
     }
 
     /**
@@ -211,6 +277,8 @@ public class StackSolution {
 
         return ans;
     }
+
+
 
 
     /**
@@ -287,5 +355,44 @@ public class StackSolution {
         }
         return  max ;
     }
+
+
+    /**
+     * 844. 比较含退格的字符串
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean backspaceCompare2(String s, String t) {
+
+        Stack<Character> ss = new Stack<>();
+        for (char c :s.toCharArray()){
+            if(c =='#') {
+                if(!ss.isEmpty()) {
+                    ss.pop();
+                }
+            }else {
+                ss.push(c);
+            }
+        }
+
+        Stack<Character> ts = new Stack<>();
+        for (char c :t.toCharArray()){
+            if(c =='#') {
+                if(!ts.isEmpty()) {
+                    ts.pop();
+                }
+            }else {
+                ts.push(c);
+            }
+        }
+        while (!ss.isEmpty() && !ts.isEmpty()){
+            if(ss.pop() != ts.pop()){
+                return false;
+            }
+        }
+        return ss.isEmpty() && ts.isEmpty() ;
+    }
+
 
 }

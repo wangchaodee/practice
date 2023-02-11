@@ -7,7 +7,7 @@ import junit.framework.TestCase;
  * @Description:
  * @date Date : 2023年01月10日 20:27
  */
-public class LRUCacheTest extends TestCase {
+public class LRUCacheTest  {
 
     public  void testLRUCache() {
 

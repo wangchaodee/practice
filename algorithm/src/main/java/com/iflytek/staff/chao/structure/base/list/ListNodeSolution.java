@@ -459,7 +459,10 @@ public class ListNodeSolution {
         return ans.next;
     }
 
-
+    /**
+     * 143. 重排链表
+     * @param head
+     */
     public void reorderList(ListNode head) {
 
         List<ListNode> listNodes = new ArrayList<>();
@@ -477,6 +480,20 @@ public class ListNodeSolution {
             r--;
         }
         listNodes.get(l).next = null;
+    }
+
+    public void reorderList2(ListNode head) {
+         ListNode firstPart = head ;
+         ListNode middle = middleNode(firstPart);
+         ListNode reverse = reverseList(middle.next);
+         middle.next = null ;
+         while (reverse !=null ){
+             ListNode temp = reverse.next ;
+             reverse.next = head.next ;
+             head.next = reverse ;
+             head = reverse.next ;
+             reverse = temp ;
+         }
     }
 
     public int[][] spiralMatrix(int m, int n, ListNode head) {

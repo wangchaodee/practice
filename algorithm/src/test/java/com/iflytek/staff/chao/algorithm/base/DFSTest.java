@@ -10,7 +10,7 @@ import java.util.List;
  * @Description: 数组相关算法
  * @date Date : 2022年07月13日 16:38
  */
-public class DFSTest extends TestCase {
+public class DFSTest  {
 
     public void testOpenLock() {
         DFS bst = new DFS();

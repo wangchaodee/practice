@@ -209,21 +209,7 @@ public class DFS {
     }
 
 
-    public List<List<Integer>> generate(int numRows) {
-        List<List<Integer>> ans = new ArrayList<>();
-        for (int i = 0; i < numRows; i++) {
-            List<Integer> row = new ArrayList<>();
-            for (int j = 0; j <= i; j++) {
-                if (j == 0 || j == i) {
-                    row.add(1);
-                } else {
-                    row.add(ans.get(i - 1).get(j - 1) + ans.get(i - 1).get(j));
-                }
-            }
-            ans.add(row);
-        }
-        return ans;
-    }
+
 
     /**
      * 200 岛屿数量
@@ -908,18 +894,10 @@ public class DFS {
     }
 
     /**
-     * 公司里有 n 名员工，每个员工的 ID 都是独一无二的，编号从 0 到 n - 1。公司的总负责人通过 headID 进行标识。
-     * <p>
-     * 在 manager 数组中，每个员工都有一个直属负责人，其中 manager[i] 是第 i 名员工的直属负责人。对于总负责人，manager[headID] = -1。题目保证从属关系可以用树结构显示。
-     * <p>
-     * 公司总负责人想要向公司所有员工通告一条紧急消息。他将会首先通知他的直属下属们，然后由这些下属通知他们的下属，直到所有的员工都得知这条紧急消息。
-     * <p>
-     * 第 i 名员工需要 informTime[i] 分钟来通知它的所有直属下属（也就是说在 informTime[i] 分钟后，他的所有直属下属都可以开始传播这一消息）。
-     * <p>
-     * 返回通知所有员工这一紧急消息所需要的 分钟数 。
+     * 1376. 通知所有员工所需的时间
      */
     public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
-
+        // 每个员工收到通知的时间
         int[] total = new int[n];
         int max = 0;
         for (int i = 0; i < n; i++) {
@@ -929,11 +907,13 @@ public class DFS {
         return max;
     }
 
+    // 通知到第i个员工的时间
     private int dfsInformTime(int i, int[] manager, int[] informTime, int[] total) {
         if (manager[i] == -1 || total[i] != 0) {
             return total[i];
         }
-        return informTime[manager[i]] + dfsInformTime(manager[i], manager, informTime, total);
+        total[i] =  informTime[manager[i]] + dfsInformTime(manager[i], manager, informTime, total);
+        return total[i];
     }
 
     public List<Integer> eventualSafeNodes(int[][] graph) {

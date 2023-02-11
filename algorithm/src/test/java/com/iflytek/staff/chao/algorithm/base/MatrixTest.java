@@ -7,7 +7,7 @@ import junit.framework.TestCase;
  * @Description: 二位数组 测试
  * @date Date : 2022年07月28日 23:35
  */
-public class MatrixTest extends TestCase {
+public class MatrixTest  {
 
     public void testMinRefuelStops() {
         Matrix test = new Matrix();

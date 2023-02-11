@@ -595,7 +595,7 @@ public class DynamicPlanSimple {
         for (int i = 1; i <= N; i++) {
             for (String w : wordDict) {
                 int len = w.length();
-                if (len<=i && w.equals(s.substring(i-len, i))) {
+                if (len<=i && w.equals(s.substring(i-len, i)) && !dp[i]) {
                     dp[i] = dp[i] || dp[i-len] ;
                 }
             }

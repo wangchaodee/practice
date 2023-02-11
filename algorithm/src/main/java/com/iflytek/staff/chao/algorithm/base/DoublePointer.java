@@ -2,6 +2,7 @@ package com.iflytek.staff.chao.algorithm.base;
 
 import com.iflytek.staff.chao.structure.base.list.ListNode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -207,5 +208,66 @@ public class DoublePointer {
             i++;
         }
         return j == tl;
+    }
+
+    /**
+     * 556. 下一个更大元素 III  双指针思想
+     * @param n
+     * @return
+     */
+    public int nextGreaterElement(int n) {
+        List<Integer> nums = new ArrayList<>();
+        while (n != 0 ){
+            nums.add(n%10);
+            n /=10;
+        }
+        int s = nums.size() , idx = -1 ;
+        int i = 0 ;
+        // 寻找第一个低位点
+        while (idx==-1 && i<s-1){
+            if(nums.get(i) > nums.get(i+1)){
+                idx=i+1;
+                break;
+            }
+            i++;
+        }
+        if(idx==-1) return -1;
+        // 将第一个大于idx位置的数值 调换到此位置
+        for (int j = 0; j < idx; j++) {
+            if(nums.get(j)> nums.get(idx)) {
+                SortUtil.exchange(nums,j,idx);
+                break;
+            }
+        }
+        // 由于idx 之后 是严格降序的， 翻转  变为能组成的最小值
+        for (int l = 0 ,r = idx-1 ; l < r; l++,r--) {
+            SortUtil.exchange(nums,l,r);
+        }
+        long ans = 0 ;
+        for (int j = s-1; j >=0; j--) {
+            ans = ans*10 + nums.get(j);
+        }
+        return ans > Integer.MAX_VALUE ?-1 : (int) ans ;
+    }
+
+    /**
+     * 713. 乘积小于 K 的子数组
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int pro = 1;
+        int l = 0;
+        int count = 0;
+        for (int r = 0; r < nums.length; r++) {
+            pro *= nums[r];
+            while (l <= r && pro >= k) {
+                pro /= nums[l++];
+            }
+            // 以当前元素为结尾的 新增连续子数组个数 是和当前最大区间长度相等的
+            count += (r - l + 1);
+        }
+        return count;
     }
 }
