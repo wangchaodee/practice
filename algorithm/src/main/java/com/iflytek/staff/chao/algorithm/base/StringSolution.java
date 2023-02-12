@@ -265,6 +265,11 @@ public class StringSolution {
 
     }
 
+    /**
+     * 3. 无重复字符的最长子串
+     * @param s
+     * @return
+     */
     public int lengthOfLongestSubstring(String s) {
         Map<Character, Integer> indexMap = new HashMap<>();
         int max = 0;

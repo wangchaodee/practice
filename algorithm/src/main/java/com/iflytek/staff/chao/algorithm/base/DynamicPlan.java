@@ -424,7 +424,7 @@ public class DynamicPlan {
 
 
     /**
-     * 最小下降路径
+     * 931. 下降路径最小和
      *
      * @param matrix
      * @return
@@ -462,8 +462,34 @@ public class DynamicPlan {
         return min;
     }
 
+    public int minFallingPathSum_1(int[][] grid) {
+        int n = grid.length;
+        int[] dp = new int[n+2];
+        dp[0] = dp[n+1] = Integer.MAX_VALUE;
+        // 首行
+        for (int j = 1; j <=n ; j++) {
+            dp[j] = grid[0][j];
+        }
+
+        for (int i = 1; i < n; i++) {
+             int temp = 0 , last = Integer.MAX_VALUE ;
+            for (int j = 1; j <= n; j++) {
+                // 上方的非同一列转移的都可以
+                temp = dp[j];
+                dp[j] = Math.min( Math.min(last,dp[j]),dp[j+1]) + grid[i][j-1];
+                last = temp;
+            }
+        }
+        // 遍历最后一行的最小值
+        int min = dp[0];
+        for (int i = 1; i <= n; i++) {
+            min = Math.min(min, dp[i]);
+        }
+        return min;
+    }
+
     /**
-     * 最小下降路径  相邻行的元素不可以在同一列
+     * 1289. 下降路径最小和 II   相邻行的元素不可以在同一列
      *
      * @param grid
      * @return
@@ -679,7 +705,7 @@ public class DynamicPlan {
 
 
     /**
-     * 可以组成二叉搜索树的种类
+     * 96 可以组成二叉搜索树的种类
      *
      * @param n
      * @return

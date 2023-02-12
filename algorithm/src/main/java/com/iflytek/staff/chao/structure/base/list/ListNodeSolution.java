@@ -413,13 +413,16 @@ public class ListNodeSolution {
         return sum;
     }
 
-
+    /**
+     * 2. 两数相加
+     * @param l1
+     * @param l2
+     * @return
+     */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        l1 = reverseList(l1);
-        l2 = reverseList(l2);
-        ListNode ans = new ListNode(0);
-        int add = 0;
-        ListNode pre = ans;
+        ListNode  pre =new ListNode();
+        ListNode  ans =pre ;
+        int add =0 ;
         while (l1 != null || l2 != null || add != 0) {
             int v1 = l1 != null ? l1.val : 0;
             int v2 = l2 != null ? l2.val : 0;
@@ -428,11 +431,24 @@ public class ListNodeSolution {
             add = v / 10;
             pre.next = new ListNode(v % 10);
             pre = pre.next;
-            l1 = l1 != null ? l1.next : null;
-            l2 = l2 != null ? l2.next : null;
+            l1 = l1 != null ? l1.next :null;
+            l2 = l2 != null ? l2.next :null;
         }
 
-        return reverseList(ans.next);
+        return  ans.next;
+    }
+
+    /**
+     * 445. 两数相加 II
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addTwoNumbers_2(ListNode l1, ListNode l2) {
+        l1 = reverseList(l1);
+        l2 = reverseList(l2);
+        ListNode ans = addTwoNumbers(l1,l2);
+        return reverseList(ans);
     }
 
 

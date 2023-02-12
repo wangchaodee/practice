@@ -1,7 +1,9 @@
 package com.iflytek.staff.chao.algorithm.base;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : hamilton
@@ -101,6 +103,25 @@ public class SlidingWindow {
         }
 
         return false;
+    }
 
+    /**
+     * 3. 无重复字符的最长子串
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int[] chars= new int[128];
+        int left = -1;
+        int max =0 ;
+        for (int i = 0; i < s.length(); i++) {
+            int c = s.charAt(i);
+            chars[c]++ ;
+            while (chars[c]>1){
+                chars[s.charAt(++left)]--;
+            }
+            max = Math.max(max, i - left);
+        }
+        return max;
     }
 }
