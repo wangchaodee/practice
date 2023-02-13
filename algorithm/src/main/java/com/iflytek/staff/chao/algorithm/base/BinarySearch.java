@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.algorithm.base;
 import java.util.*;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 二分法的一些应用
  * @date Date : 2022年07月12日 21:39
  */

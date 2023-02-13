@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: N个节点的树
  * @date Date : 2023年02月05日 14:39
  */

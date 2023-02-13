@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.algorithm.base;
 import java.util.*;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 贪心算法  最小代价最大成果  最小最大
  * @date Date : 2022年08月05日 16:57
  */

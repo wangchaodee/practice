@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 数组相关  多个数组之间求交集 排大小 ，合并等
  * @date Date : 2023年01月29日 21:26
  */

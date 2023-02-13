@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 分治算法
  * @date Date : 2023年01月18日 21:34
  */

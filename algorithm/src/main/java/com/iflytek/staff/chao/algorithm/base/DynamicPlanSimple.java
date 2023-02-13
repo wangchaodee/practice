@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 动态规划 简单类型算法题的归集
  * @date Date : 2023年01月19日 15:52
  */

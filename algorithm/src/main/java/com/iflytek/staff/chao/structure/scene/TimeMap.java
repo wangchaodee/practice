@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 新建个哈希表， 支持按时间内序列存储同一个key的值
  * @date Date : 2022年07月25日 22:17
  */

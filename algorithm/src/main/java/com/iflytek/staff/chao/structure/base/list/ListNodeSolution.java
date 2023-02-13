@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.structure.base.list;
 import java.util.*;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 单链表涉及题解
  * @date Date : 2023年01月09日 13:39
  */
@@ -573,5 +573,36 @@ public class ListNodeSolution {
         odd.next = evenHead;
 
         return head;
+    }
+
+    /**
+     * 61. 旋转链表
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+        if(k==0 || head == null || head.next == null){
+            return head ;
+        }
+        int n =1;
+        ListNode cur= head;
+
+        // 计算个数
+        while(cur.next !=null){
+            cur = cur.next;
+            n++ ;
+        }
+        // 连接成环
+        cur.next = head ;
+
+        int step = n- k%n ;
+        while(step-- >0){
+            cur =cur.next;
+        }
+        // 断链
+        ListNode ret = cur.next;
+        cur.next=null;
+        return ret;
     }
 }

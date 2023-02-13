@@ -5,7 +5,7 @@ import com.iflytek.staff.chao.structure.base.list.ListNode;
 import java.util.*;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 优先队列场景的算法应用
  * @date Date : 2023年02月08日 21:22
  */
@@ -24,11 +24,15 @@ public class PriorityQueueSolution {
         PriorityQueue<ListNode> pq = new PriorityQueue<>(k, new Comparator<ListNode>() {
             @Override
             public int compare(ListNode o1, ListNode o2) {
+                // 默认的小顶堆
                 return o1.val - o2.val ;
             }
         });
+
         ListNode ans = new ListNode(-1);
+        //设定指针
         ListNode pre = ans ;
+        // 放入堆中 自然排序
         for (int i = 0; i < k; i++) {
             if(lists[i] !=null){
                 pq.offer(lists[i]);
@@ -39,6 +43,7 @@ public class PriorityQueueSolution {
             pre.next = min ;
             pre = min;
 
+            // 替代后续的 放入堆中
             if(min.next != null){
                 pq.offer(min.next);
                 min.next = null;

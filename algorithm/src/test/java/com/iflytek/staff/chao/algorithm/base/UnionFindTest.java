@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.algorithm.base;
 import org.junit.Test;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 并查集测试
  * @date Date : 2022年08月03日 18:23
  */

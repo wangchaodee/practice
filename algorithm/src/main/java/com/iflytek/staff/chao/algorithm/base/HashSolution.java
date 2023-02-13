@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.algorithm.base;
 import java.util.*;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 哈希表题解
  * @date Date : 2023年01月10日 20:51
  */

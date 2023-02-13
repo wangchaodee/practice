@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.structure.scene;
 import java.util.LinkedHashMap;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 基于LinkedHashMap 实现LRU
  * @date Date : 2023年02月06日 13:39
  */

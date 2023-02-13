@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.interview;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 虚拟竞赛
  * @date Date : 2023年01月14日 10:22
  */

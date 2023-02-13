@@ -6,7 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 二分法测试类
  * @date Date : 2022年07月21日 22:12
  */

@@ -5,7 +5,7 @@ import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 import java.util.*;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 竞赛的算法题
  * @date Date : 2022年08月06日 22:34
  */

@@ -1,12 +1,9 @@
 package com.iflytek.staff.chao.algorithm.base;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 滑动窗口
  * @date Date : 2023年02月09日 15:27
  */
@@ -123,5 +120,36 @@ public class SlidingWindow {
             max = Math.max(max, i - left);
         }
         return max;
+    }
+
+    /**
+     * 239. 滑动窗口最大值
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+
+        int[] ans = new int[nums.length - k +1];
+        PriorityQueue<int[]> pq = new PriorityQueue<>( new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o2[0] == o1[0] ? o2[1] - o1[1] : o2[0] - o1[0] ;
+            }
+        });
+        int j =0 ;
+        for (int i = 0; i < nums.length; i++) {
+            if(i>=k) {
+                ans[j++] = pq.peek()[0];
+                // 滑动窗口 向右移
+                while (!pq.isEmpty() && pq.peek()[1] <= i-k ){
+                    pq.poll();
+                }
+            }
+            pq.offer(new int[]{nums[i],i});
+        }
+        // 最后一个值
+        ans[j] = pq.peek()[0];
+        return ans ;
     }
 }

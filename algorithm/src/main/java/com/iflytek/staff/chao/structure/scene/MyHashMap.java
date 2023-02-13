@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.structure.scene;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 模拟哈希表    固定数组+链表
  * @date Date : 2022年07月13日 08:52
  */

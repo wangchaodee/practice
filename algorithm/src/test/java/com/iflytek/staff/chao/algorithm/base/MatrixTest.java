@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.algorithm.base;
 import junit.framework.TestCase;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 二位数组 测试
  * @date Date : 2022年07月28日 23:35
  */

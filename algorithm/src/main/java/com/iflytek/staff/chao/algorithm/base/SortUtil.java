@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.algorithm.base;
 import java.util.List;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 排序
  * @date Date : 2022年06月20日 下午4:02
  */

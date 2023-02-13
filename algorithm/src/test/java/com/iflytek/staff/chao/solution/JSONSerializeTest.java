@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.solution;
 import junit.framework.TestCase;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 测试JSON序列化
  * @date Date : 2023年02月07日 20:22
  */

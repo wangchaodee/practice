@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.algorithm.scene;
 import java.util.Random;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 打乱数组
  * @date Date : 2022年07月12日 10:41
  */

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 按概率挑选数字
  * @date Date : 2022年07月25日 10:57
  */

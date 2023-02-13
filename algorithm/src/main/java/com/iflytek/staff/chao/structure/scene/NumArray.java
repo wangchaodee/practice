@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.structure.scene;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 设计一个返回 left 到right 之间的 数据元素的只和
  * @date Date : 2022年07月21日 08:27
  */

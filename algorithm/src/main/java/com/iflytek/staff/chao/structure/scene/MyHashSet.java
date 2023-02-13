@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.structure.scene;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 705. 设计哈希集合
  * @date Date : 2023年02月06日 14:41
  */

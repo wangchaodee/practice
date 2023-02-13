@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 数组相关算法
  * @date Date : 2022年07月13日 16:38
  */

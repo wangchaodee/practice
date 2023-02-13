@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.structure.base.list;
 import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 链表和二叉树的交叉算法问题
  * @date Date : 2023年01月09日 14:01
  */

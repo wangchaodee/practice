@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.util;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 方向移动变量
  * @date Date : 2023年01月19日 15:20
  */

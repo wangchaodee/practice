@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.algorithm.base;
 import java.util.*;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 字符串类的 算法判断
  * @date Date : 2022年07月31日 18:01
  */

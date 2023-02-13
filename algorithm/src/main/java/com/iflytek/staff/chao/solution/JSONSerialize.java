@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 序列化JSON
  * @date Date : 2023年02月07日 20:05
  */

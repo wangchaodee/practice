@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 在线选举 查询得票多的人
  * @date Date : 2022年07月27日 17:51
  */

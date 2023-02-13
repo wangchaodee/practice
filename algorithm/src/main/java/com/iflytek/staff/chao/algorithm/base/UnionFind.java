@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.algorithm.base;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 并查集算法
  * @date Date : 2022年08月03日 17:52
  */

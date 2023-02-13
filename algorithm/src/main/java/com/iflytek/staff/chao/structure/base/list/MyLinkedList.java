@@ -2,7 +2,7 @@ package com.iflytek.staff.chao.structure.base.list;
 
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 设计链表
  * @date Date : 2022年07月22日 13:10
  */

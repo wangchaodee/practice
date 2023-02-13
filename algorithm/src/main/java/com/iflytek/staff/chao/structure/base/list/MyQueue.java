@@ -3,7 +3,7 @@ package com.iflytek.staff.chao.structure.base.list;
 import java.util.Stack;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 设计队列
  * @date Date : 2022年07月10日 09:58
  */

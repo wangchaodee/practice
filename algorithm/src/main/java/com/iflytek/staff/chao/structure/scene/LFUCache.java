@@ -6,7 +6,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 460  请你为 最不经常使用（LFU）缓存算法设计并实现数据结构。
  * @date Date : 2023年02月06日 13:51
  */

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 链表  增加了个指针 指向随机节点
  * @date Date : 2023年02月12日 10:17
  */

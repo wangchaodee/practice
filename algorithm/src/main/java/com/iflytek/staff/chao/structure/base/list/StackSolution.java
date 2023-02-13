@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 栈结构 相关算法
  * @date Date : 2023年01月10日 19:23
  */

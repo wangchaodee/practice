@@ -9,7 +9,7 @@ import static com.iflytek.staff.chao.algorithm.base.SortUtil.exchange;
 import static com.iflytek.staff.chao.algorithm.base.SortUtil.less;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 排序  从小到大
  * @date Date : 2022年06月21日 下午6:03
  */

@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import static com.iflytek.staff.chao.algorithm.base.SortUtil.less;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 数组遍历
  * @date Date : 2022年08月14日 21:48
  */

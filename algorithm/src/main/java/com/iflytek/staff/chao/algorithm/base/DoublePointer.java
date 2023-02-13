@@ -10,7 +10,7 @@ import java.util.List;
 import static com.iflytek.staff.chao.algorithm.base.SortUtil.less;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 双指针算法
  * @date Date : 2023年01月16日 10:32
  */

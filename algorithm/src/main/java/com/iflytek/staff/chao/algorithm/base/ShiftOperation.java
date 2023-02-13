@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.algorithm.base;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 位移运算
  * @date Date : 2022年07月29日 17:01
  */

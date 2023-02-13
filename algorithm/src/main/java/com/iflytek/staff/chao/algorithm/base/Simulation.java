@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 模拟
  * @date Date : 2022年07月28日 13:03
  */

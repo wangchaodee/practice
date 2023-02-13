@@ -1,6 +1,6 @@
 /**
  * @Description: 模拟paxos 算法
- * @author : hamilton
+ * @author : wangchaodee
  * @date Date : 2023年01月05日 20:13
  */
 package com.iflytek.staff.chao.protocol.paxos;

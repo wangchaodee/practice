@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 快照数组
  * @date Date : 2022年07月26日 20:34
  */

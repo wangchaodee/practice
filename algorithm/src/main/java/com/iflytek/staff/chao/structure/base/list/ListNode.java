@@ -1,7 +1,7 @@
 package com.iflytek.staff.chao.structure.base.list;
 
 /**
- * @author : hamilton
+ * @author : wangchaodee
  * @Description: 链表 算法
  * @date Date : 2022年06月23日 下午3:49
  */

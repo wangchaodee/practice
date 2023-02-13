@@ -91,7 +91,7 @@ public class TreeNode {
         return list;
     }
 
-    public List<Integer> inorderTraversal2(TreeNode root) {
+    public static List<Integer> inorderTraversal2(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         if (root == null) {
             return res;
