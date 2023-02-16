@@ -1,9 +1,11 @@
-package com.iflytek.staff.chao.structure.base.list;
+package com.iflytek.staff.chao.structure.scene;
 
+
+import com.iflytek.staff.chao.structure.base.list.ListNode;
 
 /**
  * @author : wangchaodee
- * @Description: 设计链表
+ * @Description: 707 设计链表
  * @date Date : 2022年07月22日 13:10
  */
 public class MyLinkedList {

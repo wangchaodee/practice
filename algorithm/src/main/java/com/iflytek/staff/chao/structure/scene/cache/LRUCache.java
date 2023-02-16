@@ -1,4 +1,4 @@
-package com.iflytek.staff.chao.structure.scene;
+package com.iflytek.staff.chao.structure.scene.cache;
 
 
 import java.util.HashMap;
@@ -9,35 +9,36 @@ import java.util.Map;
  * 146. LRU 缓存,  哈希链表
  * 请你设计并实现一个满足  LRU (最近最少使用) 缓存 约束的数据结构。
  */
-public class LRUCache {
+public class LRUCache  implements Cache {
 
-    private Map<Integer, DLinkNode> map;
-    private DLinkList cache ;
+    private Map<Integer, DLinkNode> cache;
+    // 维护一个队列 来表示数据近期被使用的顺序
+    private DLinkList queue;
     private int capacity;
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
-        map = new HashMap<>();
-        cache = new DLinkList();
+        cache = new HashMap<>();
+        queue = new DLinkList();
     }
 
     public int get(int key) {
-        if (!map.containsKey(key)) {
+        if (!cache.containsKey(key)) {
             return -1;
         }
         makeRecently(key);
-        return map.get(key).value;
+        return cache.get(key).value;
     }
 
     public void put(int key, int value) {
 
-        if(map.containsKey(key)){
+        if(cache.containsKey(key)){
             deleteKey(key);
             addRecently(key,value);
             return;
         }
 
-        if (capacity == cache.size()) {
+        if (capacity == queue.size()) {
             //删除最近最少使用
            removeLeastRecently();
         }
@@ -46,28 +47,28 @@ public class LRUCache {
     }
 
     private void makeRecently(int key){
-        DLinkNode node = map.get(key);
+        DLinkNode node = cache.get(key);
 
-        // 也可先判断是否末尾
-        cache.removeNode(node);
-        cache.addToTail(node);
+        // 将节点移动到队列尾部代表 最近被使用
+        queue.removeNode(node);
+        queue.addToTail(node);
     }
 
     private void addRecently(int key ,int value){
         DLinkNode node = new DLinkNode(key,value);
-        cache.addToTail(node);
-        map.put(key,node);
+        queue.addToTail(node);
+        cache.put(key,node);
     }
 
     private void deleteKey(int key){
-        DLinkNode node = map.get(key);
-        cache.removeNode(node);
-        map.remove(key);
+        DLinkNode node = cache.get(key);
+        queue.removeNode(node);
+        cache.remove(key);
     }
 
     private void removeLeastRecently(){
-        DLinkNode node = cache.removeFirst();
-        if(node !=null) map.remove(node.key);
+        DLinkNode node = queue.removeFirst();
+        if(node !=null) cache.remove(node.key);
     }
 
 
@@ -93,13 +94,6 @@ public class LRUCache {
             head.right = tail;
             tail.left = head;
             size=0;
-        }
-
-        public void moveToTail(DLinkNode node) {
-            // 去除
-            removeNode(node);
-            // 移到尾部
-            addToTail(node);
         }
 
         public void addToTail(DLinkNode node) {

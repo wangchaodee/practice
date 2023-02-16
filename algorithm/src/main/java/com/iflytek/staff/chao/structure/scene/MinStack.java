@@ -1,12 +1,13 @@
-package com.iflytek.staff.chao.structure.base.list;
+package com.iflytek.staff.chao.structure.scene;
 
 /**
+ * 155 最小栈
  * 基于链表方式（增加了个min属性 保存当前最小值） 实现一个栈  计算栈中的最小值
  * 计算已输入数据的最小值
  */
 public class MinStack {
 
-    private ListMinNode head;
+    private ListMinNode top;
 
     public MinStack() {
 
@@ -15,25 +16,25 @@ public class MinStack {
 
     public void push(int val) {
         int min = val;
-        if (head != null) {
-            min = Math.min(val, head.min);
+        if (top != null) {
+            min = Math.min(val, top.min);
         }
-        ListMinNode cur = new ListMinNode(val, min, head);
-        head = cur;
+        ListMinNode cur = new ListMinNode(val, min, top);
+        top = cur;
     }
 
     public void pop() {
-        ListMinNode next = head.next;
-        head.next = null;
-        head = next;
+        ListMinNode next = top.next;
+        top.next = null;
+        top = next;
     }
 
     public int top() {
-        return head.val;
+        return top.val;
     }
 
     public int getMin() {
-        return head.min;
+        return top.min;
     }
 
 

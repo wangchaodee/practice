@@ -32,11 +32,7 @@ public class BinarySearchTest  {
                 new  int[]{61,33,68,38,63,45,1,10,53,23,66,70,14,51,94,18,28,78,100,16});
     }
 
-    @Test
-    public void testNthUglyNumber() {
-        int res = test.nthUglyNumber(1,1,1,1);
-        System.out.println(res);
-    }
+
 
 
 }

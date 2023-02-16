@@ -1,8 +1,7 @@
-package com.iflytek.staff.chao.structure.scene;
+package com.iflytek.staff.chao.structure.scene.cache;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -10,13 +9,18 @@ import java.util.TreeSet;
  * @Description: 460  请你为 最不经常使用（LFU）缓存算法设计并实现数据结构。
  * @date Date : 2023年02月06日 13:51
  */
-public class LFUCache {
+public class LFUCache  implements Cache{
 
+    // time 代表时间器
     int capacity, time;
     Map<Integer, Node> cache;
+
+    // 统计数据 以树形排序
     TreeSet<Node> statistic;
 
     public LFUCache(int capacity) {
+        if(capacity == 0 ) throw new IllegalArgumentException();
+
         this.capacity = capacity ;
         this.time = 0 ;
         cache = new HashMap<>();
@@ -24,7 +28,6 @@ public class LFUCache {
     }
 
     public int get(int key) {
-        if(capacity == 0 ) return -1;
 
         if(!cache.containsKey(key))
             return -1 ;
@@ -44,7 +47,6 @@ public class LFUCache {
     }
 
     public void put(int key, int value) {
-        if(capacity == 0 ) return ;
 
         if(!cache.containsKey(key)){
 
@@ -71,6 +73,7 @@ public class LFUCache {
     }
 
     class Node implements Comparable<Node> {
+        // cnt 代表使用次数， time 最近的一次时间  值越大代表越近期
         int key, value, cnt, time;
 
         public Node(int key, int value, int cnt, int time) {

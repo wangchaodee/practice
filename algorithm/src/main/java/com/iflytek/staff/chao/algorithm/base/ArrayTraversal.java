@@ -1162,4 +1162,21 @@ public class ArrayTraversal {
         return ans;
     }
 
+    /**
+     * 2341. 数组能形成多少数对
+     * @param nums
+     * @return
+     */
+    public int[] numberOfPairs(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for(int num : nums){
+            if(set.contains(num)){
+                set.remove(num);
+            }else {
+                set.add(num);
+            }
+        }
+        return new int[]{(nums.length- set.size() ) /2 , set.size()};
+    }
+
 }

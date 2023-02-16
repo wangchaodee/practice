@@ -60,53 +60,6 @@ public class DynamicPlan {
         return step;
     }
 
-
-    /**
-     * 统计有多少路径从左上角到右下角   可能存在障碍物
-     *
-     * @param obstacleGrid
-     * @return
-     */
-    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m = obstacleGrid.length;
-        int n = obstacleGrid[0].length;
-
-        int[][] dp = new int[m][n];
-
-        dp[0][0] = 1;
-        for (int i = 1; i < m; i++) {
-            if (obstacleGrid[i][0] == 1) {
-                dp[i][0] = 0;
-            } else {
-                dp[i][0] = dp[i - 1][0];
-            }
-        }
-        for (int i = 1; i < n; i++) {
-            if (obstacleGrid[i][0] == 1) {
-                dp[0][i] = 0;
-            } else {
-                dp[0][i] = dp[0][i - 1];
-            }
-        }
-
-        for (int i = 1; i < m; i++) {
-            for (int j = 1; j < n; j++) {
-                if (obstacleGrid[i][j] == 1) {
-                    dp[i][j] = 0;
-                } else {
-                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-                }
-            }
-        }
-        return dp[m - 1][n - 1];
-    }
-
-
-
-
-
-
-
     /**
      * 最长递增子序列的个数
      *
@@ -389,22 +342,21 @@ public class DynamicPlan {
 
     public int minimumTotal(List<List<Integer>> triangle) {
         int N = triangle.size();
-        int[][] f = new int[N][N];
+        int[] f = new int[N];
 
-        f[0][0] = triangle.get(0).get(0);
+        f[0] = triangle.get(0).get(0);
         for (int i = 1; i < N; i++) {
-            f[i][0] = f[i - 1][0] + triangle.get(i).get(0);
-            for (int j = 1; j < i; j++) {
-                f[i][j] = Math.min(f[i - 1][j - 1], f[i - 1][j]) + triangle.get(i).get(j);
+            f[i] = f[i - 1] + triangle.get(i).get(i);
+            for (int j = i-1; j > 0; j--) {
+                f[j] = Math.min(f[j - 1], f[j]) + triangle.get(i).get(j);
             }
-            f[i][i] = f[i - 1][i - 1] + triangle.get(i).get(i);
+            f[0] = f[0] + triangle.get(i).get(0);
         }
-        int min = 0;
+        int min = Integer.MAX_VALUE;
         for (int i = 0; i < N; i++) {
-            min = Math.min(min, f[N - 1][i]);
+            min = Math.min(min, f[i]);
         }
         return min;
-
     }
 
     public int minStartValue(int[] nums) {
@@ -423,106 +375,6 @@ public class DynamicPlan {
     }
 
 
-    /**
-     * 931. 下降路径最小和
-     *
-     * @param matrix
-     * @return
-     */
-    public int minFallingPathSum(int[][] matrix) {
-        int n = matrix.length;
-        int[][] dp = new int[n][n];
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == 0) {
-                    // 首行 等于自身元素值
-                    dp[i][j] = matrix[i][j];
-                } else {
-                    // 上方的值 转移过来
-                    dp[i][j] = dp[i - 1][j] + matrix[i][j];
-
-                    if (j > 0) {
-                        // 左上方的值 转移过来
-                        dp[i][j] = Math.min(dp[i][j], dp[i - 1][j - 1] + matrix[i][j]);
-                    }
-
-                    if (j < n - 1) {
-                        // 右上方的值 转移过来
-                        dp[i][j] = Math.min(dp[i][j], dp[i - 1][j + 1] + matrix[i][j]);
-                    }
-                }
-            }
-        }
-        // 遍历最后一行的最小值
-        int min = dp[n - 1][0];
-        for (int i = 1; i < n; i++) {
-            min = Math.min(min, dp[n - 1][i]);
-        }
-        return min;
-    }
-
-    public int minFallingPathSum_1(int[][] grid) {
-        int n = grid.length;
-        int[] dp = new int[n+2];
-        dp[0] = dp[n+1] = Integer.MAX_VALUE;
-        // 首行
-        for (int j = 1; j <=n ; j++) {
-            dp[j] = grid[0][j];
-        }
-
-        for (int i = 1; i < n; i++) {
-             int temp = 0 , last = Integer.MAX_VALUE ;
-            for (int j = 1; j <= n; j++) {
-                // 上方的非同一列转移的都可以
-                temp = dp[j];
-                dp[j] = Math.min( Math.min(last,dp[j]),dp[j+1]) + grid[i][j-1];
-                last = temp;
-            }
-        }
-        // 遍历最后一行的最小值
-        int min = dp[0];
-        for (int i = 1; i <= n; i++) {
-            min = Math.min(min, dp[i]);
-        }
-        return min;
-    }
-
-    /**
-     * 1289. 下降路径最小和 II   相邻行的元素不可以在同一列
-     *
-     * @param grid
-     * @return
-     */
-    public int minFallingPathSum2(int[][] grid) {
-        int n = grid.length;
-        int[][] dp = new int[n][n];
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == 0) {
-                    // 首行 等于自身元素值
-                    dp[i][j] = grid[i][j];
-                } else {
-                    // 上方的值 转移过来
-                    dp[i][j] = 20000;
-
-                    for (int k = 0; k < n; k++) {
-                        if (j != k) {
-                            // 上方的非同一列转移的都可以
-                            dp[i][j] = Math.min(dp[i][j], dp[i - 1][k] + grid[i][j]);
-                        }
-                    }
-                }
-            }
-        }
-        // 遍历最后一行的最小值
-        int min = dp[n - 1][0];
-        for (int i = 1; i < n; i++) {
-            min = Math.min(min, dp[n - 1][i]);
-        }
-        return min;
-    }
 
     /**
      * 918 环形数组的 最大子序列和
@@ -792,6 +644,7 @@ public class DynamicPlan {
         }
         return ans;
     }
+
 
 
 }

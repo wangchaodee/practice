@@ -436,4 +436,39 @@ public class GreedyOpt {
         }
         return ans ;
     }
+
+    /**
+     * 860. 柠檬水找零
+     * @param bills
+     * @return
+     */
+    public boolean lemonadeChange(int[] bills) {
+        int fiveCount =0 , tenCount =0 , tweentyCount = 0 ;
+        int i = 0 ;
+        while (i<bills.length){
+            if (bills[i] == 5 ){
+                fiveCount++;
+            }else if(bills[i]==10){
+                if(fiveCount<1) {
+                    break;
+                }
+                fiveCount--;
+                tenCount++;
+            }else {
+                if(tenCount>0 && fiveCount>0){
+                        tenCount--;
+                        fiveCount--;
+                        tweentyCount++;
+                }else if(fiveCount>3) {
+                    fiveCount -=3;
+                    tweentyCount++;
+                }else {
+                    break;
+                }
+            }
+
+            i++;
+        }
+        return  i==bills.length;
+    }
 }

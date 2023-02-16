@@ -1,6 +1,6 @@
 package com.iflytek.staff.chao.structure.scene;
 
-import junit.framework.TestCase;
+import com.iflytek.staff.chao.structure.scene.cache.LRUCache;
 
 /**
  * @author : wangchaodee

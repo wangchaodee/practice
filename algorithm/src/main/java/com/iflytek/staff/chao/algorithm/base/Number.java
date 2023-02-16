@@ -300,4 +300,18 @@ public class Number {
         }
         return cnt ;
     }
+
+    /**
+     * 1250. 检查「好数组」    共同的最小公倍数是否为1
+     * @param nums
+     * @return
+     */
+    public boolean isGoodArray(int[] nums) {
+        int divi = nums[0];
+        for (int i = 1; i <nums.length ; i++) {
+            divi = gcd(divi ,nums[i]);
+            if(divi==1) break;
+        }
+        return divi==1 ;
+    }
 }

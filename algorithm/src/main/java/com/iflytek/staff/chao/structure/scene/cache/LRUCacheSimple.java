@@ -1,4 +1,4 @@
-package com.iflytek.staff.chao.structure.scene;
+package com.iflytek.staff.chao.structure.scene.cache;
 
 import java.util.LinkedHashMap;
 
@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
  * @Description: 基于LinkedHashMap 实现LRU
  * @date Date : 2023年02月06日 13:39
  */
-public class LRUCacheSimple {
+public class LRUCacheSimple  implements Cache {
 
     private int capacity ;
     private LinkedHashMap<Integer,Integer>  cache = new LinkedHashMap();
