@@ -4,11 +4,11 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author : wangchaodee
  * @Description: 负载均衡的模拟测试
- * @date Date : 2023年02月16日 19:50
  */
 public class LoadBalanceTest {
 
@@ -56,9 +56,27 @@ public class LoadBalanceTest {
         return requestList ;
     }
 
+
+    /**
+     *  负载分发时依赖请求中的信息
+     */
+    private List<Request> generateRequestList(){
+        Random random = new Random();
+        // 执行请求
+        List<Request> requestList = new ArrayList<>();
+        Request base = new Request();
+        for (int i = 0; i < requestNum; i++) {
+            Request request = base.clone();
+            // 模拟
+            request.setIp(random.nextInt(i));
+            requestList.add(request);
+        }
+        return requestList ;
+    }
+
     private void execute(LoadBalance loadBalance , List<Request> requestList){
         for (int i = 0; i < requestList.size(); i++) {
-            loadBalance.get(requestList.get(i));
+            loadBalance.handleRequest(requestList.get(i));
         }
     }
 
@@ -117,6 +135,20 @@ public class LoadBalanceTest {
         for(Server server : loadBalance.getServerList()){
             System.out.printf(" Server :%s  maxConnect : %d, processed Request : %d \n " ,
                     server.hashCode() ,server.getMaxConnect(), server.getProcessed());
+        }
+    }
+
+    @Test
+    public void testMiniConnectLb(){
+
+        LoadBalance loadBalance = new LoadBalance(new MiniConnectSelector());
+        System.out.println("SelectorName :" + loadBalance.getSelector().getClass().getSimpleName());
+        loadBalance.registerServerList(generateServerList());
+        // 执行请求
+        execute(loadBalance,generateBlankRequestList());
+
+        for(Server server : loadBalance.getServerList()){
+            System.out.printf(" Server :%s , processed Request : %d \n " , server.hashCode() , server.getProcessed());
         }
     }
 

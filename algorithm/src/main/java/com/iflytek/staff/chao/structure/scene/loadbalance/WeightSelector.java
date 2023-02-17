@@ -8,7 +8,6 @@ import java.util.Random;
 /**
  * @author : wangchaodee
  * @Description: 增加加权过滤
- * @date Date : 2023年02月16日 21:29
  */
 public abstract class WeightSelector implements Selector {
 

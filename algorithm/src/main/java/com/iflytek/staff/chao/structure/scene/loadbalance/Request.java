@@ -22,4 +22,20 @@ public class Request implements Cloneable {
             return new Request();
         }
     }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public void setIp(int ip) {
+        this.ip = ip;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public int getIp() {
+        return ip;
+    }
 }

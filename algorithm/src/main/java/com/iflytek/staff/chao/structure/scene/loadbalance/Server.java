@@ -50,12 +50,20 @@ public class Server {
     }
 
     /**
-     * 模拟返回 当前连接的数量
+     * 模拟返回 当前连接的数量  ,相当于监控检查后上报
      * @return
      */
-    public int getCurrentConnect(Random random){
+    public int refreshCurrentConnect(Random random){
         currentConnect = random.nextInt(maxConnect);
         return currentConnect;
+    }
+
+    public int getCurrentConnect(){
+        return currentConnect;
+    }
+
+    public void increaseCurrentConnect(){
+         ++currentConnect;
     }
 
     /**

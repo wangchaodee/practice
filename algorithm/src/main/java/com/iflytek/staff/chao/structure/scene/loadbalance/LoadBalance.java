@@ -17,8 +17,6 @@ public class LoadBalance {
      */
     private List<Server> serverList;
 
-    private int count ;
-
     private Selector selector ;
 
     public LoadBalance(Selector selector){
@@ -31,7 +29,6 @@ public class LoadBalance {
      */
     public void registerServerList(List<Server> serverList){
         this.serverList = serverList;
-        count = serverList.size() ;
         selector.registerServerList(getServerList());
     }
 
@@ -40,7 +37,7 @@ public class LoadBalance {
      * @param request
      * @return
      */
-     Server get(Request request){
+     Server handleRequest(Request request){
          Server server = serverList.get(selector.generateIdx());
          server.handle(request);
          return server;
@@ -49,10 +46,6 @@ public class LoadBalance {
 
     public List<Server> getServerList() {
         return serverList;
-    }
-
-    public int getCount() {
-        return count;
     }
 
     public Selector getSelector() {

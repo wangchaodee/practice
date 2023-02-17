@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * @author : wangchaodee
  * @Description: 选择器
- * @date Date : 2023年02月16日 22:48
  */
 public interface Selector {
 
