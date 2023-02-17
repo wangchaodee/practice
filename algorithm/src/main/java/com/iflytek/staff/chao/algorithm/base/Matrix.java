@@ -1,6 +1,7 @@
 package com.iflytek.staff.chao.algorithm.base;
 
 import com.iflytek.staff.chao.util.DirectionUtil;
+import com.iflytek.staff.chao.util.NumberUtil;
 
 import java.util.*;
 
@@ -160,7 +161,7 @@ public class Matrix {
                         x = -x;
                         y = -y;
                     }
-                    int xy = Number.gcd(y, Math.abs(x));
+                    int xy = NumberUtil.gcd(y, Math.abs(x));
                     x /= xy;
                     y /= xy;
                     int key = y + x * 20001;

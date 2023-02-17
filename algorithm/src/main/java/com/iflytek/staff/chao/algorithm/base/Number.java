@@ -1,5 +1,7 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import com.iflytek.staff.chao.util.NumberUtil;
+
 import java.util.*;
 
 /**
@@ -219,16 +221,7 @@ public class Number {
         return n == 1;
     }
 
-    /**
-     * 最小公倍数
-     *
-     * @param a
-     * @param b
-     * @return
-     */
-    public static int gcd(int a, int b) {
-        return b == 0 ? a : gcd(b, a % b);
-    }
+
 
     /**
      * 算阶乘后 尾数为0的个数
@@ -309,7 +302,7 @@ public class Number {
     public boolean isGoodArray(int[] nums) {
         int divi = nums[0];
         for (int i = 1; i <nums.length ; i++) {
-            divi = gcd(divi ,nums[i]);
+            divi = NumberUtil.gcd(divi ,nums[i]);
             if(divi==1) break;
         }
         return divi==1 ;

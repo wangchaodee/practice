@@ -1,40 +1,459 @@
 package com.iflytek.staff.chao.algorithm.base;
 
-import com.iflytek.staff.chao.structure.base.tree.TreeNode;
+import com.iflytek.staff.chao.util.NumberUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author : wangchaodee
- * @Description: 动态规划
- * @date Date : 2022年07月15日 16:23
+ * @Description: 动态规划 简单类型 如 数字 数学相关 算法题的归集
+ * @date Date : 2023年01月19日 15:52
  */
-public class DynamicPlan {
+public class DynamicPlanMath {
+
+/*    斐波那契数列
+1. 爬楼梯
+2. 强盗抢劫
+3. 强盗在环形街区抢劫
+4. 信件错排
+5. 母牛生产
+*/
 
 
     /**
-     * 打家劫舍 情况三  房子是二叉树型相邻
+     * 70 爬楼梯， 每次只可以走一步，或两步，   n步楼梯，有多少中走法，
+     * 变化的斐波拉切数列 问题
      *
-     * @param root
+     * @param n
      * @return
      */
-    Map<TreeNode, Integer> choose = new HashMap<>();
-    Map<TreeNode, Integer> ignore = new HashMap<>();
-
-    public int rob(TreeNode root) {
-        dfs(root);
-        return Math.max(choose.getOrDefault(root, 0), ignore.getOrDefault(root, 0));
+    public int climbStairs(int n) {
+        int[] dp = new int[n + 2];
+        dp[0]=1 ;dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 2] + dp[i - 1];
+        }
+        return dp[n];
     }
 
-    private void dfs(TreeNode root) {
-        if (root == null) return;
+    public int climbStairs2(int n) {
+        return fiber2(n, 1, 1);
+    }
 
-        dfs(root.left);
-        dfs(root.right);
+    private Integer fiber2(int n, int a, int b) {
+        if (n <= 1) {
+            return 1;
+        }
+        Integer ret = 0;
+        for (int i = 2; i <= n; i++) {
+            ret = a + b;
+            a = b;
+            b = ret;
+        }
+        return ret;
+    }
 
-        choose.put(root, root.val + ignore.getOrDefault(root.left, 0) + ignore.getOrDefault(root.right, 0));
-        ignore.put(root, Math.max(choose.getOrDefault(root.left, 0), ignore.getOrDefault(root.left, 0))
-                + Math.max(choose.getOrDefault(root.right, 0), ignore.getOrDefault(root.right, 0)));
+    public int fiber(int n) {
+        if (n < 2) return n;
+        int MOD = 1000000007;
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        for (int i = 2; i < n + 1; i++) {
+            dp[i] = (dp[i - 2] + dp[i - 1]) % MOD;
+        }
+        return dp[n];
+    }
+
+    public int fib(int n) {
+        int[] dp = new int[n + 2];
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 2] + dp[i - 1];
+        }
+        return dp[n];
+    }
+
+    /**
+     * 1137 泰波那契数字  三数相加
+     *
+     * @param n
+     * @return
+     */
+    public int tribonacci(int n) {
+        int[] tb = new int[n + 3];
+        tb[1] = tb[2] = 1;
+        for (int i = 3; i <= n; i++) {
+            tb[i] = tb[i - 3] + tb[i - 2] + tb[i - 1];
+        }
+        return tb[n];
+    }
+
+    /**
+     * 746. 使用最小花费爬楼梯
+     * @param cost
+     * @return
+     */
+    public int minCostClimbingStairs(int[] cost) {
+        int N = cost.length;
+        int[] dp = new int[N+1 ];
+
+        dp[0] = 0;
+        dp[1] = 0;
+        for (int i = 2; i <= N; i++) {
+            dp[i] = Math.min(dp[i - 2] + cost[i-2] , dp[i - 1]+cost[i-1])  ;
+        }
+        return dp[N ];
+    }
+
+    /**
+     * 198 打家劫舍 情况一  一排房子  相邻房子被偷会报警
+     *
+     * @param nums
+     * @return
+     */
+    public int rob(int[] nums) {
+        int N = nums.length;
+        int[] dp = new int[N + 1];
+        dp[1] = nums[0];
+        for (int i = 2; i <= N; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
+        }
+        return dp[N];
+    }
+
+    public int rob_2(int[] nums) {
+        int max1 = 0; //没
+        int max2 = nums[0];//偷了  nums[0]
+
+        for (int i = 1; i < nums.length; i++) {
+            int curr = Math.max(max2, max1 + nums[i]);
+            max1 = max2;
+            max2 = curr;
+        }
+        return max2;
+    }
+
+    /**
+     * 打家劫舍 情况二  围成一圈的房子  相邻房子被偷会报警
+     *
+     * @param nums
+     * @return
+     */
+    public int robCase2(int[] nums) {
+        int N = nums.length;
+        if (N == 1) return nums[0];
+        int max1 = robCase2(nums, 0, N - 1);
+        int max2 = robCase2(nums, 1, N);
+
+        return max1 > max2 ? max1 : max2;
+    }
+
+    private int robCase2(int[] nums, int start, int end) {
+        int max1 = 0; //没
+        int max2 = nums[start];//偷了
+
+        for (int i = start+1; i < end; i++) {
+            int curr = Math.max(max2, max1 + nums[i]);
+            max1 = max2;
+            max2 = curr;
+        }
+        return max2;
+    }
+
+
+    /**
+     * 62 统计有多少路径从左上角到右下角
+     *
+     * @param m
+     * @param n
+     * @return
+     */
+    public int uniquePaths(int m, int n) {
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[j] = dp[j] + dp[j - 1];
+            }
+        }
+
+        return dp[n - 1];
+    }
+
+
+    /**
+     * 数组中等差递增子区间的个数
+     * 413. Arithmetic Slices (Medium)
+     *
+     * @param nums
+     * @return
+     */
+    public int numberOfArithmeticSlices(int[] nums) {
+        int N = nums.length;
+        if (N < 3) return 0;
+
+        int[] dp = new int[N];
+        for (int i = 2; i < N; i++) {
+            if (nums[i] - nums[i - 1] == nums[i - 1] - nums[i - 2]) {
+                dp[i] = dp[i - 1] + 1;
+            }
+        }
+
+        int ans = 0;
+        for (int i = 0; i < N; i++) {
+            ans += dp[i];
+        }
+        return ans;
+    }
+
+
+    /**
+     * 343 将n 拆分成两个以上的正整数 ， 求 最大的乘积
+     *
+     * @param n
+     * @return
+     */
+    public int integerBreak(int n) {
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            for (int j = 1; j < i; j++) {
+                dp[i] = Math.max(dp[i], Math.max(j * (i - j), j * dp[i - j]));
+            }
+        }
+
+        return dp[n];
+    }
+
+/**
+ * 分割整数
+ * 1. 分割整数的最大乘积
+ * 2. 按平方数来分割整数
+ * 3. 分割整数构成字母字符串
+ */
+    /**
+     * 279 完全平方数
+     * @param n
+     * @return
+     */
+    public int numSquares(int n) {
+        List<Integer> sqList = generateSquareList(n);
+        int[] dp = new int[n+1];
+        for (int i = 1 ; i <= n; i++) {
+            int min = i ;
+            for ( int square : sqList){
+                if(square > i) break;
+                min = Math.min(min , dp[i-square] +1);
+            }
+            dp[i] = min;
+        }
+        return dp[n];
+    }
+
+    private List<Integer> generateSquareList(int n){
+        List<Integer> sqList= new ArrayList<>();
+        int diff =3 ;
+        int square = 1 ;
+        while (square<=n){
+            sqList.add(square);
+            square+=diff;
+            diff+=2;
+        }
+        return sqList;
+    }
+
+    /**
+     * 91 分割整数构成字母字符串
+     * @param s
+     * @return
+     */
+    public int numDecodings(String s) {
+        int N = s.length();
+        int[] dp = new int[N + 1];
+        dp[0] = 1;
+        for (int i = 0; i < N; i++) {
+            char c = s.charAt(i );
+            if (c != '0') {
+                dp[i+1] += dp[i ];
+            }
+            if (i >= 1 && s.charAt(i - 1) != '0' && ((s.charAt(i - 1) - '0') * 10 + (c - '0') <= 26)) {
+                dp[i+1] += dp[i - 1];
+            }
+
+        }
+        return dp[N];
+    }
+
+//    最长递增子序列
+//1. 最长递增子序列
+//2. 一组整数对能够构成的最长链
+//3. 最长摆动子序列
+    /**
+     * 300. 最长递增子序列
+     *
+     * @param nums
+     * @return
+     */
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        for (int i = 1; i < n; i++) {
+            int max = 1;
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    max = Math.max(max, dp[j] + 1);
+                }
+            }
+            dp[i] = max;
+        }
+        return Arrays.stream(dp).max().orElse(0);
+    }
+
+    public int lengthOfLIS_2(int[] nums) {
+        int[] sort = new int[nums.length] ;
+        int res = 0;
+        for(int num : nums){
+            int l =0 , r= res ;
+            //[l,r)  右边不包含
+            while (l<r){
+                int m = (l+r)>>1;
+                if(sort[m] <num){
+                    l=m+1;
+                }else {
+                    r=m;
+                }
+            }
+            sort[l] = num;
+            // 说明 sort中值小 l指针增大到了r ,右边扩展填充了个值 ，个数就增加一个
+            if(r==res) res++;
+        }
+        return  res ;
+    }
+
+
+    /**
+     * 646. 最长数对链
+     * @param pairs
+     * @return
+     */
+    public int findLongestChain(int[][] pairs) {
+        int n = pairs.length ;
+
+        Arrays.sort(pairs,(a,b)-> a[0] - b[0]);
+
+        int[] dp = new int[n] ;
+        Arrays.fill(dp,1);
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if(pairs[j][1] < pairs[i][0]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        return Arrays.stream(dp).max().getAsInt();
+    }
+
+    /**
+     * 376. 摆动序列
+     * @param nums
+     * @return
+     */
+    public int wiggleMaxLength(int[] nums) {
+        if(nums==null || nums.length ==0) return 0;
+        int down = 1, up =1 ;
+        for (int i = 1; i < nums.length; i++) {
+            if(nums[i] > nums[i-1]) {
+                up = down+1;
+            } else if(nums[i] < nums[i-1]) {
+                down = up+1;
+            }
+        }
+        return Math.max(up,down);
+    }
+
+    public int wiggleMaxLength_2(int[] nums) {
+        int n = nums.length;
+        if( n <2) return n ;
+        int prediff = nums[1] -nums[0] ;
+        int cnt = (prediff !=0)? 2:1 ;
+        for (int i = 2; i < nums.length; i++) {
+            int diff = nums[i] - nums[i-1];
+            if((diff>0 && prediff<=0 ) || (diff<0 && prediff>=0)) {
+               cnt++;
+               prediff = diff ;
+            }
+        }
+        return cnt;
+    }
+
+    /**
+     * 650. 只有两个键的键盘
+     * @param n
+     * @return
+     */
+    public int minSteps(int n) {
+        if(n==1) return 0;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if(n%i==0) return i+ minSteps(n/i);
+        }
+        return n;
+    }
+
+    public int minSteps2(int n) {
+        int h = (int) Math.sqrt(n) ;
+        int[] dp = new int[n+1];
+        for (int i = 2; i <= n; i++) {
+            dp[i] = i ;
+            for (int j = 2; j <= h; j++) {
+                if(i%j==0){
+                    dp[i] = dp[j] + dp[i/j] ;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+
+    /**
+     * 264. 丑数 II
+     * @param n
+     * @return
+     */
+    public int nthUglyNumber(int n) {
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        int p1 = 1, p2 = 1, p3 = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = Math.min(Math.min(dp[p1] * 2, dp[p2] * 3), dp[p3] * 5);
+            if (dp[i] == dp[p1] * 2) p1++;
+            if (dp[i] == dp[p2] * 3) p2++;
+            if (dp[i] == dp[p3] * 5) p3++;
+        }
+        return dp[n];
+    }
+
+    public int nthUglyNumber(int n, int a, int b, int c) {
+//        int ans=0 ;
+        long l = 1, r = Integer.MAX_VALUE;
+        long ab = NumberUtil.lcm(a, b);
+        long ac = NumberUtil.lcm(a, c);
+        long bc = NumberUtil.lcm(b, c);
+        long abc = NumberUtil.lcm(b, ac);
+
+        while (l <= r) {
+            long mid = (r - l) / 2 + l;
+            long N = mid / a + mid / b + mid / c - mid / ab - mid / ac - mid / bc + mid / abc;
+            if (N < n) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return (int) l;
     }
 
 
@@ -98,79 +517,6 @@ public class DynamicPlan {
 
         return maxcnt;
     }
-
-
-
-
-    /**
-     * 583 只允许删除操作  ，求最小删除次数
-     *
-     * @param word1
-     * @param word2
-     * @return
-     */
-    public int minDistance2(String word1, String word2) {
-        int m = word1.length();
-        int n = word2.length();
-
-        int[][] dp = new int[m + 1][n + 1];
-        for (int i = 1; i <= m; i++) {
-            char c1 = word1.charAt(i - 1);
-            for (int j = 1; j <= n; j++) {
-                char c2 = word2.charAt(j - 1);
-                if (c1 == c2) {
-                    dp[i][j] = dp[i - 1][j - 1] + 1;
-                } else {
-                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-                }
-            }
-        }
-        return m - dp[m][n] + n - dp[m][n];
-    }
-
-    /**
-     * 72. 编辑距离
-     * 可以删除  、修改  、插入 字符， 求最少操作次数
-     *
-     * @param word1
-     * @param word2
-     * @return
-     */
-    public int minDistance(String word1, String word2) {
-        int m = word1.length();
-        int n = word2.length();
-
-        if (m * n == 0) {
-            return m + n;
-        }
-
-        int[][] dp = new int[m + 1][n + 1];
-        // 首列差异
-        for (int i = 1; i <= m; i++) {
-            dp[i][0] = i;
-        }
-        // 首行差异
-        for (int i = 1; i <= n; i++) {
-            dp[0][i] = i;
-        }
-
-        for (int i = 1; i <= m; i++) {
-            char c1 = word1.charAt(i - 1);
-            for (int j = 1; j <= n; j++) {
-                char c2 = word2.charAt(j - 1);
-                if (c1 == c2) {
-                    dp[i][j] = dp[i - 1][j - 1];
-                } else {
-                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
-                }
-            }
-        }
-
-        return dp[m][n];
-    }
-
-
-
 
     /**
      * 740. 删除并获得点数
@@ -246,9 +592,9 @@ public class DynamicPlan {
             }else {
                 newBuy = Math.max(buy, coldSell - prices[i]);
             }
-             buy = newBuy;
-             coldSell = sell;
-             sell = newSell;
+            buy = newBuy;
+            coldSell = sell;
+            sell = newSell;
 
         }
         return sell ;
@@ -276,7 +622,7 @@ public class DynamicPlan {
     public int maxProfit4_2(int[] prices, int fee) {
         int n = prices.length;
         int a = -prices[0]; // 拥有股票
-         int b = 0; // 无股票
+        int b = 0; // 无股票
 
         for (int i = 1; i < n; i++) {
             int a_ = Math.max(a, b - prices[i]);
@@ -297,15 +643,15 @@ public class DynamicPlan {
         int firstBuy = Integer.MIN_VALUE ,firstSell= 0  ;
         int secondBuy  = Integer.MIN_VALUE  ,  secondSell =0 ;
         for (int curPrice : prices) {
-           if(firstBuy < -curPrice ) {
-               firstBuy= -curPrice ;
-           }
-           if(firstSell < firstBuy + curPrice ){
-               firstSell= firstBuy + curPrice ;
-           }
-           if(secondBuy < firstSell -curPrice ){
-               secondBuy = firstSell -curPrice ;
-           }
+            if(firstBuy < -curPrice ) {
+                firstBuy= -curPrice ;
+            }
+            if(firstSell < firstBuy + curPrice ){
+                firstSell= firstBuy + curPrice ;
+            }
+            if(secondBuy < firstSell -curPrice ){
+                secondBuy = firstSell -curPrice ;
+            }
             if(secondSell < secondBuy + curPrice ){
                 secondSell = curPrice + secondBuy ;
             }
@@ -601,7 +947,7 @@ public class DynamicPlan {
      * @return
      */
     public int getMoneyAmount(int n) {
-       int[][] dp = new int[n+1][n+1] ;
+        int[][] dp = new int[n+1][n+1] ;
         for (int i = n-1; i >=1 ; i--) {
             for (int j = i+1; j <=n ; j++) {
                 dp[i][j] = j + dp[i][j-1];
@@ -637,14 +983,11 @@ public class DynamicPlan {
             row.add(1);
             int j =i-1 ;
             while (j>0) {
-                    row.set(j, row.get(j)+ row.get(j-1)  );
-                    j--;
+                row.set(j, row.get(j)+ row.get(j-1)  );
+                j--;
             }
             ans.add(new ArrayList<>(row));
         }
         return ans;
     }
-
-
-
 }

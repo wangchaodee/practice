@@ -1,6 +1,5 @@
-package com.iflytek.staff.chao.structure.scene;
+package com.iflytek.staff.chao.structure.scene.cache;
 
-import com.iflytek.staff.chao.structure.scene.cache.LRUCache;
 
 /**
  * @author : wangchaodee
