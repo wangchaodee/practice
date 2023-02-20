@@ -1,6 +1,9 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import org.apache.logging.log4j.util.PropertySource;
+
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * @author : wangchaodee
@@ -151,21 +154,18 @@ public class DynamicPlanBackPacking {
         return dp[amount] == min ? -1 : dp[amount];
     }
 
-    public int coinChange2(int[] coins, int amount) {
-        if (amount == 0 || coins == null) return 0;
+    public int coinChange_1(int[] coins, int amount) {
         int[] dp = new int[amount + 1];
+        int min = amount+1 ;
+        Arrays.fill(dp, min);
+        Arrays.sort(coins);
+        dp[0] = 0;
         for (int coin : coins) {
-            for (int i = coin; i <= amount; i++) {
-                if (coin == i) {
-                    dp[i] = 1;
-                }else if(dp[i]==0 && dp[i-coin] !=0){
-                    dp[i] =  1 + dp[i - coin];
-                }else if(dp[i-coin] !=0){
+             for (int i = coin; i <= amount; i++) {
                     dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
-                }
             }
         }
-        return dp[amount]==0 ?-1 :dp[amount] ;
+        return dp[amount] == min ? -1 : dp[amount];
     }
 
     /**

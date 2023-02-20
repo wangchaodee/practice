@@ -19,11 +19,12 @@ public class DynamicPlanString {
     public int longestCommonSubsequence(String text1, String text2) {
         int m = text1.length();
         int n = text2.length();
+        if(m>n) return longestCommonSubsequence(text2,text1);
 
         int[][] dp = new int[m + 1][n + 1];
         for (int i = 1; i <= m; i++) {
             char c1 = text1.charAt(i - 1);
-            for (int j = 1; j <= n; j++) {
+            for (int j = dp[i-1][n]; j <= n; j++) {
                 char c2 = text2.charAt(j - 1);
                 if (c1 == c2) {
                     dp[i][j] = dp[i - 1][j - 1] + 1;
@@ -112,12 +113,14 @@ public class DynamicPlanString {
         }
 
         for (int i = 1; i <= m; i++) {
+            // 转换charArray 再查找 更快
             char c1 = word1.charAt(i - 1);
             for (int j = 1; j <= n; j++) {
                 char c2 = word2.charAt(j - 1);
                 if (c1 == c2) {
                     dp[i][j] = dp[i - 1][j - 1];
                 } else {
+                    //  dp[i - 1][j], dp[i][j - 1]  增加一个字符 ， dp[i - 1][j - 1]) 修改一个字符   即可 达到i 和 j 指向的字符相等
                     dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
                 }
             }

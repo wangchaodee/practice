@@ -42,6 +42,7 @@ public class ListNodeSolution {
     }
 
     /**
+     * 剑指 Offer 24. 反转链表
      * 翻转链表   递归   或者采用头插法
      *
      * @param head
@@ -290,19 +291,22 @@ public class ListNodeSolution {
         return ans.next;
     }
 
+    /**
+     * 剑指 Offer 06. 从尾到头打印链表
+     * @param head
+     * @return
+     */
     public int[] reversePrint(ListNode head) {
         Stack<Integer> stack = new Stack<>();
-
-        int index = 0;
+        int cnt = 0;
         while (head != null) {
-            index++;
+            cnt++;
             stack.add(head.val);
             head = head.next;
         }
-        int[] ret = new int[index];
-        index = 0;
-        while (!stack.empty()) {
-            ret[index++] = stack.peek();
+        int[] ret = new int[cnt];
+        for (int i = 0; i < cnt; i++) {
+            ret[i] = stack.pop();
         }
         return ret;
     }

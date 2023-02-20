@@ -445,7 +445,11 @@ public class StringSolution {
         return sb.toString();
     }
 
-
+    /**
+     * 14. 最长公共前缀
+     * @param strs
+     * @return
+     */
     public String longestCommonPrefix(String[] strs) {
         if (strs == null || strs.length == 0) {
             return "";

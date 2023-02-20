@@ -7,10 +7,10 @@ package com.iflytek.staff.chao.structure.scene;
  */
 public class MinStack {
 
-    private ListMinNode top;
+    private MinNode top;
 
     public MinStack() {
-
+        top = null ;
     }
 
 
@@ -19,31 +19,34 @@ public class MinStack {
         if (top != null) {
             min = Math.min(val, top.min);
         }
-        ListMinNode cur = new ListMinNode(val, min, top);
+        MinNode cur = new MinNode(val, min, top);
         top = cur;
     }
 
     public void pop() {
-        ListMinNode next = top.next;
+        if(top == null) return;
+        MinNode next = top.next;
         top.next = null;
         top = next;
     }
 
     public int top() {
+        if(top == null) return -1 ;
         return top.val;
     }
 
     public int getMin() {
+        if(top == null) return -1 ;
         return top.min;
     }
 
 
-    class ListMinNode {
+    class MinNode {
         int val;
         int min;
-        ListMinNode next;
+        MinNode next;
 
-        public ListMinNode(int val, int min, ListMinNode next) {
+        public MinNode(int val, int min, MinNode next) {
             this.val = val;
             this.min = min;
             this.next = next;

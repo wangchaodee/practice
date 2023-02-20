@@ -210,7 +210,6 @@ public class Number {
 
         while (n != 1 && !cycles.contains(n)) {
             int next = 0;
-//            int t = n;
             while (n > 0) {
                 int y = n % 10;
                 next += y * y;

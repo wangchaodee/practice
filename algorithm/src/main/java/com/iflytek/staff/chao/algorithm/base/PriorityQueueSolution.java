@@ -13,38 +13,39 @@ public class PriorityQueueSolution {
 
     /**
      * 剑指 Offer II 078. 合并排序链表
+     *
      * @param lists
      * @return
      */
     public ListNode mergeKLists(ListNode[] lists) {
-        if(lists.length==0 || (lists.length==1 && lists[0]==null)){
+        if (lists.length == 0 || (lists.length == 1 && lists[0] == null)) {
             return null;
         }
-        int k = lists.length ;
+        int k = lists.length;
         PriorityQueue<ListNode> pq = new PriorityQueue<>(k, new Comparator<ListNode>() {
             @Override
             public int compare(ListNode o1, ListNode o2) {
                 // 默认的小顶堆
-                return o1.val - o2.val ;
+                return o1.val - o2.val;
             }
         });
 
         ListNode ans = new ListNode(-1);
         //设定指针
-        ListNode pre = ans ;
+        ListNode pre = ans;
         // 放入堆中 自然排序
         for (int i = 0; i < k; i++) {
-            if(lists[i] !=null){
+            if (lists[i] != null) {
                 pq.offer(lists[i]);
             }
         }
-        while (!pq.isEmpty()){
+        while (!pq.isEmpty()) {
             ListNode min = pq.poll();
-            pre.next = min ;
+            pre.next = min;
             pre = min;
 
             // 替代后续的 放入堆中
-            if(min.next != null){
+            if (min.next != null) {
                 pq.offer(min.next);
                 min.next = null;
             }
@@ -54,18 +55,19 @@ public class PriorityQueueSolution {
 
     /**
      * 1046. 最后一块石头的重量
+     *
      * @param stones
      * @return
      */
     public int lastStoneWeight(int[] stones) {
         PriorityQueue<Integer> pq = new PriorityQueue<>(stones.length, Comparator.reverseOrder());
-        for(int stone : stones){
+        for (int stone : stones) {
             pq.offer(stone);
         }
-        while (pq.size() >1 ){
-            int a = pq.poll() ;
-            int b = pq.poll() ;
-            if(a-b >0 ) {
+        while (pq.size() > 1) {
+            int a = pq.poll();
+            int b = pq.poll();
+            if (a - b > 0) {
                 pq.offer(a - b);
             }
         }
@@ -75,37 +77,69 @@ public class PriorityQueueSolution {
 
     /**
      * 692. 前K个高频单词
+     *
      * @param words
      * @param k
      * @return
      */
     public List<String> topKFrequent(String[] words, int k) {
-        Map<String,Integer> map = new HashMap<>();
-        for (String word :words) {
-            map.put(word, map.getOrDefault(word, 0) +1);
+        Map<String, Integer> map = new HashMap<>();
+        for (String word : words) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
         }
 
-        PriorityQueue<Map.Entry<String,Integer>> pq = new PriorityQueue<>(new Comparator<Map.Entry<String, Integer>>() {
+        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(new Comparator<Map.Entry<String, Integer>>() {
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o1.getValue() == o2.getValue() ? o2.getKey().compareTo(o1.getKey()) : o1.getValue() - o2.getValue() ;
+                return o1.getValue() == o2.getValue() ? o2.getKey().compareTo(o1.getKey()) : o1.getValue() - o2.getValue();
             }
         });
 
-        for (Map.Entry<String,Integer> entry : map.entrySet()){
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
             pq.offer(entry);
         }
 
-        while (pq.size()>k){
+        while (pq.size() > k) {
             pq.poll();
         }
 
-        List<String > ans = new ArrayList<>();
-        while (!pq.isEmpty()){
+        List<String> ans = new ArrayList<>();
+        while (!pq.isEmpty()) {
             ans.add(pq.poll().getKey());
         }
-        return ans ;
+        return ans;
     }
 
+
+    /**
+     * 1792. 最大平均通过率
+     *
+     * @param classes
+     * @param extraStudents
+     * @return
+     */
+    public double maxAverageRatio(int[][] classes, int extraStudents) {
+        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> {
+            long v1 = (long) (a[1] - a[0]) * (b[1] + 1) * b[1];
+            long v2 = (long)  (b[1] - b[0]) * (a[1] + 1) * a[1];
+            if (v1 == v2) return 0;
+            return v1 < v2 ? 1 : -1;
+        });
+
+        for (int[] c : classes) {
+            queue.offer(new int[]{c[0], c[1]});
+        }
+
+        for (int i = 0; i < extraStudents; i++) {
+            int[] c = queue.poll();
+            queue.offer(new int[]{c[0] + 1, c[1] + 1});
+        }
+        double d = 0;
+        for (int i = 0; i < classes.length; i++) {
+            int[] c = queue.poll();
+            d += 1.0 * c[0] / c[1];
+        }
+        return d / classes.length;
+    }
 
 }

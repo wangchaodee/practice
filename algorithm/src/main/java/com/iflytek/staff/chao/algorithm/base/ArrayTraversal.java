@@ -1179,4 +1179,35 @@ public class ArrayTraversal {
         return new int[]{(nums.length- set.size() ) /2 , set.size()};
     }
 
+
+    /**
+     * 2347. 最好的扑克手牌
+     * @param ranks
+     * @param suits
+     * @return
+     */
+    public String bestHand(int[] ranks, char[] suits) {
+        if(allSame(suits)) return "Flush" ;
+        int[] diff = new int[14] ;
+        for(int rank : ranks) {
+            diff[rank]++;
+        }
+        Arrays.sort(diff);
+
+        if(diff[13]==3 || diff[13]==4 ) {
+            return "Three of a Kind";
+        }else if(diff[13] ==2 ) {
+            return "Pair";
+        }else {
+            return "High Card";
+        }
+    }
+
+    private boolean allSame(char[] suits){
+        int color = suits[0] ;
+        for (char suit : suits){
+            if(color !=suit) return false;
+        }
+        return true ;
+    }
 }
