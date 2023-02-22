@@ -19,8 +19,15 @@ public class LoadBalance {
 
     private Selector selector ;
 
+    private HashSelector hashSelector ;
+
     public LoadBalance(Selector selector){
         this.selector = selector ;
+    }
+
+    public LoadBalance(HashSelector selector){
+        this.selector = selector ;
+        this.hashSelector = selector ;
     }
 
     /**
@@ -42,6 +49,12 @@ public class LoadBalance {
          server.handle(request);
          return server;
      }
+
+    Server handleRequestByHash(Request request){
+        Server server = hashSelector.getByRequest(request);
+        server.handle(request);
+        return server;
+    }
 
 
     public List<Server> getServerList() {

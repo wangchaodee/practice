@@ -488,6 +488,11 @@ public class ArrayTraversal {
         return nums[nums.length / 2];
     }
 
+    /**
+     * 剑指 Offer 53 - II. 0～n-1中缺失的数字
+     * @param nums
+     * @return
+     */
     public int missingNumber(int[] nums) {
         int v = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -1209,5 +1214,26 @@ public class ArrayTraversal {
             if(color !=suit) return false;
         }
         return true ;
+    }
+
+
+    /**
+     * 剑指 Offer 03. 数组中重复的数字
+     * @param nums
+     * @return
+     */
+    public int findRepeatNumber(int[] nums) {
+        for(int i=0 ;i<nums.length;i++){
+            // 数值与座位号比较
+            int t= nums[i];
+            if(t!=i){
+                // nums[nums[i]] 查对应序号num[i] 上 对应的数值， 与当前的值对应则 重复了
+                if(nums[t] == t) return t;
+                nums[i] =nums[t];
+                nums[t] = t;
+                i--; // 回退一步 再次比较当前位置的值
+            }
+        }
+        return -1 ;
     }
 }

@@ -121,7 +121,7 @@ public class BinarySearch {
     }
 
     /**
-     * 744. Find Smallest Letter Greater Than Target (Easy)
+     * 744. Find the Smallest Letter Greater Than Target (Easy)
      *
      * @param letters
      * @param target
@@ -370,10 +370,10 @@ public class BinarySearch {
             m = (r + l) >> 1;
             double times = 0;
             for (int i = 0; i < N - 1; i++) {
-                times += (dist[i] - 1) / m + 1;
+                times += ((dist[i] - 1) / m) + 1;
             }
 
-            times = times + 1d * dist[N - 1] / m;
+            times = times + 1.0 * dist[N - 1] / m;
 
             if (times > hour) {
                 l = m + 1;
@@ -572,6 +572,28 @@ public class BinarySearch {
             }
         }
 
+        return nums[l];
+    }
+
+    /**
+     * 154. 寻找旋转排序数组中的最小值 II
+     * @param nums
+     * @return
+     */
+    public int findMinII(int[] nums) {
+        int N = nums.length ;
+        int l =0 ,r =N-1 , mid =0 , ans =-1 ;
+        while (l<r){
+            mid = (r-l)/2 +l ;
+
+            if(nums[mid]<nums[r]){
+                r=mid;
+            }else if (nums[mid]==nums[r]) {
+                r--;
+            }else {
+                l=mid+1;
+            }
+        }
         return nums[l];
     }
 

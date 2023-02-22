@@ -3,6 +3,8 @@ package com.iflytek.staff.chao.structure.base.tree;
 import com.iflytek.staff.chao.structure.base.list.ListNode;
 import com.iflytek.staff.chao.structure.base.list.ListNodeSolution;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -50,6 +52,29 @@ public class TreeNodeBST {
             root = root.right;
         }
         return root.val;
+    }
+
+    public int kthSmallest_2(TreeNode root, int k) {
+        int[]  stack = new int[k];
+
+
+        return root.val;
+    }
+
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        inOrder(root, res);
+        return res;
+    }
+
+    private void inOrder(TreeNode root, List<Integer> res) {
+        if (root == null) {
+            return;
+        }
+
+        inOrder(root.left, res);
+        res.add(root.val);
+        inOrder(root.right, res);
     }
 
     /**

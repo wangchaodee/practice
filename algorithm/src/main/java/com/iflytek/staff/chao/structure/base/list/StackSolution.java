@@ -232,7 +232,7 @@ public class StackSolution {
     }
 
     /**
-     * 下一个更大的元素
+     * 496 下一个更大的元素
      *
      * @param nums1
      * @param nums2
@@ -244,7 +244,7 @@ public class StackSolution {
             int j = 0;
             while (j < nums2.length && nums1[i] != nums2[j]) j++;
 
-            while (j < nums2.length && nums1[i] >= nums2[j]) j++;
+            while (j < nums2.length && nums2[j] <= nums2[i]) j++;
 
             ans[i] = (j == nums2.length ? -1 : nums2[j]);
         }
@@ -277,9 +277,6 @@ public class StackSolution {
 
         return ans;
     }
-
-
-
 
     /**
      * 768. 最多能完成排序的块 II  , arr[i]  的值可以大于i ,也可以重复

@@ -1,35 +1,13 @@
 package com.iflytek.staff.chao.structure.scene.loadbalance;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author : wangchaodee
- * @Description: 最小连接方式的负载均衡
+ * @Description: 哈希选择器
  */
-public class HashSelector implements Selector {
+public interface HashSelector extends Selector {
 
-    private Random random;
-
-    private int count ;
-
-    public HashSelector() {
-        this.random = new Random();
-        this.count =1 ;
-    }
-
-    public Random getRandom() {
-        return random;
-    }
-
-    @Override
-    public int generateIdx() {
-        return  random.nextInt(this.count);
-    }
-
-    @Override
-    public void registerServerList(List<Server> serverList) {
-        count= serverList.size() ;
-    }
+    Server getByRequest(Request request);
 
 }

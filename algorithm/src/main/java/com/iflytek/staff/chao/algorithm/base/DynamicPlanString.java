@@ -202,4 +202,26 @@ public class DynamicPlanString {
         return dp[0][len - 1];
     }
 
+    /**
+     * 91 分割整数构成字母字符串
+     * @param s
+     * @return
+     */
+    public int numDecodings(String s) {
+        int N = s.length();
+        int[] dp = new int[N + 1];
+        dp[0] = 1;
+        for (int i = 0; i < N; i++) {
+            char c = s.charAt(i );
+            if (c != '0') {
+                dp[i+1] += dp[i ];
+            }
+            if (i >= 1 && s.charAt(i - 1) != '0' && ((s.charAt(i - 1) - '0') * 10 + (c - '0') <= 26)) {
+                dp[i+1] += dp[i - 1];
+            }
+
+        }
+        return dp[N];
+    }
+
 }

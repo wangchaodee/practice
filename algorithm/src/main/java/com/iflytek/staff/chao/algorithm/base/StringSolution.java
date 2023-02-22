@@ -477,7 +477,11 @@ public class StringSolution {
         return prefix.substring(0, i);
     }
 
-
+    /**
+     * 剑指 Offer 05. 替换空格
+     * @param s
+     * @return
+     */
     public String replaceSpace(String s) {
         StringBuilder ans = new StringBuilder();
         for (char c : s.toCharArray()) {
@@ -1125,6 +1129,24 @@ public class StringSolution {
         return cnt ;
     }
 
+    /**
+     *剑指 Offer 58 - II. 左旋转字符串
+     * @param s
+     * @param n
+     * @return
+     */
+    public String reverseLeftWords(String s, int n) {
+        char[] chars = s.toCharArray();
+        char[]  arr = new char[chars.length];
+        int j=0;
+        for (int i = n; i <chars.length ; i++) {
+            arr[j++] = chars[i];
+        }
+        for (int i = 0; i < n; i++) {
+            arr[j++] = chars[i];
+        }
+        return new String(arr);
+    }
 
 
 

@@ -34,7 +34,6 @@ public class TreeNode {
         List<Integer> res = new ArrayList<>();
         preOrder(root, res);
         return res;
-
     }
 
     private void preOrder(TreeNode root, List<Integer> res) {

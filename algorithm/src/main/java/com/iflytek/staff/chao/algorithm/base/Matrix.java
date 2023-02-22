@@ -180,15 +180,17 @@ public class Matrix {
     }
 
     /**
-     * 搜索二维矩阵 II  Z 字形查找
-     *
+     * 搜索二维矩阵 II  Z 字形查找  240. 搜索二维矩阵 II
+     * 剑指 Offer 04. 二维数组中的查找
      * @param matrix
      * @param target
      * @return
      */
     public boolean searchMatrix(int[][] matrix, int target) {
         int m = matrix.length;
+        if(m<1) return false;
         int n = matrix[0].length;
+        if(n<1) return false ;
         int l = 0, r = n - 1;
         while (l < m && r >= 0) {
             if (matrix[l][r] == target) return true;

@@ -263,27 +263,7 @@ public class DynamicPlanMath {
         return sqList;
     }
 
-    /**
-     * 91 分割整数构成字母字符串
-     * @param s
-     * @return
-     */
-    public int numDecodings(String s) {
-        int N = s.length();
-        int[] dp = new int[N + 1];
-        dp[0] = 1;
-        for (int i = 0; i < N; i++) {
-            char c = s.charAt(i );
-            if (c != '0') {
-                dp[i+1] += dp[i ];
-            }
-            if (i >= 1 && s.charAt(i - 1) != '0' && ((s.charAt(i - 1) - '0') * 10 + (c - '0') <= 26)) {
-                dp[i+1] += dp[i - 1];
-            }
 
-        }
-        return dp[N];
-    }
 
 //    最长递增子序列
 //1. 最长递增子序列
@@ -834,71 +814,6 @@ public class DynamicPlanMath {
         return ans;
     }
 
-    /**
-     * 42. 接雨水
-     * @param height
-     * @return
-     */
-    public int trap(int[] height) {
-        int n = height.length;
-        int preMax = height[0];
-        int prei = 0;
-        int sum = 0;
-        int cur = 0;
-        for (int i = 1; i < n; i++) {
-            if (height[i] >= preMax) {
-                sum += cur;
-                cur = 0;
-                preMax = height[i];
-                prei = i;
-            } else {
-                cur += preMax - height[i];
-            }
-        }
-
-        preMax = height[n - 1];
-        cur = 0;
-        for (int i = n - 2; i >= prei; i--) {
-            if (height[i] >= preMax) {
-                sum += cur;
-                cur = 0;
-                preMax = height[i];
-            } else {
-                cur += preMax - height[i];
-            }
-        }
-        return sum;
-    }
-
-    public int trap2(int[] height) {
-        int n = height.length;
-        int left = 0;
-        int sum = 0;
-        for (int i = 1; i < n; i++) {
-            if (height[i] >= height[left]) {
-                sum += getSum(height,left,i);
-                left = i;
-            }
-        }
-
-        int right = n-1;
-        for (int i = n - 2; i >= left; i--) {
-            if (height[i] >= height[right]) {
-                sum += getSum(height,i,right);
-                right = i;
-            }
-        }
-        return sum;
-    }
-
-    private int getSum(int[] height , int l ,int r ){
-        int min = Math.min(height[l], height[r]) ;
-        int cnt = 0 ;
-        for (int i = l+1; i <r ; i++) {
-            cnt += min - height[i] ;
-        }
-        return cnt ;
-    }
 
 
     /**
@@ -989,4 +904,7 @@ public class DynamicPlanMath {
         }
         return ans;
     }
+
+
+
 }

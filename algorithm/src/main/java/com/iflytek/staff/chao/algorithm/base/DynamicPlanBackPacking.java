@@ -64,9 +64,11 @@ public class DynamicPlanBackPacking {
         int W = sum/2 ;
         boolean[] dp = new boolean[W+1] ;
         dp[0] = true;
-        for (int num : nums) {
-            for (int i = W; i >= num &&  !dp[W]; i--) {
-                dp[i] = dp[i] || dp[i-num];
+        Arrays.sort(nums);
+        for (int i = nums.length-1; i >=0; i--) {
+            int num = nums[i];
+            for (int j = W; j >= num &&  !dp[W]; j--) {
+                dp[j] = dp[j] || dp[j-num];
             }
         }
         return dp[W];

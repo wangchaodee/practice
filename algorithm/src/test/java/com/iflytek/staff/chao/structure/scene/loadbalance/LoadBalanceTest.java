@@ -65,10 +65,11 @@ public class LoadBalanceTest {
         // 执行请求
         List<Request> requestList = new ArrayList<>();
         Request base = new Request();
-        for (int i = 0; i < requestNum; i++) {
+        base.setIp(2);
+        for (int i = 1; i < requestNum; i++) {
             Request request = base.clone();
             // 模拟
-            request.setIp(random.nextInt(i));
+            request.setArea(""+random.nextInt(i));
             requestList.add(request);
         }
         return requestList ;
@@ -152,5 +153,24 @@ public class LoadBalanceTest {
         }
     }
 
+    @Test
+    public void testConsistentHashLb(){
+
+        LoadBalance loadBalance = new LoadBalance(new ConsistentHashSelector());
+        System.out.println("SelectorName :" + loadBalance.getSelector().getClass().getSimpleName());
+        loadBalance.registerServerList(generateServerList());
+        // 执行请求
+        executeHash(loadBalance,generateRequestList());
+
+        for(Server server : loadBalance.getServerList()){
+            System.out.printf(" Server :%s , processed Request : %d \n " , server.hashCode() , server.getProcessed());
+        }
+    }
+
+    private void executeHash(LoadBalance loadBalance , List<Request> requestList){
+        for (int i = 0; i < requestList.size(); i++) {
+            loadBalance.handleRequestByHash(requestList.get(i));
+        }
+    }
 
 }
