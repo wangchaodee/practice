@@ -1,6 +1,4 @@
-package com.iflytek.staff.chao.structure.scene.loadbalance;
-
-import java.util.List;
+package com.iflytek.staff.chao.solution.loadbalance;
 
 /**
  * @author : wangchaodee

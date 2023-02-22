@@ -1,4 +1,4 @@
-package com.iflytek.staff.chao.structure.scene.cache;
+package com.iflytek.staff.chao.solution.cache;
 
 /**
  * @author : wangchaodee

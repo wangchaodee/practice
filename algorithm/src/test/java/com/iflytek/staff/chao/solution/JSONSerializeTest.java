@@ -1,6 +1,7 @@
 package com.iflytek.staff.chao.solution;
 
 import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * @author : wangchaodee
@@ -9,6 +10,7 @@ import junit.framework.TestCase;
  */
 public class JSONSerializeTest  {
 
+    @Test
     public void testSerialize() {
 
         try {

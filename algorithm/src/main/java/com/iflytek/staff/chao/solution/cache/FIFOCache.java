@@ -1,8 +1,7 @@
-package com.iflytek.staff.chao.structure.scene.cache;
+package com.iflytek.staff.chao.solution.cache;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * @author : wangchaodee

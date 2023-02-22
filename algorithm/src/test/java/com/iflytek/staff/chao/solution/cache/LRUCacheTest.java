@@ -1,5 +1,7 @@
-package com.iflytek.staff.chao.structure.scene.cache;
+package com.iflytek.staff.chao.solution.cache;
 
+
+import org.junit.Test;
 
 /**
  * @author : wangchaodee
@@ -8,6 +10,7 @@ package com.iflytek.staff.chao.structure.scene.cache;
  */
 public class LRUCacheTest  {
 
+    @Test
     public  void testLRUCache() {
 
         //["LRUCache","put","put","put","put","get","get","get","get","put","get","get","get","get","get"]

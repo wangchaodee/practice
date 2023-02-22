@@ -1,4 +1,4 @@
-package com.iflytek.staff.chao.structure.scene.loadbalance;
+package com.iflytek.staff.chao.solution.loadbalance;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,14 +1,11 @@
-package com.iflytek.staff.chao.structure.scene.cache;
+package com.iflytek.staff.chao.solution.cache;
 
 import com.iflytek.staff.chao.algorithm.scene.ShuffleArray;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import static org.junit.Assert.*;
 
 /**
  * @author : wangchaodee

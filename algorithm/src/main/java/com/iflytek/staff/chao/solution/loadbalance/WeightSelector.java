@@ -1,9 +1,8 @@
-package com.iflytek.staff.chao.structure.scene.loadbalance;
+package com.iflytek.staff.chao.solution.loadbalance;
 
 import com.iflytek.staff.chao.util.NumberUtil;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author : wangchaodee
