@@ -2,7 +2,6 @@ package com.iflytek.staff.chao.solution.ratelimit;
 
 import com.google.common.base.Stopwatch;
 import com.iflytek.staff.chao.solution.Request;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +13,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author : wangchaodee
  * @Description: 漏桶限流算法方式
  */
-@Slf4j
 public class LeakyBucketRate implements RateLimitStrategy{
 
     private Stopwatch stopwatch;
@@ -42,10 +40,13 @@ public class LeakyBucketRate implements RateLimitStrategy{
             @Override
             public void run() {
                 try {
+                    System.out.printf("TimerTask mockInnerTask : %s \n", this.getClass().getSimpleName() );
                     if (lock.tryLock(TRY_LOCK_TIMEOUT, TimeUnit.MILLISECONDS)) {
                         try {
                             if (stopwatch.elapsed(TimeUnit.MILLISECONDS) > TimeUnit.SECONDS.toMillis(1)) {
+
                                 int cur = currentCount.get() ;
+                                System.out.println( "currentCount: " + cur);
                                 int rate = LIMIT/DURATION ; // 消费速率
                                 if(cur>=LIMIT){
                                     currentCount.set( LIMIT- rate);
@@ -54,16 +55,17 @@ public class LeakyBucketRate implements RateLimitStrategy{
                                     currentCount.set(Math.max(cur- rate , 0));
                                 }
                                 stopwatch.reset();
+                                stopwatch.start();
                             }
                         } finally {
                             lock.unlock();
                         }
                     } else {
-                        log.info(" canHandle() can not get lock  by lock timeout %s ms ", TRY_LOCK_TIMEOUT);
+                        System.out.printf(" canHandle() can not get lock  by lock timeout %s ms \n ", TRY_LOCK_TIMEOUT);
                         throw  new RateLimitException("lock not get,timeout");
                     }
                 } catch (InterruptedException e) {
-                    log.error(" canHandle() is interrupted bu lock timeout ");
+                    System.out.println(" canHandle() is interrupted bu lock timeout ");
                     throw  new RateLimitException("lock not get ,interrupted");
                 }
             }
@@ -72,4 +74,8 @@ public class LeakyBucketRate implements RateLimitStrategy{
         return timerTask;
     }
 
+    @Override
+    public long mockTaskRate() {
+        return TimeUnit.SECONDS.toMillis(1);
+    }
 }

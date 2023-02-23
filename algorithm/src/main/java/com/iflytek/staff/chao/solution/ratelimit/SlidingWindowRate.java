@@ -2,7 +2,6 @@ package com.iflytek.staff.chao.solution.ratelimit;
 
 import com.google.common.base.Stopwatch;
 import com.iflytek.staff.chao.solution.Request;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -15,7 +14,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author : wangchaodee
  * @Description: 滑动窗口限流算法方式
  */
-@Slf4j
 public class SlidingWindowRate implements RateLimitStrategy{
 
     Deque<Long> deque ;
@@ -63,11 +61,11 @@ public class SlidingWindowRate implements RateLimitStrategy{
                     lock.unlock();
                 }
             } else {
-                log.info(" canHandle() can not get lock  by lock timeout %s ms ", TRY_LOCK_TIMEOUT);
+                System.out.printf(" canHandle() can not get lock  by lock timeout %s ms \n", TRY_LOCK_TIMEOUT);
                 throw  new RateLimitException("lock not get,timeout");
             }
         } catch (InterruptedException e) {
-            log.error(" canHandle() is interrupted bu lock timeout ");
+            System.out.println(" canHandle() is interrupted bu lock timeout ");
             throw  new RateLimitException("lock not get");
         }
 
@@ -77,6 +75,12 @@ public class SlidingWindowRate implements RateLimitStrategy{
     @Override
     public TimerTask mockInnerTask() {
         // 暂时不需要
+        //throw new  UnsupportedOperationException();
         return null;
+    }
+
+    @Override
+    public long mockTaskRate() {
+        throw new  UnsupportedOperationException();
     }
 }

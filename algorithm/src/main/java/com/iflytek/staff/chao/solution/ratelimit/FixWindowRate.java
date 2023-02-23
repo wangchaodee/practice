@@ -2,7 +2,6 @@ package com.iflytek.staff.chao.solution.ratelimit;
 
 import com.google.common.base.Stopwatch;
 import com.iflytek.staff.chao.solution.Request;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +15,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * <p>
  * 参考 ：https://time.geekbang.org/column/article/243961
  */
-@Slf4j
 public class FixWindowRate implements RateLimitStrategy {
 
 
@@ -43,30 +41,40 @@ public class FixWindowRate implements RateLimitStrategy {
     public TimerTask mockInnerTask(){
 
         TimerTask timerTask = new TimerTask() {
+
             @Override
             public void run() {
+
                 try {
+                    System.out.printf("TimerTask mockInnerTask : %s \n", this.getClass().getSimpleName() );
                     if (lock.tryLock(TRY_LOCK_TIMEOUT, TimeUnit.MILLISECONDS)) {
                         try {
+                            System.out.println( "currentCount: " + currentCount.get());
                             // 间隔着才会重置
                             if (stopwatch.elapsed(TimeUnit.MILLISECONDS) > TimeUnit.SECONDS.toMillis(DURATION)) {
                                 currentCount.set(0);
                                 stopwatch.reset();
+                                stopwatch.start();
                             }
                         } finally {
                             lock.unlock();
                         }
                     } else {
-                        log.info(" canHandle() can not get lock  by lock timeout %s ms ", TRY_LOCK_TIMEOUT);
+                        System.out.printf(" canHandle() can not get lock  by lock timeout %s ms \n", TRY_LOCK_TIMEOUT);
                         throw  new RateLimitException("lock not get,timeout");
                     }
                 } catch (InterruptedException e) {
-                    log.error(" canHandle() is interrupted bu lock timeout ");
+                    System.out.println(" canHandle() is interrupted bu lock timeout ");
                     throw  new RateLimitException("lock not get ,interrupted");
                 }
             }
         };
 
         return timerTask;
+    }
+
+    @Override
+    public long mockTaskRate() {
+        return TimeUnit.SECONDS.toMillis(DURATION);
     }
 }

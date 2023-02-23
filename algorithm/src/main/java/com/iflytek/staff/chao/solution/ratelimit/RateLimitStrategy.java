@@ -32,4 +32,10 @@ public interface RateLimitStrategy {
      * @return
      */
     TimerTask mockInnerTask();
+
+    /**
+     * 模拟任务的间隔时间
+     * @return
+     */
+    long mockTaskRate();
 }

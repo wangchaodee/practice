@@ -3,6 +3,9 @@ package com.iflytek.staff.chao.solution.ratelimit;
 import com.iflytek.staff.chao.solution.Request;
 import lombok.Getter;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author : wangchaodee
  * @Description: xxx
@@ -11,9 +14,11 @@ import lombok.Getter;
 public class RateLimitHandler {
 
     private RateLimitStrategy strategy ;
+    private Timer timer;
 
     public RateLimitHandler(RateLimitStrategy strategy) {
         this.strategy = strategy;
+        this.timer = new Timer();
     }
 
     /**
@@ -30,6 +35,13 @@ public class RateLimitHandler {
              }
         }catch (RateLimitException e){
             return  0 ;
+        }
+    }
+
+    public void schedule(){
+        TimerTask task = strategy.mockInnerTask();
+        if(task!=null) {
+            timer.scheduleAtFixedRate(task, 0, strategy.mockTaskRate());
         }
     }
 }
