@@ -15,7 +15,7 @@ public class Request implements Cloneable {
     private int ip ;
 
 
-    protected Request clone()  {
+    public Request clone()  {
         try {
             return (Request) super.clone();
         } catch (CloneNotSupportedException e) {

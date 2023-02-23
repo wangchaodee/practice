@@ -5,9 +5,16 @@ import com.iflytek.staff.chao.solution.Request;
 /**
  * @author : wangchaodee
  * @Description: xxx
- * @date Date : 2023年02月22日 21:15
  */
 public interface RateLimitStrategy {
 
-    boolean canHandle(Request request);
+    long TRY_LOCK_TIMEOUT = 20L; // 20ms.
+    int DURATION = 5; // 5s
+
+    // 限流
+    int LIMIT = 100;
+
+    boolean canHandle(Request request) throws RateLimitException;
+
+
 }
