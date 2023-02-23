@@ -1,5 +1,7 @@
 package com.iflytek.staff.chao.solution.loadbalance;
 
+import com.iflytek.staff.chao.solution.Request;
+import com.iflytek.staff.chao.solution.Server;
 import org.junit.Test;
 
 import java.util.ArrayList;

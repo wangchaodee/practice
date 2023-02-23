@@ -1,5 +1,8 @@
 package com.iflytek.staff.chao.solution.loadbalance;
 
+import com.iflytek.staff.chao.solution.Request;
+import com.iflytek.staff.chao.solution.Server;
+
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -15,7 +18,7 @@ public class ConsistentHashSelector implements HashSelector {
     private int vServerNum ;
     private int count ;
 
-    private SortedMap<Integer ,Server> vServers = new TreeMap<>();
+    private SortedMap<Integer , Server> vServers = new TreeMap<>();
 
     public ConsistentHashSelector() {
         this(DEFAULT_VSERVER_NUM) ;

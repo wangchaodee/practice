@@ -160,6 +160,7 @@ public class ListNodeSolution {
     }
 
     /**
+     * 19. 删除链表的倒数第 N 个结点
      * 删除链表的倒数第 n 个节点
      *
      * @param head
@@ -180,7 +181,11 @@ public class ListNodeSolution {
             first = first.next;
             second = second.next;
         }
-        second.next = second.next.next;
+        // 间隔连接  断链
+        ListNode temp = second.next;
+        second.next = temp.next;
+        temp.next=null;
+
         return ret.next;
     }
 
@@ -322,7 +327,7 @@ public class ListNodeSolution {
     }
 
     /**
-     * 判断是否为回文形式的链表
+     * 234 判断是否为回文形式的链表
      * 另一种用快慢双指针 切分两个半组链表  翻转后半链表 进行比较是否相等
      *
      * @param head
@@ -344,6 +349,7 @@ public class ListNodeSolution {
                 return false;
             }
             head = head.next;
+            if(head==right) break;
             right = stack.pop();
         }
         return true;
@@ -608,5 +614,36 @@ public class ListNodeSolution {
         ListNode ret = cur.next;
         cur.next=null;
         return ret;
+    }
+
+    /**
+     * 147. 对链表进行插入排序
+     * @param head
+     * @return
+     */
+    public ListNode insertionSortList(ListNode head) {
+        if(head==null || head.next==null) return head ;
+        ListNode ret = new ListNode(-1,head);
+        ListNode last = ret.next;
+        ListNode cur = head.next;
+        while (cur!=null){
+            if(last.val <= cur.val){
+                last = cur;
+            }else {
+
+                //比较
+                ListNode pre = ret;
+                while (pre.next.val <= cur.val) {
+                    pre = pre.next;
+                }
+                // 插入
+                last.next = cur.next;
+                cur.next = pre.next;
+                pre.next = cur;
+            }
+            // 更改指针
+            cur = last.next;
+        }
+        return ret.next;
     }
 }

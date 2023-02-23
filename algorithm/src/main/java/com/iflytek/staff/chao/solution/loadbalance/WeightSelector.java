@@ -1,5 +1,6 @@
 package com.iflytek.staff.chao.solution.loadbalance;
 
+import com.iflytek.staff.chao.solution.Server;
 import com.iflytek.staff.chao.util.NumberUtil;
 
 import java.util.List;

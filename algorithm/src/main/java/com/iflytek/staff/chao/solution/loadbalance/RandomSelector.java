@@ -1,5 +1,7 @@
 package com.iflytek.staff.chao.solution.loadbalance;
 
+import com.iflytek.staff.chao.solution.Server;
+
 import java.util.List;
 import java.util.Random;
 

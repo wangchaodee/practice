@@ -1,4 +1,4 @@
-package com.iflytek.staff.chao.solution.loadbalance;
+package com.iflytek.staff.chao.solution;
 
 /**
  * @author : wangchaodee
