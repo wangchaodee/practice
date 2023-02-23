@@ -4,6 +4,7 @@ import com.google.common.base.Stopwatch;
 import com.iflytek.staff.chao.solution.Request;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
@@ -35,27 +36,37 @@ public class FixWindowRate implements RateLimitStrategy {
     @Override
     public boolean canHandle(Request request) {
         int cur = currentCount.incrementAndGet();
-        if (cur <= LIMIT) return true;
+        return cur <= LIMIT;
+    }
 
-        try {
-            if (lock.tryLock(TRY_LOCK_TIMEOUT, TimeUnit.MILLISECONDS)) {
+
+    public TimerTask mockInnerTask(){
+
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
                 try {
-                    if (stopwatch.elapsed(TimeUnit.MILLISECONDS) > TimeUnit.SECONDS.toMillis(DURATION)) {
-                        currentCount.set(0);
-                        stopwatch.reset();
+                    if (lock.tryLock(TRY_LOCK_TIMEOUT, TimeUnit.MILLISECONDS)) {
+                        try {
+                            // 间隔着才会重置
+                            if (stopwatch.elapsed(TimeUnit.MILLISECONDS) > TimeUnit.SECONDS.toMillis(DURATION)) {
+                                currentCount.set(0);
+                                stopwatch.reset();
+                            }
+                        } finally {
+                            lock.unlock();
+                        }
+                    } else {
+                        log.info(" canHandle() can not get lock  by lock timeout %s ms ", TRY_LOCK_TIMEOUT);
+                        throw  new RateLimitException("lock not get,timeout");
                     }
-                    cur = currentCount.incrementAndGet();
-                    return cur <= LIMIT;
-                } finally {
-                    lock.unlock();
+                } catch (InterruptedException e) {
+                    log.error(" canHandle() is interrupted bu lock timeout ");
+                    throw  new RateLimitException("lock not get ,interrupted");
                 }
-            } else {
-                log.info(" canHandle() can not get lock  by lock timeout %s ms ", TRY_LOCK_TIMEOUT);
-                throw  new RateLimitException("lock not get,timeout");
             }
-        } catch (InterruptedException e) {
-            log.error(" canHandle() is interrupted bu lock timeout ");
-            throw  new RateLimitException("lock not get ,interrupted");
-        }
+        };
+
+        return timerTask;
     }
 }

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -34,6 +35,7 @@ public class SlidingWindowRate implements RateLimitStrategy{
     }
 
     /**
+     * 用的ringbuffer 方式  轮转的滑动窗口
      * 单点 每次都锁  消耗比较大
      * @param request
      * @return
@@ -70,5 +72,11 @@ public class SlidingWindowRate implements RateLimitStrategy{
         }
 
         return false;
+    }
+
+    @Override
+    public TimerTask mockInnerTask() {
+        // 暂时不需要
+        return null;
     }
 }

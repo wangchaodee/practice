@@ -6,7 +6,6 @@ import lombok.Getter;
 /**
  * @author : wangchaodee
  * @Description: xxx
- * @date Date : 2023年02月22日 21:08
  */
 @Getter
 public class RateLimitHandler {

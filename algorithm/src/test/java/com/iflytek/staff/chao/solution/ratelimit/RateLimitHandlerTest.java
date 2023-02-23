@@ -46,7 +46,7 @@ public class RateLimitHandlerTest {
             int key = rateLimitHandler.handle(requestList.get(i)) ;
             statusCount.put(key , statusCount.getOrDefault(key,0)+1 );
             try {
-                Thread.sleep(40);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
