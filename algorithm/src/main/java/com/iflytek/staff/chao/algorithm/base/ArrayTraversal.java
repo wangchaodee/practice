@@ -827,7 +827,7 @@ public class ArrayTraversal {
 
 
     /**
-     * 最少操作次数， 使数组都变为 0
+     * 2357 最少操作次数， 使数组都变为 0
      *
      * @param nums
      * @return

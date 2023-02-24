@@ -150,6 +150,40 @@ public class TreeNode {
     }
 
     /**
+     * 剑指 Offer 32 - I. 从上到下打印二叉树
+     * @param root
+     * @return
+     */
+    public int[] levelOrder_2(TreeNode root) {
+        if (root == null) return new int[0];
+        List<Integer> ans = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int sz = queue.size();
+            for (int i = 0; i < sz; i++) {
+                TreeNode node = queue.poll();
+
+                ans.add(node.val);
+
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+        }
+        int[] arr = new int[ans.size()];
+        for (int i = 0; i < arr.length ; i++) {
+            arr[i] = ans.get(i);
+        }
+
+        return arr;
+    }
+
+    /**
      * 107. 二叉树的层序遍历 II   , 自底层到上层
      * @param root
      * @return
@@ -215,7 +249,7 @@ public class TreeNode {
 
     /**
      * 9 树的对称 是否对称 轴对称  二叉树
-     *
+     * 剑指 Offer 28. 对称的二叉树
      * @param root
      * @return
      */

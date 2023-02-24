@@ -1148,6 +1148,25 @@ public class StringSolution {
         return new String(arr);
     }
 
+    /**
+     * 剑指 Offer 50. 第一个只出现一次的字符
+     * @param s
+     * @return
+     */
+    public char firstUniqChar(String s) {
+        int l = s.length() ;
+        Map<Character , Integer> letterCount = new HashMap<>() ;
+        for (int i = 0; i <l ; i++) {
+            char c = s.charAt(i);
+            letterCount.put(c, letterCount.getOrDefault(c,0)+1);
+        }
 
+        for (int i = 0; i <l ; i++) {
+            char c = s.charAt(i);
+            if(letterCount.get(c)==1) return c;
+        }
+
+        return ' ';
+    }
 
 }

@@ -34,4 +34,30 @@ public class Simulation {
 
         return queue.peek();
     }
+
+    /**
+     * 1706. 球会落何处
+     * @param grid   m n  不一定相等
+     * @return
+     */
+    public int[] findBall(int[][] grid) {
+        int n = grid[0].length;
+        int[] ans = new int[n+1] ;
+
+        for (int i = 0; i < n ; i++) {
+            int col = i ;
+
+            for (int[] row : grid) {
+                int dir = row[col];
+                col+=dir;
+                if(col<0 || col>=n || dir != row[col] ){
+                    col =-1;
+                    break;
+                }
+            }
+
+            ans[i] = col;
+        }
+        return ans;
+    }
 }

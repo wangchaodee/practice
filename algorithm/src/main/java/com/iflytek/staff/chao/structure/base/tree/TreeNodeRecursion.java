@@ -22,8 +22,8 @@ public class TreeNodeRecursion {
 
         int left = minDepth(root.left);
         int right = minDepth(root.right);
-            // 子树存在为空时 需要取不为空的子树深度 再加根节点
-        if(left==0 || right==0 ) return left + right+1 ;
+        // 子树存在为空时 需要取不为空的子树深度 再加根节点
+        if (left == 0 || right == 0) return left + right + 1;
 
         return Math.min(left, right) + 1;
     }
@@ -79,20 +79,21 @@ public class TreeNodeRecursion {
         return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
     }
 
-    boolean result = true ;
+    boolean result = true;
+
     public boolean isBalanced2(TreeNode root) {
         maxDepth(root);
-        return result ;
+        return result;
     }
 
     public int maxDepth_3(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        int left= maxDepth_3(root.left) ;
-        int right= maxDepth_3(root.right);
-        if(Math.abs(left-right)>1) result=false ;
-        return Math.max(left,right) + 1;
+        int left = maxDepth_3(root.left);
+        int right = maxDepth_3(root.right);
+        if (Math.abs(left - right) > 1) result = false;
+        return Math.max(left, right) + 1;
     }
 
     /**
@@ -133,8 +134,10 @@ public class TreeNodeRecursion {
         return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
     }
 
-    /** 113
+    /**
+     * 113
      * 给你二叉树的根节点 root 和一个整数目标和 targetSum ，找出所有 从根节点到叶子节点 路径总和等于给定目标和的路径。
+     *
      * @param root
      * @param targetSum
      * @return
@@ -168,16 +171,18 @@ public class TreeNodeRecursion {
     /**
      * 437
      * 路径III 不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。
+     *
      * @param root
      * @param targetSum
      * @return
      */
     public int pathSum3(TreeNode root, int targetSum) {
-        if(root==null) return  0 ;
-        return dfsPathSumWithRoot(root,targetSum) + pathSum3(root.left,targetSum) + pathSum3(root.right,targetSum);
+        if (root == null) return 0;
+        return dfsPathSumWithRoot(root, targetSum) + pathSum3(root.left, targetSum) + pathSum3(root.right, targetSum);
     }
+
     // 减法时 int target  会导致溢出 ，改为long , 适配节点值为大值的情况
-   // [1000000000,1000000000,null,294967296,null,1000000000,null,1000000000,null,1000000000]   target = 0 ;
+    // [1000000000,1000000000,null,294967296,null,1000000000,null,1000000000,null,1000000000]   target = 0 ;
     private int dfsPathSumWithRoot(TreeNode root, long target) {
         if (root == null) return 0;
         int ret = 0;
@@ -207,7 +212,7 @@ public class TreeNodeRecursion {
     }
 
     /**
-     *   235 235. 二叉搜索树的最近公共祖先
+     * 235 235. 二叉搜索树的最近公共祖先
      *
      * @param root
      * @param p
@@ -215,9 +220,9 @@ public class TreeNodeRecursion {
      * @return
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-       if(root.val <p.val && root.val < q.val) return lowestCommonAncestor(root.right,p,q);
-       if(root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left,p,q);
-       return root ;
+        if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
+        if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
+        return root;
     }
 
     /**
@@ -230,10 +235,10 @@ public class TreeNodeRecursion {
      * @return
      */
     public TreeNode lowestCommonAncestor_236(TreeNode root, TreeNode p, TreeNode q) {
-        if(root==null || root==p || root==q) return root ;
-        TreeNode left= lowestCommonAncestor(root.left,p,q);
-        TreeNode right= lowestCommonAncestor(root.right,p,q);
-        return  (left==null) ? right : (right==null) ?  left :root ;
+        if (root == null || root == p || root == q) return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        return (left == null) ? right : (right == null) ? left : root;
     }
 
     public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
@@ -297,6 +302,7 @@ public class TreeNodeRecursion {
 
     /**
      * 98. 验证二叉搜索树
+     *
      * @param root
      * @return
      */
@@ -490,7 +496,12 @@ public class TreeNodeRecursion {
         return node != null;
     }
 
-
+    /**
+     * 剑指 Offer 32 - III. 从上到下打印二叉树 III
+     *
+     * @param root
+     * @return
+     */
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
 
         List<List<Integer>> ans = new ArrayList<>();
@@ -586,8 +597,6 @@ public class TreeNodeRecursion {
     }
 
 
-
-
     /**
      * 找最大层 的最小值
      *
@@ -627,80 +636,118 @@ public class TreeNodeRecursion {
 
     /**
      * 543. 二叉树的直径  两个节点间的最大路径值
+     *
      * @param root
      * @return
      */
-    int max =0 ;
+    int max = 0;
+
     public int diameterOfBinaryTree(TreeNode root) {
         depth(root);
-        return max ;
+        return max;
     }
 
     public int depth(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        int left = depth(root.left) ;
+        int left = depth(root.left);
         int right = depth(root.right);
-        max = Math.max(max,left+right);
-        return Math.max(left ,right) + 1;
+        max = Math.max(max, left + right);
+        return Math.max(left, right) + 1;
     }
 
     /**
      * 12. 相同节点值的最大路径长度
+     *
      * @param root
      * @return
      */
-    int path = 0 ;
+    int path = 0;
+
     public int longestUnivaluePath(TreeNode root) {
         dfsPath(root);
         return path;
     }
 
     private int dfsPath(TreeNode root) {
-        if(root==null) return 0;
+        if (root == null) return 0;
         int left = dfsPath(root.left);
         int right = dfsPath(root.right);
 
-        int leftPath = root.left != null && root.val== root.left.val ? left +1 :0 ;
-        int rightPath = root.right != null && root.val== root.right.val ? right +1 :0 ;
+        int leftPath = root.left != null && root.val == root.left.val ? left + 1 : 0;
+        int rightPath = root.right != null && root.val == root.right.val ? right + 1 : 0;
         // 以root 为桥接的路径 是root 下的最大路径
-        path = Math.max(path , leftPath + rightPath);
+        path = Math.max(path, leftPath + rightPath);
         // 返回上层 是给出单侧最长链  ，然后可以与外侧的单侧链组合
-        return Math.max( leftPath , rightPath);
+        return Math.max(leftPath, rightPath);
     }
 
     /**
      * 671. 找出二叉树中第二小的节点
+     *
      * @param root
      * @return
      */
     public int findSecondMinimumValue(TreeNode root) {
-        if(root==null) return -1 ;
-        if(root.left==null && root.right==null) return -1 ;
-        int leftVal = root.left.val ;
-        int rightVal = root.right.val ;
-        if(leftVal == root.val) leftVal = findSecondMinimumValue(root.left);
-        if(rightVal== root.val) rightVal = findSecondMinimumValue(root.right) ;
-        if(leftVal != -1 && rightVal !=-1 ) return Math.min(leftVal,rightVal);
-        if(leftVal!=-1) return leftVal ;
-        return rightVal ;
+        if (root == null) return -1;
+        if (root.left == null && root.right == null) return -1;
+        int leftVal = root.left.val;
+        int rightVal = root.right.val;
+        if (leftVal == root.val) leftVal = findSecondMinimumValue(root.left);
+        if (rightVal == root.val) rightVal = findSecondMinimumValue(root.right);
+        if (leftVal != -1 && rightVal != -1) return Math.min(leftVal, rightVal);
+        if (leftVal != -1) return leftVal;
+        return rightVal;
     }
 
     /**
      * 513. 二叉树 找左下角的值
+     *
      * @param root
      * @return
      */
     public int findBottomLeftValue(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root) ;
-        while (!queue.isEmpty()){
+        queue.add(root);
+        while (!queue.isEmpty()) {
             root = queue.poll();
-            if(root.right !=null) queue.add(root.right) ;
-            if(root.left !=null) queue.add(root.left) ;
+            if (root.right != null) queue.add(root.right);
+            if (root.left != null) queue.add(root.left);
         }
-        return root.val ;
+        return root.val;
+    }
+
+    /**
+     * 剑指 Offer 26. 树的子结构
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (B == null) return false;
+        if (isEqual(A, B)) return true;
+
+        if (A.left != null && isSubStructure(A.left, B)) return true;
+
+        if (A.right != null && isSubStructure(A.right, B)) return true;
+
+        return false;
+    }
+
+    /**
+     * 剑指 Offer 27. 二叉树的镜像
+     * @param root
+     * @return
+     */
+    public TreeNode mirrorTree(TreeNode root) {
+        if(root==null) return root;
+        TreeNode left = mirrorTree(root.left);
+        TreeNode right = mirrorTree(root.right);
+        root.left = right;
+        root.right = left ;
+        return  root;
     }
 
 }
