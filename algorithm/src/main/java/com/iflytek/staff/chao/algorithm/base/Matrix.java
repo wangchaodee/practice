@@ -1071,4 +1071,45 @@ public class Matrix {
         return check(matrix, expect, i + 1, j + 1);
     }
 
+
+    /**
+     * 2570. 合并两个二维数组 - 求和法
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
+        int l1 = nums1.length ;
+        int l2 = nums2.length;
+
+        int[][] ans = new int[l1+l2][2];
+        int i =0 ,j =0 , k=0 ;
+        while (i<l1 && j <l2){
+            if(nums1[i][0] == nums2[j][0] ){
+                ans[k] = new int[]{nums1[i][0]  ,nums1[i][1] +nums2[j][1] };
+                i++;
+                j++;
+            }else if( nums1[i][0] < nums2[j][0]) {
+                ans[k] = new int[]{nums1[i][0]  ,nums1[i][1] };
+                i++;
+            }else {
+                //nums1[i][0] > nums2[j][0]
+                ans[k] = new int[]{nums2[j][0]  ,nums2[j][1] };
+                j++;
+            }
+            k++;
+        }
+        while (i<l1){
+            ans[k++] = new int[]{nums1[i][0]  ,nums1[i][1] };
+            i++;
+        }
+
+        while (j<l2){
+            ans[k++] = new int[]{nums2[j][0]  ,nums2[j][1] };
+            j++;
+        }
+
+        return  Arrays.copyOfRange(ans , 0 ,k);
+    }
+
 }

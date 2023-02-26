@@ -54,13 +54,6 @@ public class TreeNodeBST {
         return root.val;
     }
 
-    public int kthSmallest_2(TreeNode root, int k) {
-        int[]  stack = new int[k];
-
-
-        return root.val;
-    }
-
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         inOrder(root, res);
