@@ -96,28 +96,6 @@ public class StringSolution {
     }
 
 
-    public int strStr2(String haystack, String needle) {
-        if (needle.length() == 0) return 0;
-
-        int nl = needle.length();
-        int n = 0; // n = nl 时 搜索到目标
-
-        int hl = haystack.length();
-        int i = 0;
-        while (i < hl && n < nl) {
-            if (haystack.charAt(i) == needle.charAt(n)) {
-                n++;
-                i++;
-            } else {
-                i = i - n + 1;
-                n = 0;
-            }
-        }
-        if (n == nl) {
-            return i - n + 1;
-        }
-        return -1;
-    }
 
     public int strStr3(String haystack, String needle) {
         int nl = needle.length();

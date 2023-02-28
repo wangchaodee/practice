@@ -1,5 +1,7 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import com.iflytek.staff.chao.util.NumberUtil;
+
 import java.util.List;
 
 /**
@@ -224,4 +226,53 @@ public class DynamicPlanString {
         return dp[N];
     }
 
+    /**
+     * 97. 交错字符串
+     * @param s1
+     * @param s2
+     * @param s3
+     * @return
+     */
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int n = s1.length()  , m = s2.length() , t= s3.length();
+        if(n+m != t) return false;
+        boolean[][] dp = new boolean[n+1][m+1];
+        dp[0][0] =true ;
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                int p = i+j-1 ;
+                if(i>0){
+                    dp[i][j] = dp[i][j] || (dp[i-1][j] && s1.charAt(i-1) == s3.charAt(p)) ;
+                }
+                if(j>0){
+                    dp[i][j] = dp[i][j] || (dp[i][j-1] && s2.charAt(j-1) == s3.charAt(p)) ;
+                }
+            }
+        }
+        return dp[n][m];
+    }
+
+
+    /**
+     * 1392. 最长快乐前缀
+     * @param s
+     * @return
+     */
+    public String longestPrefix(String s) {
+        int n = s.length() ;
+        int mod = NumberUtil.MOD;
+        long mul =1 , base =31 ;
+        long prefix = 0 , suffix = 0 ;
+        int happy=0;
+        for (int i = 1; i < n; i++) {
+            // 必须用long 否则溢出 会导致问题
+            prefix = (prefix * base + (s.charAt(i-1) - 'a'))%mod;
+            suffix = (suffix  + (s.charAt(n-i) - 'a')* mul  )%mod;
+            if(prefix==suffix){
+                happy=i;
+            }
+            mul = mul*base % mod ;
+        }
+        return s.substring(0,happy);
+    }
 }

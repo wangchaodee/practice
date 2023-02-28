@@ -750,4 +750,25 @@ public class TreeNodeRecursion {
         return  root;
     }
 
+    /**
+     * 968. 监控二叉树
+     * @return
+     */
+    public int minCameraCover(TreeNode root) {
+        int[] array = dfs(root);
+        return array[1] ;
+    }
+
+    // 0 根节点放摄像机  1 不确定是否放根  2 根节点不放
+    private int[] dfs(TreeNode root) {
+        if(root==null) return new int[]{Integer.MAX_VALUE/2,0,0};
+        int[] left = dfs(root.left);
+        int[] right= dfs(root.right);
+        int[] array = new int[3];
+        array[0] = left[2] + right[2] +1 ;
+        array[1] =Math.min(array[0] , Math.min( left[0] + right[1] , left[1] + right[0]));
+        array[2] = Math.min(array[0] , left[1] + right[1]);
+        return array;
+    }
+
 }

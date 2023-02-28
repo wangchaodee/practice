@@ -13,20 +13,8 @@ public class Competion {
 
     public List<List<Integer>> mergeSimilarItems(int[][] items1, int[][] items2) {
 
-        Arrays.sort(items1, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
-            }
-        });
-
-        Arrays.sort(items2, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
-            }
-        });
-
+        Arrays.sort(items1,( o1, o2)-> o1[0] - o2[0]);
+        Arrays.sort(items2, ( o1, o2)-> o1[0] - o2[0]);
 
         int N = items1.length;
         int M = items2.length;
@@ -39,7 +27,7 @@ public class Competion {
         while (i < N && j < M) {
 
             List<Integer> temp = new ArrayList<>();
-            if (items1[i][0] == items2[j][0]) {
+            if ( items1[i][0] == items2[j][0]) {
                 temp.add(items1[i][0]);
                 temp.add(items1[i][1] + items2[j][1]);
                 ans.add(temp);

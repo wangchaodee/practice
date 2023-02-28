@@ -471,4 +471,28 @@ public class GreedyOpt {
         }
         return  i==bills.length;
     }
+
+    /**
+     * 1144. 递减元素使数组呈锯齿状
+     * @param nums
+     * @return
+     */
+    public int movesToMakeZigzag(int[] nums) {
+        return Math.min(chooseToMake(nums,0) ,chooseToMake(nums,1));
+    }
+
+    private int chooseToMake(int[] nums , int start){
+        int cnt =0 ;
+        for (int i = start; i <nums.length ; i+=2) {
+            int a = 0 ; // 使i变为向下的尖刺点 V形 ，需要减掉的数值
+            if(i>0){
+                a = Math.max(a , nums[i] - nums[i-1] +1 );
+            }
+            if(i+1<nums.length){
+                a = Math.max(a , nums[i] - nums[i+1] +1 );
+            }
+            cnt +=a ;
+        }
+        return cnt ;
+    }
 }

@@ -7,6 +7,8 @@ package com.iflytek.staff.chao.util;
  */
 public class NumberUtil {
 
+    public static final  int MOD = 1000000007;
+
     /**
      * 最大公约数
      *
