@@ -2,6 +2,8 @@ package com.iflytek.staff.chao.algorithm.base;
 
 import java.util.Arrays;
 
+import static com.iflytek.staff.chao.util.DirectionUtil.directions;
+
 /**
  * @author : wangchaodee
  * @Description: 用矩阵表示的图形
@@ -65,4 +67,37 @@ public class MatrixGraph {
         }
         return ans==INF ? -1 :ans ;
     }
+
+    /**
+     * 329. 矩阵中的最长递增路径
+     * @param matrix
+     * @return
+     */
+    public int longestIncreasingPath(int[][] matrix) {
+        int r = matrix.length  , l = matrix[0].length;
+        int[][] cnts = new int[r][l] ;
+        int ans =0;
+        for (int i = 0; i < r ; i++) {
+            for (int j = 0; j < l; j++) {
+                ans = Math.max(ans ,dfs(matrix , cnts ,i ,j ) );
+            }
+        }
+        return ans ;
+    }
+
+    private int dfs(int[][] matrix, int[][] cnts, int i, int j) {
+        if(cnts[i][j] !=0) return cnts[i][j] ;
+        cnts[i][j]++;
+        for(int[] dir : directions){
+            int srr = i + dir[0];
+            int scc = j + dir[1];
+
+            if (0 <= srr && srr < matrix.length && 0 <= scc && scc < matrix[0].length && matrix[srr][scc] > matrix[i][j]) {
+                cnts[i][j] = Math.max( cnts[i][j] , dfs(matrix,cnts,srr,scc) +1);
+            }
+        }
+        return  cnts[i][j] ;
+    }
+
+
 }

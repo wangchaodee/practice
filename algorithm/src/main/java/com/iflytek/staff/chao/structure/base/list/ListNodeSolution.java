@@ -209,9 +209,6 @@ public class ListNodeSolution {
         return oneStep;
     }
 
-
-
-
     public ListNode reverseKGroup(ListNode head, int k) {
 
 
@@ -645,5 +642,41 @@ public class ListNodeSolution {
             cur = last.next;
         }
         return ret.next;
+    }
+
+    /**
+     * 148. 排序链表
+     * @param head
+     * @return
+     */
+    public ListNode sortList(ListNode head) {
+        return sortList(head,null);
+    }
+
+    private ListNode sortList(ListNode head ,ListNode tail ){
+        if(head==null) return head ;
+        if(head.next == tail){
+            head.next = null;
+            return head ;
+        }
+        ListNode mid = middleNode(head,tail);
+        ListNode first = sortList(head,mid);
+        ListNode second = sortList(mid,tail);
+        ListNode list = mergeTwoLists2(first,second);
+        return list ;
+    }
+
+    private ListNode middleNode(ListNode head,ListNode tail) {
+        ListNode oneStep = head;
+        ListNode twoStep = head;
+
+        while (twoStep != tail) {
+            twoStep = twoStep.next;
+            if (twoStep != tail) {
+                oneStep = oneStep.next;
+                twoStep = twoStep.next;
+            }
+        }
+        return oneStep;
     }
 }

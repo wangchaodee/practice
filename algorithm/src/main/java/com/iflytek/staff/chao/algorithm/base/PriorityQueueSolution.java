@@ -142,4 +142,43 @@ public class PriorityQueueSolution {
         return d / classes.length;
     }
 
+    /**
+     * 218. 天际线问题
+     * @param buildings
+     * @return
+     */
+    public List<List<Integer>> getSkyline(int[][] buildings) {
+        // 放入建筑的左右坐标
+        List<Integer> indexs = new ArrayList<>();
+        for(int[] x : buildings){
+            indexs.add(x[0]);
+            indexs.add(x[1]);
+        }
+        Collections.sort(indexs);
+
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = buildings.length  ,idx =0  ;
+        // 以高度排序   大顶堆
+        PriorityQueue<int[]> queue = new PriorityQueue<>((a,b) -> b[1] -a[1]);
+        for(int xpoint : indexs){
+           while (idx<n && buildings[idx][0] <= xpoint){
+               queue.offer(new int[]{buildings[idx][1] , buildings[idx][2]});
+               idx++;
+           }
+
+           while (!queue.isEmpty() && queue.peek()[0] <= xpoint){
+               queue.poll();
+           }
+
+           int maxn = queue.isEmpty() ? 0 : queue.peek()[1] ;
+           // 为空  或者高度不一样
+           if(ans.size()==0 || maxn != ans.get(ans.size()-1).get(1)){
+               // 放入的左侧点 坐标 和高度
+               ans.add(Arrays.asList(xpoint,maxn));
+           }
+        }
+        return ans ;
+
+    }
+
 }

@@ -495,4 +495,31 @@ public class GreedyOpt {
         }
         return cnt ;
     }
+
+    /**
+     * 807. 保持城市天际线
+     * @param grid
+     * @return
+     */
+    public int maxIncreaseKeepingSkyline(int[][] grid) {
+        int n = grid.length ;
+        int[] lineMax = new int[n]; // 行的最大值
+        int[] rowMax = new int[n]; // 列的最大值
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                lineMax[i] = Math.max(lineMax[i] ,grid[i][j] );
+                rowMax[j] = Math.max(rowMax[j] ,grid[i][j] );
+            }
+        }
+        int cnt = 0 ;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int min = Math.min(lineMax[i] ,rowMax[j]) ;
+                if(grid[i][j] <min) {
+                    cnt += min-grid[i][j] ;
+                }
+            }
+        }
+        return cnt ;
+    }
 }
