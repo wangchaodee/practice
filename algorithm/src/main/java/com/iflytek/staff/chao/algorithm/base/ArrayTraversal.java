@@ -1236,4 +1236,24 @@ public class ArrayTraversal {
         }
         return -1 ;
     }
+
+    /**
+     * 剑指 Offer 21. 调整数组顺序使奇数位于偶数前面
+     * @param nums
+     * @return
+     */
+    public int[] exchange(int[] nums) {
+        int l = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] %2 ==1 ){
+                if(i>l){
+                    int t = nums[l] ;
+                    nums[l] = nums[i];
+                    nums[i] = t;
+                }
+                l++;
+            }
+        }
+        return nums ;
+    }
 }

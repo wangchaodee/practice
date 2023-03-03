@@ -1,8 +1,6 @@
 package com.iflytek.staff.chao.algorithm.base;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author : wangchaodee
@@ -59,5 +57,36 @@ public class StringMultiSolution {
             }
         }
         return longest;
+    }
+
+    /**
+     * 1487. 保证文件名唯一
+     * @param names
+     * @return
+     */
+    public String[] getFolderNames(String[] names) {
+        int n = names.length ;
+        String[] ans = new String[n] ;
+        Map<String,Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            String name = names[i];
+            if (map.containsKey(name)){
+               int k = map.get(name);
+               while (map.containsKey(addSuffix(name,k))){
+                   k++;
+               }
+                map.put(name,k);
+                map.put(addSuffix(name,k),1);
+                ans[i] = addSuffix(name,k);
+            }else {
+                map.put(name,1);
+                ans[i] = name;
+            }
+        }
+       return ans ;
+    }
+
+    private String addSuffix(String name ,int k){
+        return  name +"("+k+")" ;
     }
 }

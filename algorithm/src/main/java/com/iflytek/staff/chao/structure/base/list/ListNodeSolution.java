@@ -240,6 +240,27 @@ public class ListNodeSolution {
     }
 
     /**
+     * 剑指 Offer 22. 链表中倒数第k个节点
+     * @param head
+     * @param k  本题从1开始计数，即链表的尾节点是倒数第1个节点。
+     * @return
+     */
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        int count = 0; // 为0  而不是1
+        ListNode revse = head;
+        while (revse != null && count < k) {
+            count++;
+            revse = revse.next;
+        }
+
+        while (revse != null ) {
+            head = head.next;
+            revse = revse.next;
+        }
+        return head;
+    }
+
+    /**
      * 141 判断链表是否存在环
      * @param head
      * @return
@@ -321,6 +342,25 @@ public class ListNodeSolution {
     public void deleteNode(ListNode node) {
         node.val = node.next.val;
         node.next = node.next.next;
+    }
+
+    /**
+     * 剑指 Offer 18. 删除链表的节点
+     * @param head
+     * @param val
+     * @return
+     */
+    public ListNode deleteNode(ListNode head, int val) {
+        ListNode dummy = new ListNode(0,head);
+        ListNode cur = dummy;
+        while(cur.next !=null){
+            if(cur.next.val==val){
+                cur.next = cur.next.next;
+                break;
+            }
+            cur=cur.next;
+        }
+        return dummy.next;
     }
 
     /**
@@ -679,4 +719,6 @@ public class ListNodeSolution {
         }
         return oneStep;
     }
+
+
 }

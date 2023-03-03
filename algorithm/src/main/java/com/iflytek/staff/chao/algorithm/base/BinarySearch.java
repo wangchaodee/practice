@@ -1024,6 +1024,28 @@ public class BinarySearch {
         return  0 ; //0 ,-1 ,1
     }
 
+    /**
+     * 33. 搜索旋转排序数组
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        int N = nums.length;
+        int l = 0, m = 0, r = N - 1;
+        while (l <= r) {
+            m = (r - l) / 2 + l;
+            if (nums[m] == target) return m;
+            //  顺序区间还是乱序区间
+            if (nums[l] <= nums[m]) {
+                if(nums[l] <= target && target < nums[m]) { r = m - 1; }else{ l = m + 1;}
+            } else {
+                if(nums[m] < target && target <= nums[r]) { l = m + 1;}else { r = m - 1;}
+            }
+        }
+
+        return -1;
+    }
 
 
 

@@ -147,7 +147,7 @@ public class DynamicPlanMath {
         int max1 = robCase2(nums, 0, N - 1);
         int max2 = robCase2(nums, 1, N);
 
-        return max1 > max2 ? max1 : max2;
+        return Math.max(max1, max2);
     }
 
     private int robCase2(int[] nums, int start, int end) {
@@ -554,7 +554,7 @@ public class DynamicPlanMath {
             dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][2]);
             dp[i][2] = dp[i - 1][0] + prices[i];
         }
-        return dp[n - 1][1] > dp[n - 1][2] ? dp[n - 1][1] : dp[n - 1][2];
+        return Math.max(dp[n - 1][1], dp[n - 1][2]);
     }
 
     public int maxProfit3_3(int[] prices) {
@@ -595,7 +595,7 @@ public class DynamicPlanMath {
             dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] - prices[i]);
             dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] + prices[i] - fee);
         }
-        return dp[n - 1][0] > dp[n - 1][1] ? dp[n - 1][0] : dp[n - 1][1];
+        return Math.max(dp[n - 1][0], dp[n - 1][1]);
     }
 
     public int maxProfit4_2(int[] prices, int fee) {
@@ -905,6 +905,26 @@ public class DynamicPlanMath {
         return ans;
     }
 
-
+    /**
+     * 剑指 Offer 46. 把数字翻译成字符串
+     * @param num
+     * @return
+     */
+    public int translateNum(int num) {
+        String str = String.valueOf(num);
+        int p =0 , q =0 ,r =1 ;
+        for (int i = 0; i < str.length(); i++) {
+            p=q;
+            q=r;
+            r=0;
+            r+=q;
+            if(i==0) continue;
+            String pre = str.substring(i-1,i+1);
+            if(pre.compareTo("10")>=0 && pre.compareTo("25")<=0){
+                r+=p;
+            }
+        }
+        return r ;
+    }
 
 }

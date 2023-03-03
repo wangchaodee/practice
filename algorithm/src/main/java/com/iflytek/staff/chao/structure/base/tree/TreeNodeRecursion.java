@@ -135,7 +135,7 @@ public class TreeNodeRecursion {
     }
 
     /**
-     * 113
+     * 113  113. 路径总和 II
      * 给你二叉树的根节点 root 和一个整数目标和 targetSum ，找出所有 从根节点到叶子节点 路径总和等于给定目标和的路径。
      *
      * @param root
@@ -150,14 +150,13 @@ public class TreeNodeRecursion {
     }
 
     private void dfsPathSum(TreeNode node, int target, Deque<Integer> path, List<List<Integer>> ans) {
-
+        path.addLast(node.val);
         if (node.val == target && node.right == null && node.left == null) {
             ans.add(new ArrayList<>(path));
-            return;
+            //return;
         }
 
         int rest = target - node.val;
-        path.addLast(node.val);
         if (node.left != null) {
             dfsPathSum(node.left, rest, path, ans);
         }
@@ -533,7 +532,11 @@ public class TreeNodeRecursion {
         return ans;
     }
 
-
+    /**
+     * 199. 二叉树的右视图
+     * @param root
+     * @return
+     */
     public List<Integer> rightSideView(TreeNode root) {
 
         List<Integer> ans = new ArrayList<>();
@@ -769,6 +772,21 @@ public class TreeNodeRecursion {
         array[1] =Math.min(array[0] , Math.min( left[0] + right[1] , left[1] + right[0]));
         array[2] = Math.min(array[0] , left[1] + right[1]);
         return array;
+    }
+
+    /**
+     * 100. 相同的树
+     * @param p
+     * @param q
+     * @return
+     */
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p==null) return q==null;
+        if(q==null) return false;
+
+        if(p.val !=q.val) return false;
+
+        return isSameTree(p.left ,q.left) && isSameTree(p.right,q.right);
     }
 
 }

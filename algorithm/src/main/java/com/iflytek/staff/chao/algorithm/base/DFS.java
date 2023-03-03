@@ -159,20 +159,22 @@ public class DFS {
         return mat;
     }
 
-
+    /**
+     * 994. 腐烂的橘子
+     * @param grid
+     * @return
+     */
     public int orangesRotting(int[][] grid) {
 
         int n = grid.length;
         int m = grid[0].length;
         Queue<int[]> queue = new LinkedList<>();
-        boolean[][] seen = new boolean[n][m];
 
         int[][] dist = new int[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (grid[i][j] == 2) {
                     queue.offer(new int[]{i, j});
-                    seen[i][j] = true;
                 }
             }
         }
@@ -187,10 +189,9 @@ public class DFS {
                 for (int[] dir : DirectionUtil.directions) {
                     int srr = sr + dir[0];
                     int scc = sc + dir[1];
-                    if (0 <= srr && srr < n && 0 <= scc && scc < m && seen[srr][scc] == false && grid[srr][scc] == 1) {
+                    if (0 <= srr && srr < n && 0 <= scc && scc < m  && grid[srr][scc] == 1) {
                         queue.offer(new int[]{srr, scc});
                         grid[srr][scc] = 2;
-                        seen[srr][scc] = true;
                     }
                 }
             }
@@ -203,9 +204,8 @@ public class DFS {
                 }
             }
         }
-
-
-        return ans;
+        // 最后一次 只是腐烂的橘子    给的集合 没有橘子  或没有新鲜橘子
+        return ans>1? ans-1 :0 ;
     }
 
 
@@ -530,18 +530,18 @@ public class DFS {
      */
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
         int N = heights.length;
-        int M = heights.length;
+        int M = heights[0].length;
         boolean[][] pOean = new boolean[N][M];
         boolean[][] aOean = new boolean[N][M];
         // 上  下
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < M; i++) {
             dfsOean(heights, 0, i, N, M, pOean);
             dfsOean(heights, N - 1, i, N, M, aOean);
         }
         // 左 右
-        for (int i = 0; i < M; i++) {
+        for (int i = 0; i < N; i++) {
             dfsOean(heights, i, 0, N, M, pOean);
-            dfsOean(heights, i, N - 1, N, M, aOean);
+            dfsOean(heights, i, M - 1, N, M, aOean);
         }
         List<List<Integer>> ans = new ArrayList<>();
         for (int i = 0; i < N; i++) {

@@ -448,4 +448,50 @@ public class BFS {
         }
     }
 
+    /**
+     * 面试题13. 机器人的运动范围
+     * @param m
+     * @param n
+     * @param k
+     * @return
+     */
+    public int movingCount(int m, int n, int k) {
+        boolean[][] seen = new boolean[m][n];
+        int cnt =0 ;
+
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0,0});
+        seen[0][0] = true;
+        while (!queue.isEmpty()) {
+
+            cnt++;
+            int[] node = queue.poll();
+            for (int[] dire : DirectionUtil.directions) {
+                int row = node[0] + dire[0];
+                int col = node[1] + dire[1];
+                boolean indexValid = (row >= 0 && row < m && col >= 0 && col < n);
+                if (indexValid && seen[row][col] != true && check(row, col, k)) {
+                    seen[row][col] = true;
+                    queue.add(new int[]{row, col});
+                }
+            }
+        }
+        return cnt ;
+    }
+
+
+    private boolean check(int i ,int j ,int k ){
+        int cnt = 0 ;
+        while (i>0){
+            cnt += i%10;
+            i/=10;
+        }
+
+        while (j>0){
+            cnt += j%10;
+            j/=10;
+        }
+        return cnt <=k;
+    }
+
 }
