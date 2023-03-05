@@ -270,4 +270,51 @@ public class DoublePointer {
         }
         return count;
     }
+
+    /**
+     * 16. 最接近的三数之和
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int threeSumClosest(int[] nums, int target) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        int  best = 10000000 ;
+
+        for (int i = 0; i < n - 2; i++) {
+            //去除重复
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                    continue;
+            }
+
+            int j=i+1 ,k=n-1;
+            while (j<k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if(sum == target){
+                    return sum ;
+                }
+
+                if(Math.abs(sum-target) < Math.abs(best-target)){
+                    best = sum ;
+                }
+
+                if (sum > target) {
+                    int k_ = k-1 ;
+                   while (j<k_ && nums[k_]==nums[k]){
+                        k_--;
+                   }
+                   k=k_;
+                }else {
+                    int j_ = j+1 ;
+                    while (j_<k && nums[j_]==nums[j]){
+                        j_++;
+                    }
+                    j=j_;
+                }
+            }
+        }
+
+        return best;
+    }
 }

@@ -181,4 +181,28 @@ public class PriorityQueueSolution {
 
     }
 
+    /**
+     * 621. 任务调度器
+     * @param tasks
+     * @param n
+     * @return
+     */
+    public int leastInterval(char[] tasks, int n) {
+        Map<Character ,Integer> count = new HashMap<>();
+        int maxExec =0 ;
+        for(char c : tasks){
+           int freq = count.getOrDefault(c,0)+1;
+           count.put(c,freq);
+            maxExec = Math.max(maxExec,freq);
+        }
+        int maxCount = 0;
+        for(Map.Entry<Character,Integer> entry : count.entrySet()){
+            if(entry.getValue() == maxExec){
+                maxCount++;
+            }
+        }
+
+        return Math.max((maxExec-1)*(n-1) + maxCount , tasks.length);
+    }
+
 }

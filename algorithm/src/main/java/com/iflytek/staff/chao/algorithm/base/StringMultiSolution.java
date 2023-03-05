@@ -89,4 +89,42 @@ public class StringMultiSolution {
     private String addSuffix(String name ,int k){
         return  name +"("+k+")" ;
     }
+
+    /**
+     * 2131. 连接两字母单词得到的最长回文串
+     * @param words
+     * @return
+     */
+    public int longestPalindrome(String[] words) {
+        Map<String,Integer> counts = new HashMap<>();
+        for(String word : words){
+            counts.put(word, counts.getOrDefault(word,0)+1);
+        }
+        int len =0 ;
+        boolean mid = false ;
+        for(Map.Entry<String,Integer> word : counts.entrySet()){
+            String change = reverse(word.getKey());
+            if(change.equals(word.getKey())){
+                // 字符相同
+                if(word.getValue() %2 ==1 ) {
+                    mid = true;
+                }
+                len += ((word.getValue()/2) *2 ) *2 ;
+            }else {
+                int min = Math.min(word.getValue() , counts.getOrDefault(change,0)) *2 ;
+                len +=min ;
+            }
+        }
+        if(mid) {
+            len+=2;
+        }
+        return len ;
+
+    }
+
+    private String reverse(String word){
+        StringBuilder sb = new StringBuilder(word);
+        return sb.reverse().toString();
+    }
+
 }

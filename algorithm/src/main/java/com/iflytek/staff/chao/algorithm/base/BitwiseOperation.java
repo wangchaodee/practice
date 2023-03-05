@@ -47,4 +47,28 @@ public class BitwiseOperation {
         return ans ;
     }
 
+
+    /**
+     * 982. 按位与为零的三元组
+     * @param nums
+     * @return
+     */
+    public int countTriplets(int[] nums) {
+        int up = 1<<16;
+        int[] cnt = new int[up];
+        for (int x : nums) {
+            for(int y: nums){
+                cnt[x&y]++;
+            }
+        }
+        int ans = 0 ;
+        for (int k : nums) {
+            for (int i = 0; i <up ; i++) {
+                if((k&i)==0){
+                    ans +=cnt[i];
+                }
+            }
+        }
+        return ans ;
+    }
 }
