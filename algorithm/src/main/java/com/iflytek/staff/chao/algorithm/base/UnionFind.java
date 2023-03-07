@@ -1,5 +1,8 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author : wangchaodee
  * @Description: 并查集算法
@@ -8,6 +11,11 @@ package com.iflytek.staff.chao.algorithm.base;
 public class UnionFind {
 
 
+    /**
+     * 547. 省份数量
+     * @param isConnected
+     * @return
+     */
     public int findCircleNum(int[][] isConnected) {
 
         int N = isConnected.length;
@@ -81,8 +89,52 @@ public class UnionFind {
         return count - 1;
     }
 
-    // x ,y  点 顺序  上 右 下 左
-    int[] x = new int[]{0, 1, 0, -1};
-    int[] y = new int[]{1, 0, -1, 0};
 
+    /**
+     * 947. 移除最多的同行或同列石头
+     * @param stones
+     * @return
+     */
+    public int removeStones(int[][] stones) {
+        UnionFindUtil util = new UnionFindUtil();
+        for (int[] stone : stones) {
+            util.union(stone[0]+10001, stone[1]);
+        }
+        return stones.length - util.getCount();
+    }
+
+    class UnionFindUtil{
+        Map<Integer, Integer> parent;
+        int count  ;
+
+        public UnionFindUtil() {
+            parent = new HashMap<>() ;
+             count = 0 ;
+        }
+
+        public int getCount(){
+            return count ;
+        }
+
+        private void union( int i, int j) {
+            int x = find(i);
+            int y = find(j);
+            if(x==y) return;
+
+            parent.put(x,y);
+            count--;
+        }
+
+
+        private int find(int i) {
+            if (!parent.containsKey(i)) {
+                parent.put(i,i);
+                count++;
+            }
+           if( i != parent.get(i)){
+               parent.put(i,find(parent.get(i)));
+           }
+           return parent.get(i);
+        }
+    }
 }

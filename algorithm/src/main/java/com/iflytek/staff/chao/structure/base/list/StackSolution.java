@@ -392,4 +392,75 @@ public class StackSolution {
     }
 
 
+    /**
+     * 735. 行星碰撞
+     * @param asteroids  正数向右  负数向左
+     * @return
+     */
+    public int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < asteroids.length; i++) {
+            if(asteroids[i]>0){
+                stack.add(asteroids[i]) ;
+                continue;
+            }
+            while (!stack.isEmpty() && stack.peek() * asteroids[i] <0 && stack.peek() + asteroids[i] <0 ){
+                stack.pop();
+            }
+            if(stack.isEmpty() || stack.peek() * asteroids[i] >0){
+                stack.add(asteroids[i]);
+            }else if(stack.peek() * asteroids[i] <0  && stack.peek() + asteroids[i] ==0){
+                stack.pop();
+            }
+        }
+        int[] ans = new int[stack.size()];
+        int i = stack.size();
+        while (!stack.isEmpty()){
+            ans[--i]= stack.pop();
+        }
+        return ans ;
+    }
+
+    /**
+     * 227. 基本计算器 II
+     * @param s
+     * @return
+     */
+    public int calculate(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int num = 0 , n = s.length() ;
+        char preSign = '+' ;
+
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            if(Character.isDigit(c)){
+                num = num*10 + ( c-'0') ;
+            }
+
+            if(!Character.isDigit(c) && c !=' ' || i==n-1){
+                switch (preSign){
+                    case '+' :
+                        stack.push(num);
+                        break;
+                    case '-' :
+                        stack.push(-num);
+                        break;
+                    case '*' :
+                        int pre = stack.pop() ;
+                        stack.push(pre*num);
+                        break;
+                    default:
+                        int div = stack.pop() ;
+                        stack.push(div/num);
+                }
+                preSign = c ;
+                num = 0 ;
+            }
+        }
+        int ans = 0 ;
+        while (!stack.isEmpty()){
+            ans += stack.pop();
+        }
+        return ans ;
+    }
 }

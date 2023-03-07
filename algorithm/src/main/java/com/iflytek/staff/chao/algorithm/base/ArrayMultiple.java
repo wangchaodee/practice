@@ -227,4 +227,38 @@ public class ArrayMultiple {
         return result.stream().collect(Collectors.toList());
     }
 
+    /**
+     * 57. 插入区间
+     * @param intervals
+     * @param newInterval
+     * @return
+     */
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        int l = newInterval[0]  ,r = newInterval[1];
+        boolean placed = false ;
+        List<int[]> ansList = new ArrayList<>();
+        for (int[] interval : intervals){
+            if(interval[0]>r){
+                if(!placed){
+                    ansList.add(new int[]{l,r});
+                    placed=true;
+                }
+                ansList.add(interval);
+            }else if(interval[1] < l){
+                ansList.add(interval);
+            }else {
+                l= Math.min(l,interval[0]);
+                r= Math.max(r,interval[1]);
+            }
+        }
+        if(!placed){
+            ansList.add(new int[]{l,r});
+        }
+        int[][] ans = new int[ansList.size()][];
+        for (int i = 0; i <ansList.size() ; i++) {
+            ans[i] = ansList.get(i);
+        }
+        return ans ;
+    }
+
 }

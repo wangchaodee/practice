@@ -262,7 +262,7 @@ public class Matrix {
     }
 
     /**
-     * 合并重叠数组
+     * 56. 合并区间
      *
      * @param intervals
      * @return

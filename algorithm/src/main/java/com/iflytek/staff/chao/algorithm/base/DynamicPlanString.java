@@ -275,4 +275,27 @@ public class DynamicPlanString {
         }
         return s.substring(0,happy);
     }
+
+    /**
+     * 1653. 使字符串平衡的最少删除次数
+     * @param s
+     * @return
+     */
+    public int minimumDeletions(String s) {
+        int leftb = 0 , righta= 0;
+        char[] array = s.toCharArray() ;
+        for (int i = 0; i < s.length(); i++) {
+            if(array[i]=='a') righta++;
+        }
+        int res = righta ;
+        for (int i = 0; i < s.length(); i++) {
+            if(array[i]=='a') {
+                righta--;
+            }else {
+                leftb++;
+            }
+            res = Math.min(res, leftb+righta);
+        }
+        return res ;
+    }
 }

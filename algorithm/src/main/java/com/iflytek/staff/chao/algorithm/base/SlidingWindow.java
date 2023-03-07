@@ -152,4 +152,59 @@ public class SlidingWindow {
         ans[j] = pq.peek()[0];
         return ans ;
     }
+
+    /**
+     * 76. 最小覆盖子串
+     * @param s
+     * @param t
+     * @return
+     */
+    public String minWindow(String s, String t) {
+        int m = s.length(), n = t.length();
+        if(m<n) return "";
+        int[] tf = new int[127] ;
+        for (char c : t.toCharArray()) {
+            tf[c]++;
+        }
+
+        int[] sf = new int[127] ;
+        int l =0 , r = 0 , count =0 ,min=m+1 ,start=0  ;
+        while (r<m){
+            char c = s.charAt(r) ;
+            if(tf[c] == 0 ){
+                r++;
+                continue;
+            }
+
+            if(sf[c] < tf[c]){
+                count++;
+            }
+
+            sf[c]++;
+            r++;
+
+            while (count == n){
+                if(r-l<min){
+                    min = r-l;
+                    start = l;
+                }
+                char lc = s.charAt(l);
+                if(tf[lc]==0) {
+                    l++;
+                    continue;
+                }
+                if(sf[lc] == tf[lc]){
+                    count--;
+                }
+                sf[lc]--;
+                l++;
+            }
+        }
+
+        if( min == m +1) {
+            return "" ;
+        }
+
+        return s.substring(start, start+min);
+    }
 }

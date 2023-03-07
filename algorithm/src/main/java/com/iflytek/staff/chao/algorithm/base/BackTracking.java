@@ -114,7 +114,7 @@ public class BackTracking {
     }
 
     /**
-     * 回溯 全排列  无重复元素
+     * 回溯 46 全排列  无重复元素
      *
      * @param nums
      * @return
@@ -180,7 +180,7 @@ public class BackTracking {
 
 
     /**
-     * 回溯 组合
+     * 46 回溯 组合
      *
      * @param nums
      * @return
@@ -249,7 +249,12 @@ public class BackTracking {
         }
     }
 
-
+    /**
+     * 39. 组合总和
+     * @param candidates
+     * @param target
+     * @return
+     */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> ans = new ArrayList<>();
 

@@ -494,4 +494,59 @@ public class BFS {
         return cnt <=k;
     }
 
+
+    /**
+     * 815. 公交路线
+     * @param routes
+     * @param source
+     * @param target
+     * @return
+     */
+    public int numBusesToDestination(int[][] routes, int source, int target) {
+        if(source == target) return 0 ;
+        int n = routes.length;
+        // 公交是否有换乘
+        boolean[][] edges  = new boolean[n][n];
+        Map<Integer ,List<Integer>> sites = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+           for( int site : routes[i]) {
+               List<Integer> lines = sites.getOrDefault(site, new ArrayList<>());
+               for(int j : lines){
+                   edges[i][j] = edges[j][i] = true ;
+               }
+               lines.add(i);
+               sites.put(site, lines);
+           }
+        }
+
+        int[] dis = new int[n];
+        Arrays.fill(dis ,-1 );
+        // 初始站 可能有多个公交线路
+        Queue<Integer> queue = new LinkedList<>();
+        for (int line : sites.get(source)){
+            dis[line] =1 ;
+            queue.offer(line);
+        }
+
+        // 广度优先方式 计算线路在第几次的搭乘上
+        while (!queue.isEmpty() ){
+            int a = queue.poll() ;
+            for (int b = 0; b <n ; b++) {
+                // a  b  换乘
+                if(edges[a][b] && dis[b] == -1){
+                    dis[b] = dis[a] +1 ;
+                    queue.offer(b);
+                }
+            }
+        }
+
+        // 用终点站 来查验 哪个线路是 最少换乘的
+        int ret = Integer.MAX_VALUE ;
+        for(int line : sites.getOrDefault(target,new ArrayList<>())){
+            if(dis[line] == -1) continue ;
+            ret = Math.min(ret, dis[line]);
+        }
+        return ret== Integer.MAX_VALUE ?-1 :ret ;
+    }
+
 }
