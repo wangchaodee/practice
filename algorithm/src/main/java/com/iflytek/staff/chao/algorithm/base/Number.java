@@ -107,7 +107,12 @@ public class Number {
 
     }
 
-
+    /**
+     * 剑指 Offer 15. 二进制中1的个数
+     * 191. 位1的个数
+     * @param n
+     * @return
+     */
     public int hammingWeight(int n) {
         int count = 0;
         while (n != 0) {
@@ -327,5 +332,30 @@ public class Number {
         }
         
         return Long.toString(nVal -1);
+    }
+
+    /**
+     * 剑指 Offer 64. 求1+2+…+n
+     * @param n
+     * @return
+     */
+    public int sumNums(int n) {
+        boolean flag = n>0 && (n += sumNums(n-1)) >0 ;
+        return n;
+    }
+
+    /**
+     * 剑指 Offer 65. 不用加减乘除做加法
+     * @param a
+     * @param b
+     * @return
+     */
+    public int add(int a, int b) {
+        while (b!=0){
+            int c = (a&b) <<1 ;
+            a ^=b;
+            b= c ;
+        }
+        return a ;
     }
 }

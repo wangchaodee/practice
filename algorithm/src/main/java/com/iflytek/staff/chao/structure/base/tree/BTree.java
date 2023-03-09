@@ -128,5 +128,32 @@ public class BTree {
         }
         last = p;
     }
+
+    /**
+     * 剑指 Offer 36. 二叉搜索树与双向链表
+     * @param root
+     * @return
+     */
+    Node pre , head ;
+    public Node treeToDoublyList(Node root) {
+        if(root==null) return root ;
+        dfs(root) ;
+        head.left = pre ;
+        pre.right= head ;
+        return head ;
+    }
+
+    private void dfs(Node cur){
+        if(cur==null) return;
+        dfs(cur.left);
+        if(pre!=null){
+            pre.right= cur;
+        }else {
+            head=cur;
+        }
+        cur.left= pre ;
+        pre= cur ;
+        dfs(cur.right);
+    }
 }
 

@@ -26,11 +26,11 @@ public class StackSolution {
             if (fuhao.contains(tokens[i])) {
                 int num2 = stack.pop();
                 int num1 = stack.pop();
-                switch (tokens[i]){
-                    case "+" :
+                switch (tokens[i]) {
+                    case "+":
                         stack.push(num1 + num2);
                         break;
-                    case "-" :
+                    case "-":
                         stack.push(num1 - num2);
                         break;
                     case "*":
@@ -48,14 +48,16 @@ public class StackSolution {
         return stack.pop();
     }
 
-    String[] tokens ;
-    int idx ;
+    String[] tokens;
+    int idx;
+
     public int evalRPN2(String[] tokens) {
-        this.tokens = tokens ;
-        this.idx = tokens.length -1 ;
+        this.tokens = tokens;
+        this.idx = tokens.length - 1;
         return calc();
     }
-    private int calc(){
+
+    private int calc() {
         switch (tokens[idx--]) {
             case "+": {
                 int right = calc();
@@ -118,6 +120,7 @@ public class StackSolution {
 
     /**
      * 394. 字符串解码
+     *
      * @param s
      * @return
      */
@@ -154,43 +157,43 @@ public class StackSolution {
 
 
     public String decodeString(String str) {
-        if(onlyString(str)){
+        if (onlyString(str)) {
             return str;
         }
         int index = 0;
         int size = str.length();
         StringBuilder res = new StringBuilder();
-        while(index < size){
+        while (index < size) {
             char ch = str.charAt(index);
-            if(Character.isLetter(ch)){
+            if (Character.isLetter(ch)) {
                 res.append(ch);
                 index++;
             } else {
                 int num = 0;
                 int left = index;
                 int right = index;
-                while(right < size && Character.isDigit(str.charAt(right))){
+                while (right < size && Character.isDigit(str.charAt(right))) {
                     right++;
                 }
                 num = Integer.parseInt(str.substring(left, right));
                 left = right; // 指向了 [
                 right++;
                 int leftP = 1;
-                while(leftP != 0){
+                while (leftP != 0) {
                     char temp = str.charAt(right);
-                    if(temp == '['){
-                        leftP ++;
-                    }else if(temp == ']'){
-                        leftP --;
+                    if (temp == '[') {
+                        leftP++;
+                    } else if (temp == ']') {
+                        leftP--;
                     }
-                    if(leftP == 0){
+                    if (leftP == 0) {
                         break;
                     }
                     right++;
                 }
                 // 递归调用 子字符串
                 String smallFrag = decodeString(str.substring(left + 1, right));
-                for(int i = 0; i < num; i++){
+                for (int i = 0; i < num; i++) {
                     res.append(smallFrag);
                 }
                 index = right + 1;
@@ -199,11 +202,11 @@ public class StackSolution {
         return res.toString();
     }
 
-    public boolean onlyString(String str){
+    public boolean onlyString(String str) {
         int index = 0;
-        while(index < str.length()){
+        while (index < str.length()) {
             char ch = str.charAt(index);
-            if(ch == '[' || ch == ']'){
+            if (ch == '[' || ch == ']') {
                 return false;
             }
             index++;
@@ -328,34 +331,36 @@ public class StackSolution {
 
     /**
      * 32. 最长有效括号
+     *
      * @param s
      * @return
      */
     public int longestValidParentheses(String s) {
-        int max = 0 ;
+        int max = 0;
         Stack<Integer> stack = new Stack();
         stack.push(-1);
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if(c==')'){
-               if(stack.peek()!=-1 && s.charAt(stack.peek())=='('){
-                   // 去掉成对的括号
-                   stack.pop();
-                   // 计算长度    当前位置 减去 上一个不匹配位置 即为当前长度
-                   max = Math.max(max,i-stack.peek());
-               }else {
-                   stack.push(i) ;
-               }
-            }else {
+            if (c == ')') {
+                if (stack.peek() != -1 && s.charAt(stack.peek()) == '(') {
+                    // 去掉成对的括号
+                    stack.pop();
+                    // 计算长度    当前位置 减去 上一个不匹配位置 即为当前长度
+                    max = Math.max(max, i - stack.peek());
+                } else {
+                    stack.push(i);
+                }
+            } else {
                 stack.push(i);
             }
         }
-        return  max ;
+        return max;
     }
 
 
     /**
      * 844. 比较含退格的字符串
+     *
      * @param s
      * @param t
      * @return
@@ -363,104 +368,169 @@ public class StackSolution {
     public boolean backspaceCompare2(String s, String t) {
 
         Stack<Character> ss = new Stack<>();
-        for (char c :s.toCharArray()){
-            if(c =='#') {
-                if(!ss.isEmpty()) {
+        for (char c : s.toCharArray()) {
+            if (c == '#') {
+                if (!ss.isEmpty()) {
                     ss.pop();
                 }
-            }else {
+            } else {
                 ss.push(c);
             }
         }
 
         Stack<Character> ts = new Stack<>();
-        for (char c :t.toCharArray()){
-            if(c =='#') {
-                if(!ts.isEmpty()) {
+        for (char c : t.toCharArray()) {
+            if (c == '#') {
+                if (!ts.isEmpty()) {
                     ts.pop();
                 }
-            }else {
+            } else {
                 ts.push(c);
             }
         }
-        while (!ss.isEmpty() && !ts.isEmpty()){
-            if(ss.pop() != ts.pop()){
+        while (!ss.isEmpty() && !ts.isEmpty()) {
+            if (ss.pop() != ts.pop()) {
                 return false;
             }
         }
-        return ss.isEmpty() && ts.isEmpty() ;
+        return ss.isEmpty() && ts.isEmpty();
     }
 
 
     /**
      * 735. 行星碰撞
-     * @param asteroids  正数向右  负数向左
+     *
+     * @param asteroids 正数向右  负数向左
      * @return
      */
     public int[] asteroidCollision(int[] asteroids) {
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < asteroids.length; i++) {
-            if(asteroids[i]>0){
-                stack.add(asteroids[i]) ;
+            if (asteroids[i] > 0) {
+                stack.add(asteroids[i]);
                 continue;
             }
-            while (!stack.isEmpty() && stack.peek() * asteroids[i] <0 && stack.peek() + asteroids[i] <0 ){
+            while (!stack.isEmpty() && stack.peek() * asteroids[i] < 0 && stack.peek() + asteroids[i] < 0) {
                 stack.pop();
             }
-            if(stack.isEmpty() || stack.peek() * asteroids[i] >0){
+            if (stack.isEmpty() || stack.peek() * asteroids[i] > 0) {
                 stack.add(asteroids[i]);
-            }else if(stack.peek() * asteroids[i] <0  && stack.peek() + asteroids[i] ==0){
+            } else if (stack.peek() * asteroids[i] < 0 && stack.peek() + asteroids[i] == 0) {
                 stack.pop();
             }
         }
         int[] ans = new int[stack.size()];
         int i = stack.size();
-        while (!stack.isEmpty()){
-            ans[--i]= stack.pop();
+        while (!stack.isEmpty()) {
+            ans[--i] = stack.pop();
         }
-        return ans ;
+        return ans;
     }
 
     /**
      * 227. 基本计算器 II
+     *
      * @param s
      * @return
      */
     public int calculate(String s) {
         Stack<Integer> stack = new Stack<>();
-        int num = 0 , n = s.length() ;
-        char preSign = '+' ;
+        int num = 0, n = s.length();
+        char preSign = '+';
 
         for (int i = 0; i < n; i++) {
             char c = s.charAt(i);
-            if(Character.isDigit(c)){
-                num = num*10 + ( c-'0') ;
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
             }
 
-            if(!Character.isDigit(c) && c !=' ' || i==n-1){
-                switch (preSign){
-                    case '+' :
+            if (!Character.isDigit(c) && c != ' ' || i == n - 1) {
+                switch (preSign) {
+                    case '+':
                         stack.push(num);
                         break;
-                    case '-' :
+                    case '-':
                         stack.push(-num);
                         break;
-                    case '*' :
-                        int pre = stack.pop() ;
-                        stack.push(pre*num);
+                    case '*':
+                        int pre = stack.pop();
+                        stack.push(pre * num);
                         break;
                     default:
-                        int div = stack.pop() ;
-                        stack.push(div/num);
+                        int div = stack.pop();
+                        stack.push(div / num);
                 }
-                preSign = c ;
-                num = 0 ;
+                preSign = c;
+                num = 0;
             }
         }
-        int ans = 0 ;
-        while (!stack.isEmpty()){
+        int ans = 0;
+        while (!stack.isEmpty()) {
             ans += stack.pop();
         }
-        return ans ;
+        return ans;
+    }
+
+    /**
+     * 1096. 花括号展开 II
+     *
+     * @param expression
+     * @return
+     */
+    public List<String> braceExpansionII(String expression) {
+        Stack<Character> op = new Stack<>();
+        List<Set<String>> stages = new ArrayList<>();
+
+        for (int i = 0; i < expression.length(); i++) {
+            char c = expression.charAt(i);
+            if (c == ',') {
+                while (!op.isEmpty() && op.peek() == '*') {
+                    ops(op, stages);
+                }
+                op.push('+');
+            } else if (c == '{') {
+                if (i > 0 && (expression.charAt(i - 1) == '}' || Character.isLetter(expression.charAt(i - 1)))) {
+                    op.push('*');
+                }
+                op.push('{');
+            } else if (c == '}') {
+                while (!op.isEmpty() && op.peek() != '{') {
+                    ops(op, stages);
+                }
+                op.pop();
+            } else {
+                if (i > 0 && (expression.charAt(i - 1) == '}' || Character.isLetter(expression.charAt(i - 1)))) {
+                    op.push('*');
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.append(expression.charAt(i));
+                stages.add(new TreeSet<String>() {
+                    {
+                        add(sb.toString());
+                    }});
+            }
+        }
+        while (!op.isEmpty()) {
+            ops(op, stages);
+        }
+
+        return new ArrayList<>(stages.get(stages.size() - 1));
+    }
+
+    private void ops(Stack<Character> op, List<Set<String>> stages) {
+        int l = stages.size() - 2, r = stages.size() - 1;
+        if (op.peek() == '+') {
+            stages.get(l).addAll(stages.get(r));
+        } else {
+            Set<String> sets = new TreeSet<>();
+            for (String ls : stages.get(l)) {
+                for (String rs : stages.get(r)) {
+                    sets.add(ls + rs);
+                }
+            }
+            stages.set(l, sets);
+        }
+        op.pop();
+        stages.remove(r);
     }
 }

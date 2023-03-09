@@ -501,17 +501,18 @@ public class ArrayTraversal {
         return v;
     }
 
+    /**
+     * 剑指 Offer 40. 最小的k个数
+     * @param arr
+     * @param k
+     * @return
+     */
     public int[] getLeastNumbers2(int[] arr, int k) {
 
         int[] least = new int[k];
-        if (k <= 0) return least;
+        if (k == 0) return least;
         int N = arr.length;
-        PriorityQueue<Integer> pq = new PriorityQueue<>(k, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        PriorityQueue<Integer> pq = new PriorityQueue<>(k, ( o1,  o2) -> o2.compareTo(o1));
 
         for (int i = 0; i < k; i++) {
             pq.add(arr[i]);
@@ -523,7 +524,6 @@ public class ArrayTraversal {
                 pq.offer(arr[i]);
             }
         }
-
 
         for (int i = 0; i < k; i++) {
             least[i] = pq.poll();
@@ -1255,5 +1255,29 @@ public class ArrayTraversal {
             }
         }
         return nums ;
+    }
+
+    /**
+     * 面试题61. 扑克牌中的顺子
+     * @param nums
+     * @return
+     */
+    public boolean isStraight(int[] nums) {
+        Arrays.sort(nums);
+        int start =0;
+        for (int i = 0; i <5 ; i++) {
+            if(nums[i]>0){
+                if(start==0){
+                    start = nums[i];
+                }
+                if(nums[i] - start >4 ) {
+                    return false ;
+                }
+                if(i>0 && nums[i]==nums[i-1]){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

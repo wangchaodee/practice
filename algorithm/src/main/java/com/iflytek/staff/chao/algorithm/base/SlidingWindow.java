@@ -207,4 +207,24 @@ public class SlidingWindow {
 
         return s.substring(start, start+min);
     }
+
+    /**
+     * 2379. 得到 K 个黑块的最少涂色次数
+     * @param blocks
+     * @param k
+     * @return
+     */
+    public int minimumRecolors(String blocks, int k) {
+        int countw = 0 ;
+        for (int i = 0; i < k; i++) {
+            if(blocks.charAt(i) == 'W') countw++;
+        }
+        int ans = countw;
+        for (int i = k; i <blocks.length() ; i++) {
+            if(blocks.charAt(i) == 'W') countw++;
+            if(blocks.charAt(i-k) == 'W') countw--;
+            ans = Math.min(ans,countw);
+        }
+        return ans ;
+    }
 }

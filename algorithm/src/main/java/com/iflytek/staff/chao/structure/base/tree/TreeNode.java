@@ -335,11 +335,6 @@ public class TreeNode {
         return root.val + rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high);
     }
 
-
-
-
-
-
     public TreeNode buildTree(int[] inorder, int[] postorder) {
         int N = postorder.length;
         if (N == 0) return null;
@@ -374,7 +369,12 @@ public class TreeNode {
         return root;
     }
 
-
+    /**
+     * 105. 从前序与中序遍历序列构造二叉树
+     * @param preorder
+     * @param inorder
+     * @return
+     */
     public TreeNode buildTreePre(int[] preorder, int[] inorder) {
         int N = preorder.length;
         return buildTreePre(inorder, 0, N - 1, preorder, 0, N - 1);

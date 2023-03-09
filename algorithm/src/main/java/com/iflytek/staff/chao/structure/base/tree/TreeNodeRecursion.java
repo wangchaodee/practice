@@ -212,7 +212,7 @@ public class TreeNodeRecursion {
 
     /**
      * 235 235. 二叉搜索树的最近公共祖先
-     *
+     * 剑指 Offer 68 - II. 二叉树的最近公共祖先
      * @param root
      * @param p
      * @param q
@@ -787,6 +787,28 @@ public class TreeNodeRecursion {
         if(p.val !=q.val) return false;
 
         return isSameTree(p.left ,q.left) && isSameTree(p.right,q.right);
+    }
+
+    /**
+     * 剑指 Offer 54. 二叉搜索树的第k大节点
+     * @param root
+     * @param k
+     * @return
+     */
+    int val , k ;
+    public int kthLargest(TreeNode root, int k) {
+      this.k = k ;
+      dfsKth(root);
+      return val;
+    }
+
+    private void dfsKth(TreeNode cur){
+        if(cur==null) return;
+        dfsKth(cur.right);
+        if(k==0) return;
+        k--;
+        val= cur.val ;
+        dfsKth(cur.left);
     }
 
 }
