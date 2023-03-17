@@ -227,6 +227,22 @@ public class DynamicPlanMath {
         return dp[n];
     }
 
+    /**
+     * 剑指 Offer 14- I. 剪绳子
+     * @param n
+     * @return
+     */
+    public int cuttingRope(int n ,int m) {
+        int[] dp = new int[m + 1];
+        dp[1] = 1;
+        for (int i = 2; i <= m; i++) {
+            for (int j = 1; j < i; j++) {
+                dp[i] = Math.max(dp[i], Math.max(j * (i - j), j * dp[i - j]));
+            }
+        }
+        return dp[m];
+    }
+
 /**
  * 分割整数
  * 1. 分割整数的最大乘积

@@ -482,11 +482,32 @@ public class ArrayTraversal {
         }
     }
 
-
+    /**
+     * 剑指 Offer 39. 数组中出现次数超过一半的数字
+     * @param nums
+     * @return
+     */
     public int majorityElement(int[] nums) {
         Arrays.sort(nums);
         return nums[nums.length / 2];
     }
+
+    /**
+     * 169. 多数元素
+     * @param nums
+     * @return
+     */
+    public int majorityElementII(int[] nums) {
+        int count =0  ,target =0;
+        for (int num : nums) {
+            if(count==0) {
+                target= num;
+            }
+            count += (target !=num ? -1:1);
+        }
+        return target;
+    }
+
 
     /**
      * 剑指 Offer 53 - II. 0～n-1中缺失的数字
@@ -1047,6 +1068,27 @@ public class ArrayTraversal {
     }
 
     /**
+     * 剑指 Offer 66. 构建乘积数组
+     * @param a
+     * @return
+     */
+    public int[] constructArr(int[] a) {
+        int n = a.length ;
+        int[] multi = new int[n] ;
+        if(n==0) return multi;
+        multi[0]=1;
+        for (int i = 1; i < n; i++) {
+            multi[i] = multi[i-1] * a[i-1];
+        }
+        int tmp =1 ;
+        for (int i = n-2; i >=0 ; i--) {
+            tmp *= a[i+1];
+            multi[i] *=tmp;
+        }
+        return multi;
+    }
+
+    /**
      * 565. 数组嵌套
      * 可不用额外空间  ， 循环时 将 nums[i] = -1 ，  可以原地判断
      *
@@ -1279,5 +1321,52 @@ public class ArrayTraversal {
             }
         }
         return true;
+    }
+
+    /**
+     * 剑指 Offer 56 - I. 数组中数字出现的次数
+     * @param nums
+     * @return
+     */
+    public int[] singleNumbers(int[] nums) {
+        int x = 0 ;
+        for (int n : nums){
+            x^=n ;
+        }
+        int div =1 ;
+        while ((div&x) == 0 ){
+            div<<=1 ;
+        }
+        int a = 0 ,b =0 ;
+        for (int n : nums){
+           if((div & n) !=0 ){
+               a ^=n;
+           }else {
+               b ^=n ;
+           }
+        }
+        return new int[]{a,b};
+    }
+
+    /**
+     * 剑指 Offer 56 - II. 数组中数字出现的次数 II
+     * @param nums
+     * @return
+     */
+    public int singleNumberII(int[] nums) {
+        int[] counts = new int[32];
+        for (int num : nums){
+            for (int i = 0; i < 32; i++) {
+                counts[i] += num & 1;
+                num >>>=1;
+            }
+        }
+
+        int ans =0 ,m=3;
+        for (int i = 0; i < 32; i++) {
+            ans <<=1;
+            ans |= counts[31-i] % m ;
+        }
+        return ans ;
     }
 }

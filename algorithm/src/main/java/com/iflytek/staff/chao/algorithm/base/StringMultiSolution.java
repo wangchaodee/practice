@@ -146,4 +146,38 @@ public class StringMultiSolution {
         return sb.toString();
     }
 
+    /**
+     * 面试题 17.05. 字母与数字
+     * @param array
+     * @return
+     */
+    public String[] findLongestSubarray(String[] array) {
+        Map<Integer,Integer>  indexs = new HashMap<>();
+        int start =-1 ,max = 0 , sum=0 ;
+        indexs.put(0,-1);
+        for (int i = 0; i < array.length; i++) {
+            if(Character.isLetter(array[i].charAt(0))){
+                sum++;
+            }else {
+                sum--;
+            }
+
+            if(indexs.containsKey(sum)){
+                int first = indexs.get(sum);
+                if(i-first > max){
+                    max = i-first;
+                    start= first+1;
+                }
+            }else {
+                indexs.put(sum,i);
+            }
+        }
+
+        if(max==0) return new String[0];
+
+        String[] ans = new String[max];
+        System.arraycopy(array,start,ans,0,max);
+        return ans ;
+    }
+
 }

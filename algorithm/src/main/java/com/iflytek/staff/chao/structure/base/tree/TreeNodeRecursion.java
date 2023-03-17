@@ -811,4 +811,26 @@ public class TreeNodeRecursion {
         dfsKth(cur.left);
     }
 
+
+    /**
+     * 剑指 Offer 33. 二叉搜索树的后序遍历序列
+     * @param postorder
+     * @return
+     */
+    public boolean verifyPostorder(int[] postorder) {
+        Stack<Integer> stack = new Stack<>();
+        int parent =Integer.MAX_VALUE ;
+        for (int i = postorder.length-1 ;i>=0 ;i--){
+            int v = postorder[i];
+
+            while (!stack.isEmpty() && stack.peek() >v){
+                parent = stack.pop();
+            }
+
+            if(v > parent) return false ;
+
+            stack.add(v);
+        }
+        return true ;
+    }
 }

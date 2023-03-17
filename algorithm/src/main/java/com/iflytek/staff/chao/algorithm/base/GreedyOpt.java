@@ -522,4 +522,52 @@ public class GreedyOpt {
         }
         return cnt ;
     }
+
+    /**
+     * 2383. 赢得比赛需要的最少训练时长
+     * @param initialEnergy
+     * @param initialExperience
+     * @param energy
+     * @param experience
+     * @return
+     */
+    public int minNumberOfHours(int initialEnergy, int initialExperience, int[] energy, int[] experience) {
+        int sum =0 ;
+        for(int e : energy){
+            sum +=e;
+        }
+        int trainHours=  initialEnergy-sum >0 ? 0 : sum+1 -initialEnergy;
+
+        for(int e :experience){
+            if(initialExperience<=e){
+                trainHours += 1 + (e-initialExperience);
+                initialExperience = 2*e +1 ;
+            } else {
+                initialExperience +=e;
+            }
+        }
+        return trainHours ;
+    }
+
+
+    /**
+     * 1605. 给定行和列的和求可行矩阵
+     * @param rowSum
+     * @param colSum
+     * @return
+     */
+    public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        int m = rowSum.length , n = colSum.length ;
+        int[][] ans = new int[m][n] ;
+        int i = 0 ,j = 0 ;
+        while (i<m && j < n){
+            int v = Math.min(rowSum[i] , colSum[j]);
+            ans[i][j] = v ;
+            rowSum[i] -=v ;
+            colSum[j] -=v ;
+            if(rowSum[i] == 0 ) i++ ;
+            if(colSum[j]==0) j++;
+        }
+        return ans ;
+    }
 }

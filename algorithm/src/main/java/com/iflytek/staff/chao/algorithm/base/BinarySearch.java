@@ -948,8 +948,8 @@ public class BinarySearch {
     public double myPow(double x, int n) {
         double ans = 1.0;
         int i = n;
-        while (i / 2 != 0) {
-            if (i % 2 == 1) {
+        while (i != 0) {
+            if (i % 2 != 0) {
                 ans *= x;
             }
             x *= x;

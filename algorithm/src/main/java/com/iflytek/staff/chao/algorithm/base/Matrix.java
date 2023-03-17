@@ -587,6 +587,13 @@ public class Matrix {
         return maxArea;
     }
 
+
+    /**
+     * 1615. 最大网络秩
+     * @param n
+     * @param roads
+     * @return
+     */
     public int maximalNetworkRank(int n, int[][] roads) {
         int[] city = new int[n];
         int[][] graph = new int[n][n];
@@ -1110,6 +1117,37 @@ public class Matrix {
         }
 
         return  Arrays.copyOfRange(ans , 0 ,k);
+    }
+
+    /**
+     * 剑指 Offer 57 - II. 和为s的连续正数序列
+     * @param target
+     * @return
+     */
+    public int[][] findContinuousSequence(int target) {
+        List<int[]> ans = new ArrayList<>();
+        int limit = (target -1 ) /2  , sum =0 ;
+        for (int i = 1; i <=limit ; i++) {
+
+            for (int j = i; j <= target ; j++) {
+                sum += j;
+                if(sum>target){
+                    sum= 0 ;
+                    break;
+                } else  if (sum == target ){
+                    int[] comb = new int[j-i+1] ;
+                    for (int k = i; k <=j ; k++) {
+                        comb[k-i] = k;
+                    }
+                    sum = 0 ;
+                    ans.add(comb);
+                    break;
+                }
+            }
+
+        }
+
+        return  ans.toArray(new int[ans.size()][]);
     }
 
 }

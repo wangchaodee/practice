@@ -1,5 +1,8 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author : wangchaodee
  * @Description: 前缀和
@@ -29,5 +32,29 @@ public class PrifixSum {
         }
 
         return max;
+    }
+
+    /**
+     * 1590. 使数组和能被 P 整除
+     * @param nums
+     * @param p
+     * @return
+     */
+    public int minSubarray(int[] nums, int p) {
+        int x = 0 ;
+        for (int num : nums ){
+            x = (x+num)%p;
+        }
+        if(x==0) return 0;
+        int y=0 , res = nums.length;
+        Map<Integer,Integer> index = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            index.put(y,i);
+            y= (y+nums[i]) % p ;
+            if(index.containsKey((y-x+p)%p)){
+                res = Math.min(res, i -index.get((y-x+p)%p) +1 );
+            }
+        }
+        return res == nums.length ? -1 : res ;
     }
 }
