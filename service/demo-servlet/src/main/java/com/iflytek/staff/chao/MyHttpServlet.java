@@ -1,6 +1,7 @@
 package com.iflytek.staff.chao;
 
-import javax.servlet.http.HttpServlet;
+
+import jakarta.servlet.http.HttpServlet;
 
 public class MyHttpServlet extends HttpServlet {
 }

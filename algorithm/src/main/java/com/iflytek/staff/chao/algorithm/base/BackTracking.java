@@ -17,10 +17,6 @@ import java.util.*;
 public class BackTracking {
 
 
-//    // x ,y  点 顺序  上 右 下 左
-//    int[] x = new int[]{0, 1, 0, -1};
-//    int[] y = new int[]{1, 0, -1, 0};
-
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
         Deque<Integer> path = new ArrayDeque<>();
@@ -417,6 +413,48 @@ public class BackTracking {
         seen[r][l] = false;
         return result;
     }
+
+    /**
+     * 剑指 Offer 38. 字符串的排列
+     * @param s
+     * @return
+     */
+    public String[] permutation(String s) {
+        int n = s.length() ;
+        rec = new ArrayList<>();
+        visit = new boolean[n] ;
+        char[] arr = s.toCharArray();
+        Arrays.sort(arr);
+        StringBuilder perm = new StringBuilder();
+        backtrack(arr ,0,n,perm);
+        int size = rec.size();
+        String[] ans = new String[size];
+        for (int i = 0; i < size; i++) {
+            ans[i] = rec.get(i);
+        }
+        return ans ;
+    }
+
+    private void backtrack(char[] arr, int i, int n, StringBuilder perm) {
+        if(i==n) {
+            rec.add(perm.toString());
+            return;
+        }
+        for (int j = 0; j < n; j++) {
+            if(visit[j] || (j>0 && !visit[j-1] && arr[j-1] == arr[j]) ){
+                continue;
+            }
+            visit[j] = true;
+            perm.append(arr[j]);
+            backtrack(arr,i+1,n,perm);
+            perm.deleteCharAt(perm.length() -1);
+            visit[j] =false;
+        }
+    }
+
+    List<String> rec ;
+    boolean[] visit ;
+
 
 
 }

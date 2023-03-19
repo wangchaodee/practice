@@ -243,6 +243,23 @@ public class DynamicPlanMath {
         return dp[m];
     }
 
+    /**
+     * 剑指 Offer 14- II. 剪绳子 II
+     * @param n
+     * @return
+     */
+    public int cuttingRope(int n) {
+        if(n<=3) return n-1 ;
+        int mod = (int)1e9+7;
+        long res =1 ;
+        while (n>4){
+            res *=3;
+            res %= mod ;
+            n -=3 ;
+        }
+        return (int)(res*n%mod);
+    }
+
 /**
  * 分割整数
  * 1. 分割整数的最大乘积

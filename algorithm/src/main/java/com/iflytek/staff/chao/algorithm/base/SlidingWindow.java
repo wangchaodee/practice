@@ -131,25 +131,23 @@ public class SlidingWindow {
     public int[] maxSlidingWindow(int[] nums, int k) {
 
         int[] ans = new int[nums.length - k +1];
-        PriorityQueue<int[]> pq = new PriorityQueue<>( new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o2[0] == o1[0] ? o2[1] - o1[1] : o2[0] - o1[0] ;
-            }
+        PriorityQueue<int[]> pq = new PriorityQueue<>( ( o1,  o2) -> {
+             return o2[0] == o1[0] ? o2[1] - o1[1] : o2[0] - o1[0];
         });
-        int j =0 ;
-        for (int i = 0; i < nums.length; i++) {
-            if(i>=k) {
-                ans[j++] = pq.peek()[0];
-                // 滑动窗口 向右移
-                while (!pq.isEmpty() && pq.peek()[1] <= i-k ){
-                    pq.poll();
-                }
-            }
+        for (int i = 0; i < k-1 ; i++) {
             pq.offer(new int[]{nums[i],i});
         }
-        // 最后一个值
-        ans[j] = pq.peek()[0];
+
+        int j =0 ;
+        for (int i = k-1; i < nums.length; i++) {
+            pq.offer(new int[]{nums[i],i});
+            ans[j++] = pq.peek()[0];
+            // 滑动窗口 向右移
+            while (!pq.isEmpty() && pq.peek()[1] <= i-k ){
+                pq.poll();
+            }
+        }
+
         return ans ;
     }
 

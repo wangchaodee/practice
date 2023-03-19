@@ -145,7 +145,7 @@ public class StringSingleSolution {
 
 
     /**
-     * 字符转换数字
+     * 8. 字符串转换整数 (atoi) 字符转换数字
      *
      * @param s
      * @return
@@ -559,6 +559,7 @@ public class StringSingleSolution {
         }
         return sb.length()>32 ? "ERROR" :sb.toString();
     }
+
 
 
 }
