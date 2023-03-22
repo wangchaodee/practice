@@ -8,6 +8,7 @@
         <module>demo-ioc</module>
         <module>demo-socket</module>
         <module>demo-servlet</module>
+        <module>demo-tomact</module>
 
     </modules>
 

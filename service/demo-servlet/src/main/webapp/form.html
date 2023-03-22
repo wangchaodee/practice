@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Servlet Demo</title>
+</head>
+<body>
+<p> 测试登录  post方式提交数据  比较include 和forward 处理的不同 </p>
+<form action="loginPage" method="post">
+    User Name:<input type="text" name="uname"/><br/>
+    Password:<input type="password" name="upass"/><br/>
+    <input type="submit" value="SUBMIT"/>
+</form>
+<br/>
+
+<p> 测试Session  get 方式提交数据</p>
+<form action="loginPage" method="get">
+    User Name:<input type="text" name="uname"/><br/>
+    Password:<input type="password" name="upass"/><br/>
+    <input type="submit" value="SUBMIT"/>
+</form>
+
+<a href="getsession">点击查看Session数据 </a>
+<br/>
+
+<form action="details" method="get">
+    User Name: <input type="text" name="uname"><br>
+    User Age: <input type="text" name="uage"><br>
+    <input type="submit" value="get submit">
+</form>
+
+<br/>
+
+<form action="details" method="post">
+    User Name: <input type="text" name="uname"><br>
+    User Age: <input type="text" name="uage"><br>
+    <input type="submit" value="post submit">
+</form>
+
+<br/>
+
+
+</body>
+</html>
