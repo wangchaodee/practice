@@ -118,6 +118,7 @@ public class StringSolution {
 
     /**
      * 67 二进制求和
+     * 剑指 Offer II 002. 二进制加法
      * @param a
      * @param b
      * @return

@@ -411,4 +411,70 @@ public class Number {
         }
         return ans ;
     }
+
+    /**
+     * 剑指 Offer II 001. 整数除法
+     * @param a
+     * @param b
+     * @return
+     */
+    public int divide(int a, int b) {
+        if(a==Integer.MIN_VALUE){
+            if(b==1) return Integer.MIN_VALUE;
+            if(b==-1) return Integer.MAX_VALUE ;
+        }
+
+        if(b==Integer.MIN_VALUE){
+            return a==Integer.MIN_VALUE ?1 :0 ;
+        }
+
+        if(a==0) return 0 ;
+
+        boolean rev = false ;
+        if(a >0) {
+            a = -a ;
+            rev = !rev ;
+        }
+        if(b >0) {
+            b = -b ;
+            rev = !rev ;
+        }
+
+        int left = 1 , right = Integer.MAX_VALUE , ans =0 ;
+        while (left<=right){
+            int mid = left + ((right -left)>>1) ;
+            boolean check = quickAdd(b,mid,a);
+            if(check){
+                ans = mid ;
+                if(mid==Integer.MAX_VALUE) break;
+                left = mid +1 ;
+            }else {
+                right = mid-1 ;
+            }
+        }
+        return rev ? -ans : ans ;
+    }
+
+    private boolean quickAdd(int b , int mul , int a){
+        // b * mul >=x
+        int result = 0 , add = b ;
+        while (mul!=0){
+            if((mul&1)!=0){
+                if(result<a-add){
+                    return false;
+                }
+                result +=add;
+            }
+            if(mul!=1){
+                if(add<a-add){
+                    return false;
+                }
+                add +=add ;
+            }
+            mul>>=1 ;
+        }
+        return true;
+    }
+
+
 }
