@@ -3,6 +3,7 @@ package com.iflytek.staff.chao.config;
 import com.iflytek.staff.chao.Constants;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import java.util.Enumeration;
  * @author : wangchaodee
  * @Description: Headers参数
  */
+@WebServlet(name ="HeadersServlet" ,urlPatterns = "/httpheader")
 public class HeadersServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse res)

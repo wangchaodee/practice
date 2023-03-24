@@ -3,6 +3,7 @@ package com.iflytek.staff.chao.function;
 import com.iflytek.staff.chao.Constants;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import java.io.PrintWriter;
  * @author : wangchaodee
  * @Description: 测试Session
  */
+@WebServlet(name ="SessionServlet" ,urlPatterns = "/getsession")
 public class SessionServlet extends HttpServlet {
 
 

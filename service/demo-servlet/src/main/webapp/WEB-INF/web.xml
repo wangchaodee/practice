@@ -10,20 +10,6 @@
 
   <display-name>demo-servlet</display-name>
 
-<!--  <context-param>-->
-<!--    <param-name>contextConfigLocation</param-name>-->
-<!--    <param-value>application-context.xml</param-value>-->
-<!--  </context-param>-->
-
-<!--  <servlet>-->
-<!--    <servlet-name>demoDispatcher</servlet-name>-->
-<!--    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
-<!--    <init-param>-->
-<!--      <param-name>contextConfigLocation</param-name>-->
-<!--      <param-value>demo-servlet.xml</param-value>-->
-<!--    </init-param>-->
-<!--    <load-on-startup>1</load-on-startup>-->
-<!--  </servlet>-->
 
   <!--  测试GenericServlet 方式的Servlet   -->
   <servlet>
@@ -49,40 +35,6 @@
   </servlet-mapping>
   <!--  测试HttpServlet方式的Servlet -->
 
-  <!--  测试FromServlet方式的Servlet -->
-  <servlet>
-    <servlet-name>FormServlet</servlet-name>
-    <servlet-class>com.iflytek.staff.chao.function.FormServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>FormServlet</servlet-name>
-    <url-pattern>/details</url-pattern>
-  </servlet-mapping>
-  <!--  测试FromServlet方式的Servlet -->
-
-  <!--  测试LoginServlet -->
-  <servlet>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>com.iflytek.staff.chao.function.LoginServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LoginServlet</servlet-name>
-    <url-pattern>/loginPage</url-pattern>
-  </servlet-mapping>
-  <!--  测试LoginServlet -->
-
-  <!--  测试SessionServlet -->
-  <servlet>
-    <servlet-name>SessionServlet</servlet-name>
-    <servlet-class>com.iflytek.staff.chao.function.SessionServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SessionServlet</servlet-name>
-    <url-pattern>/getsession</url-pattern>
-  </servlet-mapping>
-  <!--  测试SessionServlet -->
-
 
   <!--  测试load-on-startup   -->
   <servlet>
@@ -104,25 +56,6 @@
   </servlet>
   <!--  测试load-on-startup   -->
 
-  <!--  测试参数 Headers ServletConfig ServletContext  -->
-  <servlet>
-    <servlet-name>HeadersServlet</servlet-name>
-    <servlet-class>com.iflytek.staff.chao.config.HeadersServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>HeadersServlet</servlet-name>
-    <url-pattern>/httpheader</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>ServletContextServlet</servlet-name>
-    <servlet-class>com.iflytek.staff.chao.config.ServletContextServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ServletContextServlet</servlet-name>
-    <url-pattern>/servletContext</url-pattern>
-  </servlet-mapping>
-
   <context-param>
     <param-name>developer</param-name>
     <param-value>wangchaodee</param-value>
@@ -132,23 +65,6 @@
     <param-value>wangchaodee@qq.com</param-value>
   </context-param>
 
-  <servlet>
-    <servlet-name>ServletConfigServlet</servlet-name>
-    <servlet-class>com.iflytek.staff.chao.config.ServletConfigServlet</servlet-class>
-    <init-param>
-      <param-name>myname</param-name>
-      <param-value>wangchaodee</param-value>
-    </init-param>
-    <init-param>
-      <param-name>servlet-name</param-name>
-      <param-value>ServletConfigServlet</param-value>
-    </init-param>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ServletConfigServlet</servlet-name>
-    <url-pattern>/servletConfig</url-pattern>
-  </servlet-mapping>
-  <!--  end  -->
 
   <welcome-file-list>
     <welcome-file>home.html</welcome-file>

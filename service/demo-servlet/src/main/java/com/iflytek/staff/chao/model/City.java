@@ -1,15 +1,22 @@
 package com.iflytek.staff.chao.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Objects;
 
 /**
  * @author : wangchaodee
  * @Description: xxx
  */
+@XmlRootElement(name = "city")
+@XmlType(propOrder = {"id", "name", "population"})
 public class City {
     private Long id;
     private String name;
     private int population;
+
+    public City() {
+    }
 
     public City(Long id, String name, int population) {
         this.id = id;
