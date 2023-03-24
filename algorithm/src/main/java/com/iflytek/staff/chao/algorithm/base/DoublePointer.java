@@ -11,7 +11,7 @@ import static com.iflytek.staff.chao.algorithm.base.SortUtil.less;
 
 /**
  * @author : wangchaodee
- * @Description: 双指针算法
+ * @Description: 双指针算法   滑动窗口
  * @date Date : 2023年01月16日 10:32
  */
 public class DoublePointer {
@@ -32,7 +32,7 @@ public class DoublePointer {
             else if (sum > target) r--;
             else return new int[]{l, r};
         }
-        return null;
+        return new int[2];
     }
 
     /**

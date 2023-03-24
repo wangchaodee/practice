@@ -57,4 +57,42 @@ public class PrifixSum {
         }
         return res == nums.length ? -1 : res ;
     }
+
+    /**
+     * 剑指 Offer II 010. 和为 k 的子数组  ,  560
+     * 多少个连续字数组 和为k ,, 因为按题意数组不适合排序， 双指针方式不适用 ， 适用前缀后， 固定一端 ，然后遍历求和
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int subarraySum(int[] nums, int k) {
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int sum = 0;
+            for (int j = i; j >= 0; j--) {
+                sum += nums[i];
+                if (sum == k) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public int subarraySum_2(int[] nums, int k) {
+        int pre = 0 , count = 0;
+        Map<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        for (int i = 0; i < nums.length; i++) {
+            pre += nums[i];
+            if(map.containsKey(pre-k)){
+                count += map.get(pre-k);
+            }
+            map.put(pre, map.getOrDefault(pre,0)+1);
+        }
+        return count;
+    }
+
+
 }

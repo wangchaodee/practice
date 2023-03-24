@@ -29,35 +29,21 @@ public class ArrayTraversal {
         return l + k;
     }
 
-
-
     /**
-     * 查找数组中只存在一个的数字， 用的异或方式  ，其他成组存在的数会消除掉
-     *
+     * 209. 长度最小的子数组
+     * @param target
      * @param nums
      * @return
      */
-    public int singleNumber(int[] nums) {
-        int ans = 0;
-        for (int i = 0; i < nums.length; i++) {
-            ans ^= nums[i];
-        }
-        return ans;
-    }
-
-
     public int minSubArrayLen(int target, int[] nums) {
         int N = nums.length, l = -1;
         int sum = 0;
         int min = N + 1;
         for (int i = 0; i < N; i++) {
             sum += nums[i];
-            if (sum >= target) {
-                min = Math.min(min, i - l + 1);
-
-                while (sum > target) {
-                    sum -= nums[++l];
-                }
+            while (sum >= target) {
+                min = Math.min(min, i - l);
+                sum -= nums[++l];
             }
         }
         if (min == N + 1) {
@@ -163,7 +149,11 @@ public class ArrayTraversal {
         return i - 1 < 0 ? n - 1 : i - 1;
     }
 
-
+    /**
+     * 剑指 Offer II 007. 数组中和为 0 的三个数    ,15. 三数之和
+     * @param nums
+     * @return
+     */
     public List<List<Integer>> threeSum(int[] nums) {
         int n = nums.length;
         Arrays.sort(nums);
@@ -708,27 +698,7 @@ public class ArrayTraversal {
     }
 
 
-    /**
-     * 多少个连续字数组 和为k ,, 因为按题意数组不适合排序， 双指针方式不适用 ， 适用前缀后， 固定一端 ，然后遍历求和
-     *
-     * @param nums
-     * @param k
-     * @return
-     */
-    public int subarraySum(int[] nums, int k) {
-        int count = 0;
-        for (int i = 0; i < nums.length; i++) {
-            int sum = 0;
-            for (int j = i; j >= 0; j--) {
-                sum += nums[i];
-                if (sum == k) {
-                    count++;
-                }
 
-            }
-        }
-        return count;
-    }
 
     /**
      * 返回所有数乘积的符号
@@ -1348,27 +1318,7 @@ public class ArrayTraversal {
         return new int[]{a,b};
     }
 
-    /**
-     * 剑指 Offer 56 - II. 数组中数字出现的次数 II
-     * @param nums
-     * @return
-     */
-    public int singleNumberII(int[] nums) {
-        int[] counts = new int[32];
-        for (int num : nums){
-            for (int i = 0; i < 32; i++) {
-                counts[i] += num & 1;
-                num >>>=1;
-            }
-        }
 
-        int ans =0 ,m=3;
-        for (int i = 0; i < 32; i++) {
-            ans <<=1;
-            ans |= counts[31-i] % m ;
-        }
-        return ans ;
-    }
 
     /**
      * 剑指 Offer 17. 打印从1到最大的n位数

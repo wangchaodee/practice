@@ -71,4 +71,50 @@ public class BitwiseOperation {
         }
         return ans ;
     }
+
+    public int[] countBits(int n) {
+        int[] result = new int[n+1] ;
+        for (int i = 1; i <= n; i++) {
+            result[i] = result[i&(i-1)] +1;
+        }
+        return result;
+    }
+
+    /**
+     * 查找数组中只存在一个的数字， 用的异或方式  ，其他成组存在的数会消除掉
+     *
+     * @param nums
+     * @return
+     */
+    public int singleNumber(int[] nums) {
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            ans ^= nums[i];
+        }
+        return ans;
+    }
+
+    /**
+     * 137. 只出现一次的数字 II
+     * 剑指 Offer II 004. 只出现一次的数字
+     * 剑指 Offer 56 - II. 数组中数字出现的次数 II
+     * @param nums
+     * @return
+     */
+    public int singleNumberII(int[] nums) {
+        int[] counts = new int[32];
+        for (int num : nums){
+            for (int i = 0; i < 32; i++) {
+                counts[i] += num & 1;
+                num >>>=1;
+            }
+        }
+
+        int ans =0 ,m=3;
+        for (int i = 0; i < 32; i++) {
+            ans <<=1;
+            ans |= counts[31-i] % m ;
+        }
+        return ans ;
+    }
 }
