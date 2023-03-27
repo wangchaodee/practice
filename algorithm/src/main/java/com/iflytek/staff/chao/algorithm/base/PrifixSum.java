@@ -94,5 +94,50 @@ public class PrifixSum {
         return count;
     }
 
+    /**
+     * 剑指 Offer II 011. 0 和 1 个数相同的子数组
+     * @param nums
+     * @return
+     */
+    public int findMaxLength(int[] nums) {
+        int count = 0 ,maxLength=0;
+        Map<Integer,Integer> preIndex = new HashMap<>();
+        preIndex.put(count,-1);
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i]==1){
+                count++;
+            }else {
+                count--;
+            }
+
+            if(preIndex.containsKey(count)){
+                maxLength = Math.max(maxLength,i - preIndex.get(count));
+            }else {
+                preIndex.put(count,i);
+            }
+        }
+        return maxLength;
+    }
+
+    /**
+     * 724. 寻找数组的中心下标  剑指 Offer II 012. 左右两边子数组的和相等
+     *
+     * @param nums
+     * @return
+     */
+    public int pivotIndex(int[] nums) {
+        int n = nums.length ;
+        int[] ans = new int[n];
+        ans[0] = nums[0];
+        for (int i = 1; i <n ; i++) {
+            ans[i] = ans[i-1] + nums[i];
+        }
+        if(ans[n-1] - ans[0] == 0) return 0;
+        for (int i = 1; i <n ; i++) {
+            if(ans[n-1] - ans[i] == ans[i-1] ) return i;
+        }
+        return -1 ;
+    }
+
 
 }

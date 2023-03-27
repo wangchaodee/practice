@@ -1116,24 +1116,6 @@ public class ArrayTraversal {
         return ans ;
     }
 
-    /**
-     * 724. 寻找数组的中心下标
-     * @param nums
-     * @return
-     */
-    public int pivotIndex(int[] nums) {
-        int n = nums.length ;
-        int[] ans = new int[n];
-        ans[0] = nums[0];
-        for (int i = 1; i <n ; i++) {
-            ans[i] = ans[i-1] + nums[i];
-        }
-        if(ans[n-1] - ans[0] == 0) return 0;
-        for (int i = 1; i <n ; i++) {
-            if(ans[n-1] - ans[i] == ans[i-1] ) return i;
-        }
-        return -1 ;
-    }
 
     /**
      * 18 四数之和

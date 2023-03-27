@@ -117,4 +117,30 @@ public class BitwiseOperation {
         }
         return ans ;
     }
+
+    /**
+     * 剑指 Offer II 005. 单词长度的最大乘积
+     * @param words
+     * @return
+     */
+    public int maxProduct(String[] words) {
+        int length = words.length ;
+        int[] mask = new int[length];
+        for (int i = 0; i < length; i++) {
+            String word = words[i] ;
+            int len = word.length() ;
+            for (int j = 0; j < len; j++) {
+                mask[i] |= 1<<(word.charAt(j) -'a');
+            }
+        }
+        int max = 0 ;
+        for (int i = 0; i < length; i++) {
+            for (int j = i; j < length; j++) {
+                if((mask[i] & mask[j]) == 0){
+                    max = Math.max( max , words[i].length() * words[j].length());
+                }
+            }
+        }
+        return max ;
+    }
 }
