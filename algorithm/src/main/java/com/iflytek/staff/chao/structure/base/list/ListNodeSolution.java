@@ -277,7 +277,7 @@ public class ListNodeSolution {
         return false;
     }
 
-    //142
+    //142   a+(n+1)b+nc=2(a+b)⟹a=c+(n−1)(b+c)
     public ListNode detectCycle(ListNode head) {
 
         ListNode oneStep = head;

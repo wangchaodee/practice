@@ -85,6 +85,11 @@ public class DoublePointer {
         return false;
     }
 
+    /**
+     * 剑指 Offer II 018. 有效的回文
+     * @param s
+     * @return
+     */
     public boolean isPalindrome(String s) {
         int n = s.length();
         int l = 0, r = n - 1;

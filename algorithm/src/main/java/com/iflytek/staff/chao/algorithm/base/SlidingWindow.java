@@ -102,25 +102,7 @@ public class SlidingWindow {
         return false;
     }
 
-    /**
-     * 3. 无重复字符的最长子串
-     * @param s
-     * @return
-     */
-    public int lengthOfLongestSubstring(String s) {
-        int[] chars= new int[128];
-        int left = -1;
-        int max =0 ;
-        for (int i = 0; i < s.length(); i++) {
-            int c = s.charAt(i);
-            chars[c]++ ;
-            while (chars[c]>1){
-                chars[s.charAt(++left)]--;
-            }
-            max = Math.max(max, i - left);
-        }
-        return max;
-    }
+
 
     /**
      * 239. 滑动窗口最大值
@@ -166,11 +148,10 @@ public class SlidingWindow {
         }
 
         int[] sf = new int[127] ;
-        int l =0 , r = 0 , count =0 ,min=m+1 ,start=0  ;
-        while (r<m){
+        int l =0  , count =0 ,min=m+1 ,start=0  ;
+        for (int r = 0; r < m; r++) {
             char c = s.charAt(r) ;
             if(tf[c] == 0 ){
-                r++;
                 continue;
             }
 
@@ -179,11 +160,10 @@ public class SlidingWindow {
             }
 
             sf[c]++;
-            r++;
 
             while (count == n){
-                if(r-l<min){
-                    min = r-l;
+                if(r-l+1<min){
+                    min = r-l+1;
                     start = l;
                 }
                 char lc = s.charAt(l);

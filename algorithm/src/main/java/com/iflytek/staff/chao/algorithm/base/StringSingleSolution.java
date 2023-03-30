@@ -113,7 +113,7 @@ public class StringSingleSolution {
      * @param s
      * @return
      */
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring_2(String s) {
         Map<Character, Integer> indexMap = new HashMap<>();
         int max = 0;
         int left = 0;
@@ -126,6 +126,26 @@ public class StringSingleSolution {
             indexMap.put(s.charAt(i), i);
         }
 
+        return max;
+    }
+
+    /**
+     * 3. 无重复字符的最长子串
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int[] chars= new int[128];
+        int left = -1;
+        int max =0 ;
+        for (int i = 0; i < s.length(); i++) {
+            int c = s.charAt(i);
+            chars[c]++ ;
+            while (chars[c]>1){
+                chars[s.charAt(++left)]--;
+            }
+            max = Math.max(max, i - left);
+        }
         return max;
     }
 
