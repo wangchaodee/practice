@@ -9,33 +9,6 @@ import java.util.*;
  */
 public class StringSolution {
 
-    /**
-     * 49. 字母异位词分组
-     */
-    public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> strMap = new HashMap<>();
-
-        for (String str : strs) {
-            String key = getKey(str);
-            List<String> list = strMap.getOrDefault(key, new ArrayList<>());
-            list.add(str);
-            strMap.put(key, list);
-        }
-        List<List<String>> ans = new ArrayList<>();
-        for (List<String> value : strMap.values()) {
-            ans.add(value);
-        }
-        return ans;
-    }
-
-    private String getKey(String str) {
-        if (str.length() == 0) return str;
-        char[] chars = str.toCharArray();
-        Arrays.sort(chars);
-        return new String(chars);
-    }
-
-
 
     /**
      * KMP 算法  获取k的值
@@ -420,10 +393,13 @@ public class StringSolution {
         return true;
     }
 
-
-
+    /**
+     * 剑指 Offer II 034. 外星语言是否排序
+     * @param words
+     * @param order
+     * @return
+     */
     public boolean isAlienSorted(String[] words, String order) {
-
         for (int i = 0; i < words.length - 1; i++) {
             if (!isAlienSorted(words[i], words[i + 1], order)) return false;
         }
@@ -619,5 +595,30 @@ public class StringSolution {
         return true;
     }
 
+    /**
+     * 剑指 Offer II 035. 最小时间差
+     * @param timePoints
+     * @return
+     */
+    public int findMinDifference(List<String> timePoints) {
+        int n = timePoints.size() ;
+        if(n>1440) return 0 ;
+        Collections.sort(timePoints);
+        int ans = 1440 ;
+        int t0 = getMinutes(timePoints.get(0));
+        int pre = t0 ;
+        for (int i = 1; i < n; i++) {
+            int cur = getMinutes(timePoints.get(i));
+            ans = Math.min(ans ,cur -pre) ;
+            pre = cur ;
+        }
+        ans = Math.min(ans ,t0+ 1440 -pre) ;
+        return ans ;
+    }
+    //"HH:MM"
+    private int getMinutes(String timePoint){
+       return  ((timePoint.charAt(0)-'0') *10 + (timePoint.charAt(1) -'0') )*60
+               + (timePoint.charAt(3) -'0')* 10  + (timePoint.charAt(4) -'0') ;
+    }
 
 }

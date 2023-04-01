@@ -371,12 +371,13 @@ public class Matrix {
 
     /**
      * 242 两个字符串包含的字符是否完全相同
-     *
+     * 剑指 Offer II 032. 有效的变位词
      * @param s
      * @param t
      * @return
      */
     public boolean isAnagram(String s, String t) {
+
         int[] chars = new int[26];
         for (char c : s.toCharArray()) {
             chars[c - 'a']++;

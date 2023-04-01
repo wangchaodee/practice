@@ -219,4 +219,30 @@ public class HashSolution {
         return cntBulls+"A" + cntCows+"B";
     }
 
+    /**
+     * 49. 字母异位词分组
+     */
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> strMap = new HashMap<>();
+
+        for (String str : strs) {
+            String key = getKey(str);
+            List<String> list = strMap.getOrDefault(key, new ArrayList<>());
+            list.add(str);
+            strMap.put(key, list);
+        }
+        List<List<String>> ans = new ArrayList<>();
+        for (List<String> value : strMap.values()) {
+            ans.add(value);
+        }
+        return ans;
+    }
+
+    private String getKey(String str) {
+        if (str.length() == 0) return str;
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+        return new String(chars);
+    }
+
 }
