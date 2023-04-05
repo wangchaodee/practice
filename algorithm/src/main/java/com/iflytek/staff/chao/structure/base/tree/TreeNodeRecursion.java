@@ -833,4 +833,76 @@ public class TreeNodeRecursion {
         }
         return true ;
     }
+
+    /**
+     *  剑指 Offer II 044. 二叉树每层的最大值
+     * @param root
+     * @return
+     */
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> ans = new ArrayList<>() ;
+        if(root == null) return ans ;
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root) ;
+        while (!queue.isEmpty()){
+            int size = queue.size() ;
+            int max = Integer.MIN_VALUE ;
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll() ;
+                if(max< node.val){
+                    max = node.val;
+                }
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            ans.add(max);
+        }
+        return ans ;
+    }
+
+    /**
+     * 剑指 Offer II 045. 二叉树最底层最左边的值
+     * @param root
+     * @return
+     */
+    public int findBottomLeftValue_2(TreeNode root) {
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root) ;
+        int left = Integer.MIN_VALUE ;
+        while (!queue.isEmpty()){
+            int size = queue.size() ;
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll() ;
+                if(i==0){
+                    left = node.val;
+                }
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 剑指 Offer II 047. 二叉树剪枝
+     * @param root
+     * @return
+     */
+    public TreeNode pruneTree(TreeNode root) {
+        if(root == null) return null ;
+        root.left = pruneTree(root.left) ;
+        root.right = pruneTree(root.right) ;
+        if(root.left == null && root.right == null && root.val ==0) {
+            return null ;
+        }
+        return root ;
+    }
 }
