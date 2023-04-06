@@ -905,4 +905,49 @@ public class TreeNodeRecursion {
         }
         return root ;
     }
+
+    /**
+     * 剑指 Offer II 050. 向下的路径节点之和
+     * @param root
+     * @return
+     */
+    public int sumNumbers(TreeNode root) {
+        return  dfsSum(root, 0);
+    }
+
+    private int dfsSum(TreeNode root, int preSum) {
+        if( root == null ) return  0 ;
+        int sum = preSum *10 + root.val ;
+        if(root.left == null && root.right == null){
+            return sum ;
+        }else {
+            return dfsSum(root.left , sum) + dfsSum(root.right , sum) ;
+        }
+    }
+
+    /**
+     * 剑指 Offer II 051. 节点之和最大的路径
+     * @param root
+     * @return
+     */
+    int maxSum = Integer.MIN_VALUE ;
+    public int maxPathSum(TreeNode root) {
+        maxGain(root) ;
+        return maxSum ;
+    }
+
+    private int maxGain(TreeNode node){
+        if(node == null) return  0 ;
+
+        int leftGain = Math.max(maxGain(node.left ),0) ;
+        int rightGain = Math.max(maxGain(node.right),0);
+        int pathNum = leftGain + node.val + rightGain ;
+        maxSum = Math.max(pathNum,maxSum);
+        return node.val + Math.max(leftGain,rightGain);
+    }
+
+
+
+
+
 }

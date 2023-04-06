@@ -158,6 +158,29 @@ public class TreeNodeBST {
         inOrder(node.right);
     }
 
+    /**
+     * 剑指 Offer II 052. 展平二叉搜索树
+     * @param root
+     * @return
+     */
+    private TreeNode resNode ;
+    public TreeNode increasingBST(TreeNode root) {
+        TreeNode dummyNode = new TreeNode(-1);
+        resNode = dummyNode ;
+        inOrder2(root);
+        return dummyNode.right ;
+    }
 
+    private void inOrder2(TreeNode node){
+        if(node==null) return;
+
+        inOrder2(node.left);
+
+        resNode.right = node ;
+        node.left = null ;
+        resNode = node ;
+
+        inOrder2(node.right);
+    }
 
 }

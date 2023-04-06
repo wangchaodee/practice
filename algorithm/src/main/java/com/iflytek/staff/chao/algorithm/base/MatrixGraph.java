@@ -1,6 +1,8 @@
 package com.iflytek.staff.chao.algorithm.base;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.iflytek.staff.chao.util.DirectionUtil.directions;
 
@@ -98,6 +100,31 @@ public class MatrixGraph {
         }
         return  cnts[i][j] ;
     }
+
+    /**
+     * LCP 62. 交通枢纽
+     * @param path
+     * @return
+     */
+    public int transportationHub(int[][] path) {
+        int[] indegree = new int[1001] ;
+        int[] outdegree = new int[1001] ;
+        Set<Integer> points = new HashSet<>() ;
+        for (int[] tmp : path){
+            outdegree[tmp[0]]++;
+            indegree[tmp[1]]++;
+            points.add(tmp[0]);
+            points.add(tmp[1]);
+        }
+        int match = points.size() -1 ;
+        for (int i = 0; i < 1001; i++) {
+            if(indegree[i] == match && outdegree[i] == 0){
+                return i ;
+            }
+        }
+        return -1 ;
+    }
+
 
 
 }

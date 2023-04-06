@@ -261,4 +261,26 @@ public class ArrayMultiple {
         return ans ;
     }
 
+    /**
+     * LCP 61. 气温变化趋势
+     * @param temperatureA
+     * @param temperatureB
+     * @return
+     */
+    public int temperatureTrend(int[] temperatureA, int[] temperatureB) {
+        int n = temperatureA.length ;
+        int max = 0 , same=0;
+        for (int i = 1; i < n; i++) {
+            int flagA = temperatureA[i] - temperatureA[i-1];
+            int flagB = temperatureB[i] - temperatureB[i-1];
+            if(flagA*flagB >0 || flagA==flagB ) {
+                same++;
+                max = Math.max(max,same);
+            }else {
+                same=0 ;
+            }
+        }
+        return max ;
+    }
+
 }
