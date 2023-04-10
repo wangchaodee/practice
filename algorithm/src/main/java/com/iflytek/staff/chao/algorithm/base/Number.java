@@ -476,5 +476,52 @@ public class Number {
         return true;
     }
 
+    /**
+     * LCP 70. 沙地治理
+     * @param size
+     * @return
+     */
+    public int[][] sandyLandManagement(int size) {
+        int sum = 0;
+        for (int i = 1; i <= size; i++) {
+            if (i == 1) {
+                sum += 1;
+                continue;
+            }
+            if ((i % 2) == (size % 2)) {
+                sum += ((size - i) % 4 == 0) ? i : i - 1;
+            } else {
+                sum += 1;
+            }
+        }
+        int[][] f = new int[sum][2];
+        int j = 1;
+        set(f, 0, 1, 1);
+        for (int i = 2; i <= size; i++) {
+            if ((i % 2) != (size % 2)) {
+                set(f, j, i, (((size - i) / 2) % 2) == 1 ? 1 : 2);
+                j++;
+            } else {
+                int len = i == 1 ? 1 : ((size - i) % 4 == 0) ? i : i - 1;
+                if (len == i) {
+                    for (int k = 0; k < len; k++) {
+                        set(f, j, i, k * 2 + 1);
+                        j++;
+                    }
+                } else {
+                    for (int k = 0; k < len; k++) {
+                        set(f, j, i, k * 2 + 3);
+                        j++;
+                    }
+                }
+            }
+        }
+        return f;
+    }
+
+    private void set(int[][] f, int idx, int i, int j) {
+        f[idx][0] = i;
+        f[idx][1] = j;
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.iflytek.staff.chao.algorithm.base;
 
 import com.iflytek.staff.chao.util.NumberUtil;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
@@ -218,4 +219,30 @@ public class DynamicPlanArray {
         return dp ;
     }
 
+    /**
+     * LCP 65. 舒适的湿度
+     * @param operate
+     * @return
+     */
+    public int unSuitability(int[] operate) {
+        int max = Arrays.stream(operate).max().orElseThrow()*2 +1 ;
+
+        int[] pre = new int[max] , f = new int[max] ;
+        Arrays.fill(pre , Integer.MAX_VALUE) ;
+        pre[0] = 0 ;
+        for( int x : operate){
+            Arrays.fill(f, Integer.MAX_VALUE);
+            for (int i = 0; i < max; i++) {
+                int dis = pre[i] ;
+                if(dis == Integer.MAX_VALUE) continue;
+                if(i+x < max ) f[i+x] = Math.min(f[i+x] , Math.max(dis,i+x)) ;
+                if(i >= x) f[i-x] = Math.min(f[i+x] ,dis) ;
+                else f[0] = Math.min(f[0] , dis -i+x);
+            }
+            int[] tmp = pre ;
+            pre = f ;
+            f = tmp ;
+        }
+        return Arrays.stream(pre).min().orElseThrow() ;
+    }
 }

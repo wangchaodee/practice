@@ -298,4 +298,13 @@ public class DynamicPlanString {
         }
         return res ;
     }
+
+    /**
+     * LCP 69. Hello LeetCode!
+     * @param words
+     * @return
+     */
+//    public int Leetcode(String[] words) {
+//
+//    }
 }

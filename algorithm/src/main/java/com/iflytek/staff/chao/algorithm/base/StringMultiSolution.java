@@ -203,6 +203,34 @@ public class StringMultiSolution {
         return  (char) ('0' + '1' -bit) ;
     }
 
+    /**
+     * LCP 66. 最小展台数量
+     * @param demand
+     * @return
+     */
+    public int minNumBooths(String[] demand) {
+        Map<Character,Integer> totalCount = new HashMap<>();
+        for(String day : demand){
+            Map<Character,Integer> mapCount = count(day);
+            for(Map.Entry<Character,Integer> entry : mapCount.entrySet()){
+                if(totalCount.getOrDefault(entry.getKey(),0) < entry.getValue()){
+                    totalCount.put(entry.getKey() , entry.getValue());
+                }
+            }
+        }
+        int count = 0 ;
+        for(Map.Entry<Character,Integer> entry : totalCount.entrySet()){
+            count +=entry.getValue() ;
+        }
+        return count ;
+    }
 
+    private Map<Character,Integer> count(String demand){
+        Map<Character,Integer> mapCount = new HashMap<>();
+        for (char c : demand.toCharArray()) {
+            mapCount.put(c , mapCount.getOrDefault(c,0) +1 );
+        }
+        return mapCount;
+    }
 
 }

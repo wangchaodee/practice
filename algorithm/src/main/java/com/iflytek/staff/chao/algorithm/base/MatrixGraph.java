@@ -1,8 +1,8 @@
 package com.iflytek.staff.chao.algorithm.base;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import com.iflytek.staff.chao.util.DirectionUtil;
+
+import java.util.*;
 
 import static com.iflytek.staff.chao.util.DirectionUtil.directions;
 
@@ -125,6 +125,40 @@ public class MatrixGraph {
         return -1 ;
     }
 
+    /**
+     * 2290. 到达角落需要移除障碍物的最小数目
+     * @param grid
+     * @return
+     */
+    public int minimumObstacles(int[][] grid) {
+        int m = grid.length , n = grid[0].length ;
+        int[][] dis = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            Arrays.fill(dis[i] , Integer.MAX_VALUE);
+        }
+        dis[0][0] = 0 ;
+        Deque<int[]> deque = new ArrayDeque<>();
+        deque.addFirst(new int[]{0,0});
+        while (!deque.isEmpty()){
+            int[] point = deque.pollFirst();
+            int x = point[0] , y = point[1] ;
+            for (int[] move : directions){
+                int nx = x + move[0]  , ny= y+move[1] ;
+                if(nx>=0 && nx <m && ny>=0 && ny<n){
+                    int g = grid[nx][ny];
+                    if(dis[x][y] +g < dis[nx][ny] ){
+                        dis[nx][ny] = dis[x][y] +g ;
+                        if(g==1){
+                            deque.addLast(new int[]{nx,ny});
+                        }else {
+                            deque.addFirst(new int[]{nx,ny});
+                        }
+                    }
+                }
+            }
+        }
 
+        return dis[m-1][n-1];
+    }
 
 }

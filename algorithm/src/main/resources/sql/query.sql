@@ -40,3 +40,38 @@ order by a.score desc;
 select score , dense_rank() over(order by score desc) as 'rank'
 from Scores  ;
 -- 需要MYSQL 8 版本
+
+-- 1683. 无效的推文
+select tweet_id
+from Tweets
+where CHAR_LENGTH(content) >15 ;
+
+-- 1378. 使用唯一标识码替换员工ID
+select unique_id , name
+from Employees e left join EmployeeUNI u on e.id = u.id
+
+-- 1068. 产品销售分析 I
+select product_name , 'year', price
+from  Sales s left join  Products p on s.product_id = p.product_id
+
+-- 1661. 每台机器的进程平均运行时间
+select machine_id ,
+       round( sum( case when activity_type = 'start' then -timestamp
+                when activity_type = 'end' then timestamp else null end
+           )/ count( distinct process_id)
+        , 3 ) as processing_time
+from Activity
+group by machine_id ;
+
+select machine_id ,round(avg(time) ,3) as processing_time
+from (
+    select machine_id , max(timestamp ) - min(timestamp ) as time
+    from Activity
+    group by machine_id , process_id
+     ) a
+group by  machine_id ;
+
+
+
+
+

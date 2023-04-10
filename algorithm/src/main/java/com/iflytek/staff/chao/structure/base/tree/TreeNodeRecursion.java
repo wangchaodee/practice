@@ -946,7 +946,32 @@ public class TreeNodeRecursion {
         return node.val + Math.max(leftGain,rightGain);
     }
 
+    /**
+     *
+     * LCP 67. 装饰树
+     * @param root
+     * @return
+     */
+    public TreeNode expandBinaryTree(TreeNode root) {
 
+            if(root == null ) return null ;
+
+            if(root.left != null){
+                TreeNode left = expandBinaryTree(root.left) ;
+                TreeNode leftAdd  = new TreeNode(-1) ;
+                leftAdd.left = left ;
+                root.left = leftAdd ;
+            }
+
+        if(root.right != null){
+            TreeNode right = expandBinaryTree(root.right) ;
+            TreeNode rightAdd  = new TreeNode(-1) ;
+            rightAdd.right = right ;
+            root.right = rightAdd ;
+        }
+
+        return root ;
+    }
 
 
 

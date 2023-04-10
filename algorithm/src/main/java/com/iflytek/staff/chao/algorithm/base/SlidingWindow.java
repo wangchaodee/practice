@@ -11,6 +11,7 @@ public class SlidingWindow {
 
     /**
      * 424. 替换后的最长重复字符
+     *
      * @param s
      * @param k
      * @return
@@ -19,27 +20,28 @@ public class SlidingWindow {
         int n = s.length();
         char[] c = s.toCharArray();
 
-        int l =-1  ;
+        int l = -1;
         int[] freq = new int[26];
-        int max = 0 ;
-        int res = 0 ;
+        int max = 0;
+        int res = 0;
 
         for (int r = 0; r < n; r++) {
-            freq[c[r] - 'A']++ ;
+            freq[c[r] - 'A']++;
             // 当前最大字符频率
             max = Math.max(max, freq[c[r] - 'A']);
             // 比较窗口长度 和 最大允许值
-            if(r-l > max + k){
-                freq[c[++l] - 'A']-- ;
+            if (r - l > max + k) {
+                freq[c[++l] - 'A']--;
             }
 
             res = Math.max(res, max + k);
         }
-        return res  ;
+        return res;
     }
 
     /**
      * 438. 找到字符串中所有字母异位词
+     *
      * @param s
      * @param p
      * @return
@@ -54,7 +56,7 @@ public class SlidingWindow {
         }
         int prev = -1;
         for (int i = 0; i < SL; i++) {
-            int c = s.charAt(i) ;
+            int c = s.charAt(i);
             // 不符合， 左指正需要移动 ，使得 c 对应的值为1 ，
             while (pchars[c] == 0) {
                 int pr = s.charAt(++prev);
@@ -73,6 +75,7 @@ public class SlidingWindow {
 
     /**
      * 567. 字符串的排列
+     *
      * @param s1
      * @param s2
      * @return
@@ -89,89 +92,90 @@ public class SlidingWindow {
             dict[s1.charAt(i)]--;
         }
 
-        int pre= -1 ;
+        int pre = -1;
         for (int i = 0; i < N2; i++) {
-            int x = s2.charAt(i) ;
-            while (dict[x]==0){
+            int x = s2.charAt(i);
+            while (dict[x] == 0) {
                 dict[s2.charAt(++pre)]--;
             }
-                dict[x]++;
-            if((i-pre) == N1) return true ;
+            dict[x]++;
+            if ((i - pre) == N1) return true;
         }
 
         return false;
     }
 
 
-
     /**
      * 239. 滑动窗口最大值
+     *
      * @param nums
      * @param k
      * @return
      */
     public int[] maxSlidingWindow(int[] nums, int k) {
 
-        int[] ans = new int[nums.length - k +1];
-        PriorityQueue<int[]> pq = new PriorityQueue<>( ( o1,  o2) -> {
-             return o2[0] == o1[0] ? o2[1] - o1[1] : o2[0] - o1[0];
+        int[] ans = new int[nums.length - k + 1];
+        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> {
+            return o2[0] == o1[0] ? o2[1] - o1[1] : o2[0] - o1[0];
         });
-        for (int i = 0; i < k-1 ; i++) {
-            pq.offer(new int[]{nums[i],i});
+        for (int i = 0; i < k - 1; i++) {
+            pq.offer(new int[]{nums[i], i});
         }
 
-        int j =0 ;
-        for (int i = k-1; i < nums.length; i++) {
-            pq.offer(new int[]{nums[i],i});
+        int j = 0;
+        for (int i = k - 1; i < nums.length; i++) {
+            pq.offer(new int[]{nums[i], i});
             ans[j++] = pq.peek()[0];
             // 滑动窗口 向右移
-            while (!pq.isEmpty() && pq.peek()[1] <= i-k ){
+            while (!pq.isEmpty() && pq.peek()[1] <= i - k) {
                 pq.poll();
             }
         }
 
-        return ans ;
+        return ans;
     }
 
     /**
      * 76. 最小覆盖子串
+     *
      * @param s
      * @param t
      * @return
      */
     public String minWindow(String s, String t) {
         int m = s.length(), n = t.length();
-        if(m<n) return "";
-        int[] tf = new int[127] ;
+        if (m < n) return "";
+        int[] tf = new int[127];
         for (char c : t.toCharArray()) {
             tf[c]++;
         }
 
-        int[] sf = new int[127] ;
-        int l =0  , count =0 ,min=m+1 ,start=0  ;
+        int[] sf = new int[127];
+        int l = 0, count = 0, min = m + 1, start = 0;
         for (int r = 0; r < m; r++) {
-            char c = s.charAt(r) ;
-            if(tf[c] == 0 ){
+            char c = s.charAt(r);
+            if (tf[c] == 0) {
                 continue;
             }
 
-            if(sf[c] < tf[c]){
+            if (sf[c] < tf[c]) {
                 count++;
             }
 
             sf[c]++;
 
-            while (count == n){
-                if(r-l+1<min){
-                    min = r-l+1;
+            while (count == n) {
+                if (r - l + 1 < min) {
+                    min = r - l + 1;
                     start = l;
                 }
                 char lc = s.charAt(l);
-                if(tf[lc]==0) {
+                if (tf[lc] == 0) {
                     l++;
                     continue;
                 }
-                if(sf[lc] == tf[lc]){
+                if (sf[lc] == tf[lc]) {
                     count--;
                 }
                 sf[lc]--;
@@ -179,30 +183,54 @@ public class SlidingWindow {
             }
         }
 
-        if( min == m +1) {
-            return "" ;
+        if (min == m + 1) {
+            return "";
         }
 
-        return s.substring(start, start+min);
+        return s.substring(start, start + min);
     }
 
     /**
      * 2379. 得到 K 个黑块的最少涂色次数
+     *
      * @param blocks
      * @param k
      * @return
      */
     public int minimumRecolors(String blocks, int k) {
-        int countw = 0 ;
+        int countw = 0;
         for (int i = 0; i < k; i++) {
-            if(blocks.charAt(i) == 'W') countw++;
+            if (blocks.charAt(i) == 'W') countw++;
         }
         int ans = countw;
-        for (int i = k; i <blocks.length() ; i++) {
-            if(blocks.charAt(i) == 'W') countw++;
-            if(blocks.charAt(i-k) == 'W') countw--;
-            ans = Math.min(ans,countw);
+        for (int i = k; i < blocks.length(); i++) {
+            if (blocks.charAt(i) == 'W') countw++;
+            if (blocks.charAt(i - k) == 'W') countw--;
+            ans = Math.min(ans, countw);
         }
-        return ans ;
+        return ans;
+    }
+
+    /**
+     * LCP 68. 美观的花束
+     *
+     * @param flowers
+     * @param cnt
+     * @return
+     */
+    public int beautifulBouquet(int[] flowers, int cnt) {
+        int mod = 1000000007;
+        int n = flowers.length, left = 0;
+        int[] count = new int[100001];
+        int res = 0 ;
+        for (int i = 0; i < n; i++) {
+            count[flowers[i]]++;
+            while (count[flowers[i]] > cnt) {
+                count[flowers[left]]--;
+                left++;
+            }
+            res = (res +i-left+1) % mod ;
+        }
+        return res ;
     }
 }
