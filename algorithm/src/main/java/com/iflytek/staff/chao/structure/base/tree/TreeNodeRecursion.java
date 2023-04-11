@@ -973,6 +973,44 @@ public class TreeNodeRecursion {
         return root ;
     }
 
+    /**
+     * 剑指 Offer II 053. 二叉搜索树中的中序后继
+     * @param root
+     * @param p
+     * @return
+     */
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        Stack<TreeNode> stack = new Stack<>() ;
+        TreeNode prev = null ,cur=root ;
+        while (!stack.isEmpty() || cur !=null){
+            while (cur!=null){
+                stack.push(cur);
+                cur = cur.left ;
+            }
+            cur = stack.pop();
+            if(prev == p){
+                return cur ;
+            }
+            prev= cur ;
+            cur = cur.right;
+        }
+        return null;
+    }
 
+    /**
+     * 剑指 Offer II 054. 所有大于等于节点的值之和
+     * @param root
+     * @return
+     */
+    int sum = 0 ;
+    public TreeNode convertBST(TreeNode root) {
+        if(root !=null){
+            convertBST(root.right);
+            sum += root.val ;
+            root.val = sum ;
+            convertBST(root.left);
+        }
+        return root ;
+    }
 
 }

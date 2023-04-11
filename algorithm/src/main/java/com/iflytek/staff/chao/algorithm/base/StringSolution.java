@@ -621,4 +621,6 @@ public class StringSolution {
                + (timePoint.charAt(3) -'0')* 10  + (timePoint.charAt(4) -'0') ;
     }
 
+
+
 }

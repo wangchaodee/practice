@@ -71,7 +71,33 @@ from (
      ) a
 group by  machine_id ;
 
+-- 577. 员工奖金
+
+select name , bonus
+from Employee e left join Bonus b on e.empId = b.empId
+where  bonus <1000 or bonus is null
+
+-- 1280. 学生们参加各科测试的次数
+select s.student_id , s.student_name , j.subject_name , count(e.student_id) as attended_exams
+from Students s cross join Subjects j
+    left join Examinations e on s.student_id = e.student_id and j.subject_name = e.subject_name
+group by  s.student_id ,j.subject_name
+    order by  s.student_id ,j.subject_name;
 
 
+-- 570 至少有5名直接下属的经理
+select name
+from Employee t1 join
+    ( select managerId
+      from Employee
+      group by  managerId
+      having count(managerId) >=5 ) as t2
+on t1.id = t2.managerId ;
 
-
+-- 1934. 确认率
+select t1.user_id ,
+       NULLIF(Round( sum(case when t2.action = 'confirmed' then 1 else 0 end )
+           / count( t2.action) , 2) , 0.00) as 'confirmation_rate'
+from Signups t1
+left join confirmations t2 on t1.user_id = t2.user_id
+group by t1.user_id ;
