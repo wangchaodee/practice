@@ -233,4 +233,27 @@ public class SlidingWindow {
         }
         return res ;
     }
+
+    /**
+     * 剑指 Offer II 057. 值和下标之差都在给定的范围内
+     * @param nums
+     * @param k
+     * @param t
+     * @return
+     */
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        int n = nums.length ;
+        TreeSet<Long> set = new TreeSet() ;
+        for (int i = 0; i < n; i++) {
+            Long ceiling  =  set.ceiling((long)nums[i] - (long)t ) ;
+            if(ceiling !=null && ceiling <= (long)nums[i] + (long)t ){
+                return true;
+            }
+            set.add((long)nums[i]);
+            if(i>=k){
+                set.remove((long) nums[i-k]);
+            }
+        }
+        return false ;
+    }
 }

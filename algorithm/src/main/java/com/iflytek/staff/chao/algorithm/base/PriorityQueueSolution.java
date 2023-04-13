@@ -205,4 +205,74 @@ public class PriorityQueueSolution {
         return Math.max((maxExec-1)*(n-1) + maxCount , tasks.length);
     }
 
+    /**
+     * 347. 前 K 个高频元素
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] topKFrequent(int[] nums, int k) {
+        // 数字 频率
+        Map<Integer, Integer> dataCount = new HashMap<>();
+        for (int num : nums) {
+            dataCount.put(num, dataCount.getOrDefault(num, 0) + 1);
+        }
+        PriorityQueue<int[]> queue = new PriorityQueue<>(k, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
+        });
+
+        for (Map.Entry<Integer, Integer> data : dataCount.entrySet()) {
+            if (queue.size() < k) {
+                queue.offer(new int[]{data.getKey(), data.getValue()});
+            } else {
+                if (data.getValue() > queue.peek()[1]) {
+                    queue.poll();
+                    queue.offer(new int[]{data.getKey(), data.getValue()});
+                }
+            }
+        }
+
+        int[] ans = new int[k];
+        int i = 0;
+        while (!queue.isEmpty()) {
+            ans[i++] = queue.poll()[0];
+        }
+        return ans;
+    }
+
+    /**
+     * 剑指 Offer II 061. 和最小的 k 个数对
+     * @param nums1
+     * @param nums2
+     * @param k
+     * @return
+     */
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>(k, (o1, o2) -> {
+            return nums1[o1[0]] + nums2[o1[1]] -nums1[o2[0]] - nums2[o2[1]] ;
+        });
+        List<List<Integer>> ans = new ArrayList<>();
+        int m = nums1.length , n= nums2.length ;
+        int min = Math.min(m,k);
+        for (int i = 0; i < min ; i++) {
+            pq.offer(new int[]{i,0});
+        }
+        while (k-- >0 && !pq.isEmpty()){
+            int[] idx = pq.poll() ;
+            List<Integer> pair = new ArrayList<>() ;
+            pair.add(nums1[idx[0]]);
+            pair.add(nums2[idx[1]]);
+            ans.add(pair);
+            if(idx[1] +1 < n){
+                pq.offer(new int[]{idx[0],idx[1] +1});
+            }
+        }
+        return ans ;
+    }
+
 }
