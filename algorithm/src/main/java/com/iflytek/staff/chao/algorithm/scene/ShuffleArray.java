@@ -9,9 +9,9 @@ import java.util.Random;
  */
 public class ShuffleArray {
 
-    private int[] origin;
+    private final int[] origin;
     private int[] current;
-    private Random random;
+    private final Random random;
 
     public ShuffleArray(int[] nums) {
         origin = nums.clone();

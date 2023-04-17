@@ -10,6 +10,26 @@ import java.util.*;
 public class BinarySearch {
 
 
+    int MOD = 1000000007;
+    int[] pos = new int[2];
+
+    /**
+     * 二分查找   查左侧起始位置 ，需要在调用端判断一下返回位置上的值和 target 是否相等。
+     *
+     * @param arr
+     * @param target
+     * @return
+     */
+    public static int binarySearchLeft(int arr[], int target) {
+        int l = 0, m = 0, r = arr.length; // 起始值
+        while (l < r) {
+            m = l + (r - l) / 2;
+            if (arr[m] < target) l = m + 1;
+            else r = m;
+        }
+        return l;
+    }
+
     /**
      * 二分查找
      *
@@ -50,6 +70,8 @@ public class BinarySearch {
     }
 
 
+    /******************************************************************************/
+
     /**
      * @param arr
      * @param target
@@ -76,26 +98,6 @@ public class BinarySearch {
         }
         return r;
     }
-
-    /**
-     * 二分查找   查左侧起始位置 ，需要在调用端判断一下返回位置上的值和 target 是否相等。
-     *
-     * @param arr
-     * @param target
-     * @return
-     */
-    public static int binarySearchLeft(int arr[], int target) {
-        int l = 0, m = 0, r = arr.length; // 起始值
-        while (l < r) {
-            m = l + (r - l) / 2;
-            if (arr[m] < target) l = m + 1;
-            else r = m;
-        }
-        return l;
-    }
-
-
-    /******************************************************************************/
 
     /**
      * 69. x 的平方根
@@ -144,7 +146,6 @@ public class BinarySearch {
             return letters[0];
         }
     }
-
 
     /**
      * 在最多操作maxOperations次数内， 可以将数组 切割后的最小值
@@ -310,7 +311,6 @@ public class BinarySearch {
 
     }
 
-
     public int findTheDistanceValue2(int[] arr1, int[] arr2, int d) {
 
         Arrays.sort(arr2);
@@ -338,7 +338,6 @@ public class BinarySearch {
         return cnt;
 
     }
-
 
     public int specialArray(int[] nums) {
         int N = nums.length;
@@ -385,7 +384,6 @@ public class BinarySearch {
 
         return ans;
     }
-
 
     /**
      * 制作m束k朵花 ， 最少需要等待多少天，  不可行时返回-1
@@ -448,7 +446,7 @@ public class BinarySearch {
         long total = 0;
         for (int r = 1; r < nums.length; r++) {
             // 右移一位增加的差值
-            total += (nums[r] - nums[r - 1]) * (r - l);
+            total += (long) (nums[r] - nums[r - 1]) * (r - l);
             while (total > k) {
                 //左移一位  去掉l 对应的差值
                 total -= nums[r] - nums[l];
@@ -517,7 +515,6 @@ public class BinarySearch {
         return new int[]{l, Math.max(l, r)};
     }
 
-
     public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
         int N = worker.length;
         int[] arrange = new int[N];
@@ -577,21 +574,22 @@ public class BinarySearch {
 
     /**
      * 154. 寻找旋转排序数组中的最小值 II
+     *
      * @param nums
      * @return
      */
     public int findMinII(int[] nums) {
-        int N = nums.length ;
-        int l =0 ,r =N-1 , mid =0 , ans =-1 ;
-        while (l<r){
-            mid = (r-l)/2 +l ;
+        int N = nums.length;
+        int l = 0, r = N - 1, mid = 0, ans = -1;
+        while (l < r) {
+            mid = (r - l) / 2 + l;
 
-            if(nums[mid]<nums[r]){
-                r=mid;
-            }else if (nums[mid]==nums[r]) {
+            if (nums[mid] < nums[r]) {
+                r = mid;
+            } else if (nums[mid] == nums[r]) {
                 r--;
-            }else {
-                l=mid+1;
+            } else {
+                l = mid + 1;
             }
         }
         return nums[l];
@@ -693,8 +691,6 @@ public class BinarySearch {
         return preSum[x][y] - preSum[i - 1][y] - preSum[x][j - 1] + preSum[i - 1][j - 1];
     }
 
-    int MOD = 1000000007;
-
     public int numSubseq(int[] nums, int target) {
         int N = nums.length;
 
@@ -730,7 +726,6 @@ public class BinarySearch {
         return res % MOD;
     }
 
-
     public int findBestValue(int[] arr, int target) {
         int N = arr.length;
         Arrays.sort(arr);
@@ -763,7 +758,6 @@ public class BinarySearch {
         return ans;
     }
 
-
     public int maxValue(int n, int index, int maxSum) {
         int l = index, r = index;
         int rest = maxSum - n;
@@ -782,8 +776,6 @@ public class BinarySearch {
         ans += rest / n;
         return ans;
     }
-
-    int[] pos = new int[2];
 
     public int[] findPeakGrid(int[][] mat) {
         dfs(mat, 0, 0);
@@ -886,11 +878,11 @@ public class BinarySearch {
 
         for (int i = 0; i < N; i++) {
             if (inventory[i] > l) {
-                ans += (inventory[i] + l + 1) * (inventory[i] - l) / 2;
+                ans += (long) (inventory[i] + l + 1) * (inventory[i] - l) / 2;
                 orders -= (inventory[i] - l);
             }
         }
-        ans += l * orders;
+        ans += (long) l * orders;
         return (int) (ans % MOD);
     }
 
@@ -1004,28 +996,30 @@ public class BinarySearch {
 
     /**
      * 374. 猜数字大小
+     *
      * @param n
      * @return
      */
     public int guessNumber(int n) {
-        int l = 1 , h = n;
-        while (l<h){
-            int m = (h-l)/2 +l;
-            if(guess(m) <= 0 ) {
-               h=m;
-            }else {
-                l = m+1;
+        int l = 1, h = n;
+        while (l < h) {
+            int m = (h - l) / 2 + l;
+            if (guess(m) <= 0) {
+                h = m;
+            } else {
+                l = m + 1;
             }
         }
-        return l ;
+        return l;
     }
 
     private int guess(int m) {
-        return  0 ; //0 ,-1 ,1
+        return 0; //0 ,-1 ,1
     }
 
     /**
      * 33. 搜索旋转排序数组
+     *
      * @param nums
      * @param target
      * @return
@@ -1038,9 +1032,17 @@ public class BinarySearch {
             if (nums[m] == target) return m;
             //  顺序区间还是乱序区间
             if (nums[l] <= nums[m]) {
-                if(nums[l] <= target && target < nums[m]) { r = m - 1; }else{ l = m + 1;}
+                if (nums[l] <= target && target < nums[m]) {
+                    r = m - 1;
+                } else {
+                    l = m + 1;
+                }
             } else {
-                if(nums[m] < target && target <= nums[r]) { l = m + 1;}else { r = m - 1;}
+                if (nums[m] < target && target <= nums[r]) {
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
             }
         }
 
@@ -1049,53 +1051,55 @@ public class BinarySearch {
 
     /**
      * 剑指 Offer II 068. 查找插入位置
+     *
      * @param nums
      * @param target
      * @return
      */
     public int searchInsert(int[] nums, int target) {
-        int l= 0 , r = nums.length ;
-        while (l<r){
-            int m = (r-l) /2 + l ;
-            if(nums[m] < target){
-                l=m+1;
-            }else {
-                r = m ;
+        int l = 0, r = nums.length;
+        while (l < r) {
+            int m = (r - l) / 2 + l;
+            if (nums[m] < target) {
+                l = m + 1;
+            } else {
+                r = m;
             }
         }
-        return l ;
+        return l;
     }
 
     /**
      * 剑指 Offer II 069. 山峰数组的顶部
+     *
      * @param arr
      * @return
      */
     public int peakIndexInMountainArray(int[] arr) {
-        int l = 1, r = arr.length - 2 , ans = 0;
+        int l = 1, r = arr.length - 2, ans = 0;
         int m = 0;
         while (l <= r) {
             m = l + (r - l) / 2;
 
-            if (arr[m] < arr[m + 1]){
+            if (arr[m] < arr[m + 1]) {
                 l = m + 1;
-            }else {
+            } else {
                 ans = m;
-                r = m-1;
+                r = m - 1;
             }
         }
         return ans;
     }
 
     public int peakIndexInMountainArray2(int[] arr) {
-        int n = arr.length , ans = -1 ;
-        for (int i = 0; i < n-1; i++) {
-            if(arr[i] > arr[i+1]) {
-                ans = i ;
+        int n = arr.length, ans = -1;
+        for (int i = 0; i < n - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
+                ans = i;
                 break;
             }
         }
-        return ans ;
+        return ans;
     }
 
 

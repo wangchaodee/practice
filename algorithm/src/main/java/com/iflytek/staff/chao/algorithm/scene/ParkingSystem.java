@@ -7,7 +7,7 @@ package com.iflytek.staff.chao.algorithm.scene;
  */
 public class ParkingSystem {
 
-    private int[] parkingLot;
+    private final int[] parkingLot;
 
 
     /**

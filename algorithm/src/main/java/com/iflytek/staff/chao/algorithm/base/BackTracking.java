@@ -17,6 +17,13 @@ import java.util.*;
 public class BackTracking {
 
 
+    List<String> rec;
+    boolean[] visit;
+    /**
+     * 1239. 串联字符串的最大长度
+     */
+    int ans = 0;
+
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
         Deque<Integer> path = new ArrayDeque<>();
@@ -174,7 +181,6 @@ public class BackTracking {
         }
     }
 
-
     /**
      * 46 回溯 组合
      *
@@ -220,6 +226,13 @@ public class BackTracking {
         return;
     }
 
+    /**
+     * 77. 组合
+     *
+     * @param n
+     * @param k
+     * @return
+     */
     public List<List<Integer>> combine(int n, int k) {
 
         List<List<Integer>> ans = new ArrayList<>();
@@ -240,13 +253,14 @@ public class BackTracking {
 
         for (int j = i; j <= n; j++) {
             path.addLast(j);
-            dst(i + 1, n, k, path, ans);
+            dst(j + 1, n, k, path, ans);
             path.removeLast();
         }
     }
 
     /**
      * 39. 组合总和
+     *
      * @param candidates
      * @param target
      * @return
@@ -276,6 +290,13 @@ public class BackTracking {
         }
     }
 
+    /**
+     * 剑指 Offer II 082. 含有重复元素集合的组合
+     *
+     * @param candidates
+     * @param target
+     * @return
+     */
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> ans = new ArrayList<>();
 
@@ -298,13 +319,12 @@ public class BackTracking {
         if (i == candidates.length) return;
 
         for (int j = i; j < candidates.length; j++) {
-            while (j > i && candidates[j] == candidates[j - 1]) {
+            path.addLast(candidates[j]);
+            dfs2(candidates, j + 1, target - candidates[j], path, ans);
+            path.removeLast();
+            while (j < candidates.length - 1 && candidates[j] == candidates[j + 1]) {
                 j++;
             }
-            dfs2(candidates, i + 1, target, path, ans);
-            path.addLast(candidates[i]);
-            dfs2(candidates, i + 1, target - candidates[i], path, ans);
-            path.removeLast();
         }
     }
 
@@ -368,7 +388,6 @@ public class BackTracking {
         }
     }
 
-
     /**
      * 79 判断矩阵中的相邻字母是否存在能按顺序组成word ,
      *
@@ -416,80 +435,73 @@ public class BackTracking {
 
     /**
      * 剑指 Offer 38. 字符串的排列
+     *
      * @param s
      * @return
      */
     public String[] permutation(String s) {
-        int n = s.length() ;
+        int n = s.length();
         rec = new ArrayList<>();
-        visit = new boolean[n] ;
+        visit = new boolean[n];
         char[] arr = s.toCharArray();
         Arrays.sort(arr);
         StringBuilder perm = new StringBuilder();
-        backtrack(arr ,0,n,perm);
+        backtrack(arr, 0, n, perm);
         int size = rec.size();
         String[] ans = new String[size];
         for (int i = 0; i < size; i++) {
             ans[i] = rec.get(i);
         }
-        return ans ;
+        return ans;
     }
 
     private void backtrack(char[] arr, int i, int n, StringBuilder perm) {
-        if(i==n) {
+        if (i == n) {
             rec.add(perm.toString());
             return;
         }
         for (int j = 0; j < n; j++) {
-            if(visit[j] || (j>0 && !visit[j-1] && arr[j-1] == arr[j]) ){
+            if (visit[j] || (j > 0 && !visit[j - 1] && arr[j - 1] == arr[j])) {
                 continue;
             }
             visit[j] = true;
             perm.append(arr[j]);
-            backtrack(arr,i+1,n,perm);
-            perm.deleteCharAt(perm.length() -1);
-            visit[j] =false;
+            backtrack(arr, i + 1, n, perm);
+            perm.deleteCharAt(perm.length() - 1);
+            visit[j] = false;
         }
     }
 
-    List<String> rec ;
-    boolean[] visit ;
-
-
-    /**
-     * 1239. 串联字符串的最大长度
-     */
-    int ans = 0 ;
     public int maxLength(List<String> arr) {
         List<Integer> masks = new ArrayList<>();
-        for(String s : arr){
-            int mask = 0 ;
+        for (String s : arr) {
+            int mask = 0;
             for (int i = 0; i < s.length(); i++) {
-                int ch = s.charAt(i) -'a' ;
-                if(((mask>>ch) & 1) != 0){
-                    mask=0;
+                int ch = s.charAt(i) - 'a';
+                if (((mask >> ch) & 1) != 0) {
+                    mask = 0;
                     break;
                 }
-                mask |= 1<<ch;
+                mask |= 1 << ch;
             }
-            if(mask>0){
+            if (mask > 0) {
                 masks.add(mask);
             }
         }
 
-        backtrack(masks,0,0);
-        return ans ;
+        backtrack(masks, 0, 0);
+        return ans;
     }
 
-    private void backtrack(List<Integer> masks , int pos ,int mask){
-        if(pos==masks.size()){
-            ans = Math.max(ans ,Integer.bitCount(mask));
+    private void backtrack(List<Integer> masks, int pos, int mask) {
+        if (pos == masks.size()) {
+            ans = Math.max(ans, Integer.bitCount(mask));
             return;
         }
-        if((mask & masks.get(pos)) ==0 ){
-            backtrack(masks, pos , mask | masks.get(pos));
+        if ((mask & masks.get(pos)) == 0) {
+            backtrack(masks, pos, mask | masks.get(pos));
         }
-        backtrack(masks,pos+1,mask);
+        backtrack(masks, pos + 1, mask);
     }
 
 }

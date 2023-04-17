@@ -14,6 +14,13 @@ import java.util.*;
 public class BFS {
 
     /**
+     * 方法三 通过增加过渡单词 如 d*g  ，减少构建图的复杂度  主要减少比较判断
+     */
+    Map<String, Integer> wordId = new HashMap<>();
+    List<List<Integer>> edge = new ArrayList<>();
+    int sequence = 0;
+
+    /**
      * 墙与门
      * -1 表示墙或是障碍物
      * 0 表示一扇门
@@ -182,7 +189,6 @@ public class BFS {
         return ans;
     }
 
-
     /**
      * 127. 单词接龙   以替换换字母 建立关联
      *
@@ -300,13 +306,6 @@ public class BFS {
         return diffCnt == 1;
     }
 
-    /**
-     * 方法三 通过增加过渡单词 如 d*g  ，减少构建图的复杂度  主要减少比较判断
-     */
-    Map<String, Integer> wordId = new HashMap<>();
-    List<List<Integer>> edge = new ArrayList<>();
-    int sequence = 0;
-
     public int ladderLength3(String beginWord, String endWord, List<String> wordList) {
         if (!wordList.contains(endWord)) return 0;
         for (String word : wordList) {
@@ -399,7 +398,7 @@ public class BFS {
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(start);
 
-        Map<Integer,Integer> wordStep = new HashMap<>();
+        Map<Integer, Integer> wordStep = new HashMap<>();
 
         int step = 0;
         boolean found = false;
@@ -412,14 +411,14 @@ public class BFS {
                 for (int next : graphic[cur]) {
                     if (next == end) found = true;
                     // 同层出现  代表另一路径 同样的距离， 边的关联要加入 ， 如果不是意味路径长 ,边的关联就无须添加
-                    if(wordStep.containsKey(next) && wordStep.get(next)==step) {
+                    if (wordStep.containsKey(next) && wordStep.get(next) == step) {
                         links.get(next).add(cur);
                     }
                     // 以前出现过的不需要再放入队列
-                    if(wordStep.containsKey(next))  continue;
+                    if (wordStep.containsKey(next)) continue;
 
                     queue.offer(next);
-                    wordStep.put(next,step);
+                    wordStep.put(next, step);
 
                     links.putIfAbsent(next, new ArrayList<>());
                     links.get(next).add(cur);
@@ -450,6 +449,7 @@ public class BFS {
 
     /**
      * 面试题13. 机器人的运动范围
+     *
      * @param m
      * @param n
      * @param k
@@ -457,10 +457,10 @@ public class BFS {
      */
     public int movingCount(int m, int n, int k) {
         boolean[][] seen = new boolean[m][n];
-        int cnt =0 ;
+        int cnt = 0;
 
         Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{0,0});
+        queue.offer(new int[]{0, 0});
         seen[0][0] = true;
         while (!queue.isEmpty()) {
 
@@ -476,77 +476,78 @@ public class BFS {
                 }
             }
         }
-        return cnt ;
+        return cnt;
     }
 
 
-    private boolean check(int i ,int j ,int k ){
-        int cnt = 0 ;
-        while (i>0){
-            cnt += i%10;
-            i/=10;
+    private boolean check(int i, int j, int k) {
+        int cnt = 0;
+        while (i > 0) {
+            cnt += i % 10;
+            i /= 10;
         }
 
-        while (j>0){
-            cnt += j%10;
-            j/=10;
+        while (j > 0) {
+            cnt += j % 10;
+            j /= 10;
         }
-        return cnt <=k;
+        return cnt <= k;
     }
 
 
     /**
      * 815. 公交路线
+     *
      * @param routes
      * @param source
      * @param target
      * @return
      */
     public int numBusesToDestination(int[][] routes, int source, int target) {
-        if(source == target) return 0 ;
+        if (source == target) return 0;
         int n = routes.length;
         // 公交是否有换乘
-        boolean[][] edges  = new boolean[n][n];
-        Map<Integer ,List<Integer>> sites = new HashMap<>();
+        boolean[][] edges = new boolean[n][n];
+        Map<Integer, List<Integer>> sites = new HashMap<>();
         for (int i = 0; i < n; i++) {
-           for( int site : routes[i]) {
-               List<Integer> lines = sites.getOrDefault(site, new ArrayList<>());
-               for(int j : lines){
-                   edges[i][j] = edges[j][i] = true ;
-               }
-               lines.add(i);
-               sites.put(site, lines);
-           }
+            for (int site : routes[i]) {
+                List<Integer> lines = sites.getOrDefault(site, new ArrayList<>());
+                for (int j : lines) {
+                    edges[i][j] = edges[j][i] = true;
+                }
+                lines.add(i);
+                sites.put(site, lines);
+            }
         }
 
         int[] dis = new int[n];
-        Arrays.fill(dis ,-1 );
+        Arrays.fill(dis, -1);
         // 初始站 可能有多个公交线路
         Queue<Integer> queue = new LinkedList<>();
-        for (int line : sites.get(source)){
-            dis[line] =1 ;
+        for (int line : sites.get(source)) {
+            dis[line] = 1;
             queue.offer(line);
         }
 
         // 广度优先方式 计算线路在第几次的搭乘上
-        while (!queue.isEmpty() ){
-            int a = queue.poll() ;
-            for (int b = 0; b <n ; b++) {
+        while (!queue.isEmpty()) {
+            int a = queue.poll();
+            for (int b = 0; b < n; b++) {
                 // a  b  换乘
-                if(edges[a][b] && dis[b] == -1){
-                    dis[b] = dis[a] +1 ;
+                if (edges[a][b] && dis[b] == -1) {
+                    dis[b] = dis[a] + 1;
                     queue.offer(b);
                 }
             }
         }
 
         // 用终点站 来查验 哪个线路是 最少换乘的
-        int ret = Integer.MAX_VALUE ;
-        for(int line : sites.getOrDefault(target,new ArrayList<>())){
-            if(dis[line] == -1) continue ;
+        int ret = Integer.MAX_VALUE;
+        for (int line : sites.getOrDefault(target, new ArrayList<>())) {
+            if (dis[line] == -1) continue;
             ret = Math.min(ret, dis[line]);
         }
-        return ret== Integer.MAX_VALUE ?-1 :ret ;
+        return ret == Integer.MAX_VALUE ? -1 : ret;
     }
 
 }

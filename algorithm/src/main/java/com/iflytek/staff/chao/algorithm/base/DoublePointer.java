@@ -87,6 +87,7 @@ public class DoublePointer {
 
     /**
      * 剑指 Offer II 018. 有效的回文
+     *
      * @param s
      * @return
      */
@@ -217,46 +218,48 @@ public class DoublePointer {
 
     /**
      * 556. 下一个更大元素 III  双指针思想
+     *
      * @param n
      * @return
      */
     public int nextGreaterElement(int n) {
         List<Integer> nums = new ArrayList<>();
-        while (n != 0 ){
-            nums.add(n%10);
-            n /=10;
+        while (n != 0) {
+            nums.add(n % 10);
+            n /= 10;
         }
-        int s = nums.size() , idx = -1 ;
-        int i = 0 ;
+        int s = nums.size(), idx = -1;
+        int i = 0;
         // 寻找第一个低位点
-        while (idx==-1 && i<s-1){
-            if(nums.get(i) > nums.get(i+1)){
-                idx=i+1;
+        while (idx == -1 && i < s - 1) {
+            if (nums.get(i) > nums.get(i + 1)) {
+                idx = i + 1;
                 break;
             }
             i++;
         }
-        if(idx==-1) return -1;
+        if (idx == -1) return -1;
         // 将第一个大于idx位置的数值 调换到此位置
         for (int j = 0; j < idx; j++) {
-            if(nums.get(j)> nums.get(idx)) {
-                SortUtil.exchange(nums,j,idx);
+            if (nums.get(j) > nums.get(idx)) {
+                SortUtil.exchange(nums, j, idx);
                 break;
             }
         }
         // 由于idx 之后 是严格降序的， 翻转  变为能组成的最小值
-        for (int l = 0 ,r = idx-1 ; l < r; l++,r--) {
-            SortUtil.exchange(nums,l,r);
+        for (int l = 0, r = idx - 1; l < r; l++, r--) {
+            SortUtil.exchange(nums, l, r);
         }
-        long ans = 0 ;
-        for (int j = s-1; j >=0; j--) {
-            ans = ans*10 + nums.get(j);
+        long ans = 0;
+        for (int j = s - 1; j >= 0; j--) {
+            ans = ans * 10 + nums.get(j);
         }
-        return ans > Integer.MAX_VALUE ?-1 : (int) ans ;
+        return ans > Integer.MAX_VALUE ? -1 : (int) ans;
     }
 
     /**
      * 713. 乘积小于 K 的子数组
+     *
      * @param nums
      * @param k
      * @return
@@ -278,6 +281,7 @@ public class DoublePointer {
 
     /**
      * 16. 最接近的三数之和
+     *
      * @param nums
      * @param target
      * @return
@@ -285,37 +289,37 @@ public class DoublePointer {
     public int threeSumClosest(int[] nums, int target) {
         int n = nums.length;
         Arrays.sort(nums);
-        int  best = 10000000 ;
+        int best = 10000000;
 
         for (int i = 0; i < n - 2; i++) {
             //去除重复
             if (i > 0 && nums[i] == nums[i - 1]) {
-                    continue;
+                continue;
             }
 
-            int j=i+1 ,k=n-1;
-            while (j<k) {
+            int j = i + 1, k = n - 1;
+            while (j < k) {
                 int sum = nums[i] + nums[j] + nums[k];
-                if(sum == target){
-                    return sum ;
+                if (sum == target) {
+                    return sum;
                 }
 
-                if(Math.abs(sum-target) < Math.abs(best-target)){
-                    best = sum ;
+                if (Math.abs(sum - target) < Math.abs(best - target)) {
+                    best = sum;
                 }
 
                 if (sum > target) {
-                    int k_ = k-1 ;
-                   while (j<k_ && nums[k_]==nums[k]){
+                    int k_ = k - 1;
+                    while (j < k_ && nums[k_] == nums[k]) {
                         k_--;
-                   }
-                   k=k_;
-                }else {
-                    int j_ = j+1 ;
-                    while (j_<k && nums[j_]==nums[j]){
+                    }
+                    k = k_;
+                } else {
+                    int j_ = j + 1;
+                    while (j_ < k && nums[j_] == nums[j]) {
                         j_++;
                     }
-                    j=j_;
+                    j = j_;
                 }
             }
         }

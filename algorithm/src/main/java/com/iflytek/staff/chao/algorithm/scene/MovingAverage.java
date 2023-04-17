@@ -8,9 +8,9 @@ import java.util.Queue;
  */
 public class MovingAverage {
 
-    private Queue<Integer> queue;
+    private final Queue<Integer> queue;
     private int count;
-    private int size;
+    private final int size;
     private double avg;
 
     /**

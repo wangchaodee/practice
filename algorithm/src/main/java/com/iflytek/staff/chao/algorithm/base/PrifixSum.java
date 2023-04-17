@@ -18,15 +18,15 @@ public class PrifixSum {
      */
     public int longestWPI(int[] hours) {
         int n = hours.length;
-        int[] arr = new int[n+1];
+        int[] arr = new int[n + 1];
         for (int i = 0; i < n; i++) {
-            arr[i+1] = arr[i] +  (hours[i] > 8 ? 1 : -1);
+            arr[i + 1] = arr[i] + (hours[i] > 8 ? 1 : -1);
         }
         int max = 0;
         for (int i = 1; i <= n; i++) {
             for (int j = 0; j < i; j++) {
                 if (arr[i] > arr[j]) {
-                    max = Math.max(max, i-j);
+                    max = Math.max(max, i - j);
                 }
             }
         }
@@ -36,26 +36,27 @@ public class PrifixSum {
 
     /**
      * 1590. 使数组和能被 P 整除
+     *
      * @param nums
      * @param p
      * @return
      */
     public int minSubarray(int[] nums, int p) {
-        int x = 0 ;
-        for (int num : nums ){
-            x = (x+num)%p;
+        int x = 0;
+        for (int num : nums) {
+            x = (x + num) % p;
         }
-        if(x==0) return 0;
-        int y=0 , res = nums.length;
-        Map<Integer,Integer> index = new HashMap<>();
+        if (x == 0) return 0;
+        int y = 0, res = nums.length;
+        Map<Integer, Integer> index = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            index.put(y,i);
-            y= (y+nums[i]) % p ;
-            if(index.containsKey((y-x+p)%p)){
-                res = Math.min(res, i -index.get((y-x+p)%p) +1 );
+            index.put(y, i);
+            y = (y + nums[i]) % p;
+            if (index.containsKey((y - x + p) % p)) {
+                res = Math.min(res, i - index.get((y - x + p) % p) + 1);
             }
         }
-        return res == nums.length ? -1 : res ;
+        return res == nums.length ? -1 : res;
     }
 
     /**
@@ -81,39 +82,40 @@ public class PrifixSum {
     }
 
     public int subarraySum_2(int[] nums, int k) {
-        int pre = 0 , count = 0;
-        Map<Integer,Integer> map = new HashMap<>();
-        map.put(0,1);
+        int pre = 0, count = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
         for (int i = 0; i < nums.length; i++) {
             pre += nums[i];
-            if(map.containsKey(pre-k)){
-                count += map.get(pre-k);
+            if (map.containsKey(pre - k)) {
+                count += map.get(pre - k);
             }
-            map.put(pre, map.getOrDefault(pre,0)+1);
+            map.put(pre, map.getOrDefault(pre, 0) + 1);
         }
         return count;
     }
 
     /**
      * 剑指 Offer II 011. 0 和 1 个数相同的子数组
+     *
      * @param nums
      * @return
      */
     public int findMaxLength(int[] nums) {
-        int count = 0 ,maxLength=0;
-        Map<Integer,Integer> preIndex = new HashMap<>();
-        preIndex.put(count,-1);
+        int count = 0, maxLength = 0;
+        Map<Integer, Integer> preIndex = new HashMap<>();
+        preIndex.put(count, -1);
         for (int i = 0; i < nums.length; i++) {
-            if(nums[i]==1){
+            if (nums[i] == 1) {
                 count++;
-            }else {
+            } else {
                 count--;
             }
 
-            if(preIndex.containsKey(count)){
-                maxLength = Math.max(maxLength,i - preIndex.get(count));
-            }else {
-                preIndex.put(count,i);
+            if (preIndex.containsKey(count)) {
+                maxLength = Math.max(maxLength, i - preIndex.get(count));
+            } else {
+                preIndex.put(count, i);
             }
         }
         return maxLength;
@@ -126,17 +128,17 @@ public class PrifixSum {
      * @return
      */
     public int pivotIndex(int[] nums) {
-        int n = nums.length ;
+        int n = nums.length;
         int[] ans = new int[n];
         ans[0] = nums[0];
-        for (int i = 1; i <n ; i++) {
-            ans[i] = ans[i-1] + nums[i];
+        for (int i = 1; i < n; i++) {
+            ans[i] = ans[i - 1] + nums[i];
         }
-        if(ans[n-1] - ans[0] == 0) return 0;
-        for (int i = 1; i <n ; i++) {
-            if(ans[n-1] - ans[i] == ans[i-1] ) return i;
+        if (ans[n - 1] - ans[0] == 0) return 0;
+        for (int i = 1; i < n; i++) {
+            if (ans[n - 1] - ans[i] == ans[i - 1]) return i;
         }
-        return -1 ;
+        return -1;
     }
 
 

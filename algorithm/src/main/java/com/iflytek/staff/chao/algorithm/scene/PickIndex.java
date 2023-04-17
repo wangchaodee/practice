@@ -10,9 +10,9 @@ import java.util.Random;
  */
 public class PickIndex {
 
-    private int[] preTotal;
-    private Random random;
-    private int total;
+    private final int[] preTotal;
+    private final Random random;
+    private final int total;
 
     public PickIndex(int[] w) {
         int N = w.length;

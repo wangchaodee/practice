@@ -11,6 +11,16 @@ import java.util.List;
 public class DynamicPlanMatrix {
 
     /**
+     * 1617. 统计子树中城市之间最大距离
+     *
+     * @param n
+     * @param edges
+     * @return
+     */
+    int mask;
+    int diameter;
+
+    /**
      * 63 统计有多少路径从左上角到右下角   可能存在障碍物
      *
      * @param obstacleGrid
@@ -60,10 +70,10 @@ public class DynamicPlanMatrix {
             for (int j = 0; j < n; j++) {
                 if (obstacleGrid[i][j] == 1) {
                     dp[j] = 0;
-                } else if(i==0 && j==0) {
+                } else if (i == 0 && j == 0) {
                     // 起始位置  dp[0]=1;
-                    dp[j]=1;
-                }else if (j>0){
+                    dp[j] = 1;
+                } else if (j > 0) {
                     // 上一行的 j , 加上本行 左边的一位
                     dp[j] = dp[j] + dp[j - 1];
                 }
@@ -113,19 +123,19 @@ public class DynamicPlanMatrix {
 
     public int minFallingPathSum_1(int[][] grid) {
         int n = grid.length;
-        int[] dp = new int[n+2];
-        dp[0] = dp[n+1] = Integer.MAX_VALUE;
+        int[] dp = new int[n + 2];
+        dp[0] = dp[n + 1] = Integer.MAX_VALUE;
         // 首行
-        for (int j = 1; j <=n ; j++) {
+        for (int j = 1; j <= n; j++) {
             dp[j] = grid[0][j];
         }
 
         for (int i = 1; i < n; i++) {
-            int temp = 0 , last = Integer.MAX_VALUE ;
+            int temp = 0, last = Integer.MAX_VALUE;
             for (int j = 1; j <= n; j++) {
                 // 上方的非同一列转移的都可以
                 temp = dp[j];
-                dp[j] = Math.min( Math.min(last,dp[j]),dp[j+1]) + grid[i][j-1];
+                dp[j] = Math.min(Math.min(last, dp[j]), dp[j + 1]) + grid[i][j - 1];
                 last = temp;
             }
         }
@@ -192,7 +202,7 @@ public class DynamicPlanMatrix {
                     dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
                 } else if (i > 0) {
                     dp[i][j] = dp[i - 1][j] + grid[i][j];
-                }  else if(j>0) {
+                } else if (j > 0) {
                     //j>0
                     dp[i][j] = dp[i][j - 1] + grid[i][j];
                 }
@@ -202,142 +212,136 @@ public class DynamicPlanMatrix {
         return dp[m - 1][n - 1];
     }
 
-
     /**
      * 221. 最大正方形
+     *
      * @param matrix
      * @return
      */
     public int maximalSquare(char[][] matrix) {
-        int m = matrix.length , n = matrix[0].length ;
+        int m = matrix.length, n = matrix[0].length;
         int[][] dp = new int[m][n];
         // 边长
-        int max =0 ;
+        int max = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if(i==0 || j ==0){
-                    if(matrix[i][j]=='1') {
+                if (i == 0 || j == 0) {
+                    if (matrix[i][j] == '1') {
                         dp[i][j] = 1;
-                        max = Math.max(max,dp[i][j]);
+                        max = Math.max(max, dp[i][j]);
                     }
-                }else {
-                    if(matrix[i][j]=='1') {
-                        dp[i][j] =  Math.min(Math.min(dp[i-1][j-1] ,dp[i-1][j]) ,dp[i][j-1]) +1 ;
-                        max = Math.max(max,dp[i][j]);
+                } else {
+                    if (matrix[i][j] == '1') {
+                        dp[i][j] = Math.min(Math.min(dp[i - 1][j - 1], dp[i - 1][j]), dp[i][j - 1]) + 1;
+                        max = Math.max(max, dp[i][j]);
                     }
                 }
             }
         }
         // 面积 求平方
-        return max*max ;
+        return max * max;
     }
 
     /**
      * 1139. 最大的以 1 为边界的正方形
+     *
      * @param grid
      * @return
      */
     public int largest1BorderedSquare(int[][] grid) {
-        int m = grid.length ;
-        int n = grid[0].length ;
+        int m = grid.length;
+        int n = grid[0].length;
         // 上方1的长度
-        int[][] up = new int[m+1][n+1];
+        int[][] up = new int[m + 1][n + 1];
         // 左侧1的长度
-        int[][] left = new int[m+1][n+1];
-        int maxBorder = 0 ;
-        for (int i = 1; i <=m ; i++) {
+        int[][] left = new int[m + 1][n + 1];
+        int maxBorder = 0;
+        for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
-                if(grid[i-1][j-1] == 1 ){
-                    up[i][j] = up[i-1][j] +1 ;
-                    left[i][j] = left[i][j-1] +1 ;
+                if (grid[i - 1][j - 1] == 1) {
+                    up[i][j] = up[i - 1][j] + 1;
+                    left[i][j] = left[i][j - 1] + 1;
 
-                    int border = Math.min(up[i][j] , left[i][j]) ;
+                    int border = Math.min(up[i][j], left[i][j]);
 
-                    while ((left[i-border+1][j] <border) || (up[i][j-border+1] < border) ){
+                    while ((left[i - border + 1][j] < border) || (up[i][j - border + 1] < border)) {
                         border--;
                     }
 
-                    maxBorder = Math.max(maxBorder,border);
+                    maxBorder = Math.max(maxBorder, border);
                 }
             }
         }
-        return maxBorder*maxBorder ;
+        return maxBorder * maxBorder;
     }
 
     /**
      * 剑指 Offer 47. 礼物的最大价值
+     *
      * @param grid
      * @return
      */
     public int maxValue(int[][] grid) {
-        int m = grid.length ;
-        int n = grid[0].length ;
+        int m = grid.length;
+        int n = grid[0].length;
         int[][] dp = new int[m][n];
         dp[0][0] = grid[0][0];
-        for (int i = 0; i < m ; i++) {
-            for (int j = 0; j < n ; j++) {
-                if(i>0 && j>0){
-                    dp[i][j] = Math.max(dp[i][j-1] , dp[i-1][j]) + grid[i][j];
-                }else if(j==0 && i>0){
-                    dp[i][j] = dp[i-1][j] + grid[i-1][j];
-                }else if(i==0 && j>0 ) {
-                    dp[i][j] = dp[i][j-1] + grid[i][j];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i > 0 && j > 0) {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]) + grid[i][j];
+                } else if (j == 0 && i > 0) {
+                    dp[i][j] = dp[i - 1][j] + grid[i - 1][j];
+                } else if (i == 0 && j > 0) {
+                    dp[i][j] = dp[i][j - 1] + grid[i][j];
                 }
             }
         }
-        return dp[m-1][n-1];
+        return dp[m - 1][n - 1];
     }
 
-    /**
-     * 1617. 统计子树中城市之间最大距离
-     * @param n
-     * @param edges
-     * @return
-     */
-    int mask ;
-    int diameter ;
     public int[] countSubgraphsForEachDiameter(int n, int[][] edges) {
         List<Integer>[] adj = new List[n];
         for (int i = 0; i < n; i++) {
             adj[i] = new ArrayList<>();
         }
 
-        for(int[] edge : edges ){
-            int a = edge[0] -1 ;
-            int b = edge[1] -1 ;
+        for (int[] edge : edges) {
+            int a = edge[0] - 1;
+            int b = edge[1] - 1;
             adj[a].add(b);
             adj[b].add(a);
         }
 
-        int[] ans = new int[n-1] ;
-        for (int i = 0; i <(1<<n); i++) {
-            int root = 32 - Integer.numberOfLeadingZeros(i) -1;
-            mask=i;
-            diameter=0;
-            dfs(root,adj);
-            if(mask==0 && diameter>0){
-                ans[diameter-1]++;
+        int[] ans = new int[n - 1];
+        for (int i = 0; i < (1 << n); i++) {
+            int root = 32 - Integer.numberOfLeadingZeros(i) - 1;
+            mask = i;
+            diameter = 0;
+            dfs(root, adj);
+            if (mask == 0 && diameter > 0) {
+                ans[diameter - 1]++;
             }
         }
-        return ans ;
+        return ans;
     }
 
     private int dfs(int root, List<Integer>[] adj) {
-        int first =0 ,second = 0 ;
-        mask &= ~(1<<root);
-        for(int vertex : adj[root]){
-            if((mask & (1<<vertex))!=0){
-                mask &= ~(1<<vertex);
-                int distance =1+ dfs(vertex,adj);
-                if(distance>first){
-                    second =first;
+        int first = 0, second = 0;
+        mask &= ~(1 << root);
+        for (int vertex : adj[root]) {
+            if ((mask & (1 << vertex)) != 0) {
+                mask &= ~(1 << vertex);
+                int distance = 1 + dfs(vertex, adj);
+                if (distance > first) {
+                    second = first;
                     first = distance;
-                }else if(distance>second) {
-                    second= distance;
+                } else if (distance > second) {
+                    second = distance;
                 }
             }
         }
-        diameter = Math.max(diameter,first+second);
+        diameter = Math.max(diameter, first + second);
         return first;
     }
 

@@ -31,7 +31,8 @@ public class DynamicPlanMath {
      */
     public int climbStairs(int n) {
         int[] dp = new int[n + 2];
-        dp[0]=1 ;dp[1] = 1;
+        dp[0] = 1;
+        dp[1] = 1;
         for (int i = 2; i <= n; i++) {
             dp[i] = dp[i - 2] + dp[i - 1];
         }
@@ -92,19 +93,20 @@ public class DynamicPlanMath {
 
     /**
      * 746. 使用最小花费爬楼梯
+     *
      * @param cost
      * @return
      */
     public int minCostClimbingStairs(int[] cost) {
         int N = cost.length;
-        int[] dp = new int[N+1 ];
+        int[] dp = new int[N + 1];
 
         dp[0] = 0;
         dp[1] = 0;
         for (int i = 2; i <= N; i++) {
-            dp[i] = Math.min(dp[i - 2] + cost[i-2] , dp[i - 1]+cost[i-1])  ;
+            dp[i] = Math.min(dp[i - 2] + cost[i - 2], dp[i - 1] + cost[i - 1]);
         }
-        return dp[N ];
+        return dp[N];
     }
 
     /**
@@ -154,7 +156,7 @@ public class DynamicPlanMath {
         int max1 = 0; //没
         int max2 = nums[start];//偷了
 
-        for (int i = start+1; i < end; i++) {
+        for (int i = start + 1; i < end; i++) {
             int curr = Math.max(max2, max1 + nums[i]);
             max1 = max2;
             max2 = curr;
@@ -229,10 +231,11 @@ public class DynamicPlanMath {
 
     /**
      * 剑指 Offer 14- I. 剪绳子
+     *
      * @param n
      * @return
      */
-    public int cuttingRope(int n ,int m) {
+    public int cuttingRope(int n, int m) {
         int[] dp = new int[m + 1];
         dp[1] = 1;
         for (int i = 2; i <= m; i++) {
@@ -245,19 +248,20 @@ public class DynamicPlanMath {
 
     /**
      * 剑指 Offer 14- II. 剪绳子 II
+     *
      * @param n
      * @return
      */
     public int cuttingRope(int n) {
-        if(n<=3) return n-1 ;
-        int mod = (int)1e9+7;
-        long res =1 ;
-        while (n>4){
-            res *=3;
-            res %= mod ;
-            n -=3 ;
+        if (n <= 3) return n - 1;
+        int mod = (int) 1e9 + 7;
+        long res = 1;
+        while (n > 4) {
+            res *= 3;
+            res %= mod;
+            n -= 3;
         }
-        return (int)(res*n%mod);
+        return (int) (res * n % mod);
     }
 
 /**
@@ -268,40 +272,41 @@ public class DynamicPlanMath {
  */
     /**
      * 279 完全平方数
+     *
      * @param n
      * @return
      */
     public int numSquares(int n) {
         List<Integer> sqList = generateSquareList(n);
-        int[] dp = new int[n+1];
-        Arrays.fill(dp,n);
-        dp[1]=1 ;
-        for ( int square : sqList){
-            for (int i = square ; i <= n; i++) {
-                dp[i] = Math.min(dp[i] , dp[i-square] +1);
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, n);
+        dp[1] = 1;
+        for (int square : sqList) {
+            for (int i = square; i <= n; i++) {
+                dp[i] = Math.min(dp[i], dp[i - square] + 1);
             }
         }
         return dp[n];
     }
 
-    private List<Integer> generateSquareList(int n){
-        List<Integer> sqList= new ArrayList<>();
-        int diff =3 ;
-        int square = 1 ;
-        while (square<=n){
+    private List<Integer> generateSquareList(int n) {
+        List<Integer> sqList = new ArrayList<>();
+        int diff = 3;
+        int square = 1;
+        while (square <= n) {
             sqList.add(square);
-            square+=diff;
-            diff+=2;
+            square += diff;
+            diff += 2;
         }
         return sqList;
     }
-
 
 
 //    最长递增子序列
 //1. 最长递增子序列
 //2. 一组整数对能够构成的最长链
 //3. 最长摆动子序列
+
     /**
      * 300. 最长递增子序列
      *
@@ -325,43 +330,44 @@ public class DynamicPlanMath {
     }
 
     public int lengthOfLIS_2(int[] nums) {
-        int[] sort = new int[nums.length] ;
+        int[] sort = new int[nums.length];
         int res = 0;
-        for(int num : nums){
-            int l =0 , r= res ;
+        for (int num : nums) {
+            int l = 0, r = res;
             //[l,r)  右边不包含
-            while (l<r){
-                int m = (l+r)>>1;
-                if(sort[m] <num){
-                    l=m+1;
-                }else {
-                    r=m;
+            while (l < r) {
+                int m = (l + r) >> 1;
+                if (sort[m] < num) {
+                    l = m + 1;
+                } else {
+                    r = m;
                 }
             }
             sort[l] = num;
             // 说明 sort中值小 l指针增大到了r ,右边扩展填充了个值 ，个数就增加一个
-            if(r==res) res++;
+            if (r == res) res++;
         }
-        return  res ;
+        return res;
     }
 
 
     /**
      * 646. 最长数对链
+     *
      * @param pairs
      * @return
      */
     public int findLongestChain(int[][] pairs) {
-        int n = pairs.length ;
+        int n = pairs.length;
 
-        Arrays.sort(pairs,(a,b)-> a[0] - b[0]);
+        Arrays.sort(pairs, (a, b) -> a[0] - b[0]);
 
-        int[] dp = new int[n] ;
-        Arrays.fill(dp,1);
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
 
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if(pairs[j][1] < pairs[i][0]) {
+                if (pairs[j][1] < pairs[i][0]) {
                     dp[i] = Math.max(dp[i], dp[j] + 1);
                 }
             }
@@ -371,32 +377,33 @@ public class DynamicPlanMath {
 
     /**
      * 376. 摆动序列
+     *
      * @param nums
      * @return
      */
     public int wiggleMaxLength(int[] nums) {
-        if(nums==null || nums.length ==0) return 0;
-        int down = 1, up =1 ;
+        if (nums == null || nums.length == 0) return 0;
+        int down = 1, up = 1;
         for (int i = 1; i < nums.length; i++) {
-            if(nums[i] > nums[i-1]) {
-                up = down+1;
-            } else if(nums[i] < nums[i-1]) {
-                down = up+1;
+            if (nums[i] > nums[i - 1]) {
+                up = down + 1;
+            } else if (nums[i] < nums[i - 1]) {
+                down = up + 1;
             }
         }
-        return Math.max(up,down);
+        return Math.max(up, down);
     }
 
     public int wiggleMaxLength_2(int[] nums) {
         int n = nums.length;
-        if( n <2) return n ;
-        int prediff = nums[1] -nums[0] ;
-        int cnt = (prediff !=0)? 2:1 ;
+        if (n < 2) return n;
+        int prediff = nums[1] - nums[0];
+        int cnt = (prediff != 0) ? 2 : 1;
         for (int i = 2; i < nums.length; i++) {
-            int diff = nums[i] - nums[i-1];
-            if((diff>0 && prediff<=0 ) || (diff<0 && prediff>=0)) {
-               cnt++;
-               prediff = diff ;
+            int diff = nums[i] - nums[i - 1];
+            if ((diff > 0 && prediff <= 0) || (diff < 0 && prediff >= 0)) {
+                cnt++;
+                prediff = diff;
             }
         }
         return cnt;
@@ -404,25 +411,26 @@ public class DynamicPlanMath {
 
     /**
      * 650. 只有两个键的键盘
+     *
      * @param n
      * @return
      */
     public int minSteps(int n) {
-        if(n==1) return 0;
+        if (n == 1) return 0;
         for (int i = 2; i <= Math.sqrt(n); i++) {
-            if(n%i==0) return i+ minSteps(n/i);
+            if (n % i == 0) return i + minSteps(n / i);
         }
         return n;
     }
 
     public int minSteps2(int n) {
-        int h = (int) Math.sqrt(n) ;
-        int[] dp = new int[n+1];
+        int h = (int) Math.sqrt(n);
+        int[] dp = new int[n + 1];
         for (int i = 2; i <= n; i++) {
-            dp[i] = i ;
+            dp[i] = i;
             for (int j = 2; j <= h; j++) {
-                if(i%j==0){
-                    dp[i] = dp[j] + dp[i/j] ;
+                if (i % j == 0) {
+                    dp[i] = dp[j] + dp[i / j];
                     break;
                 }
             }
@@ -432,6 +440,7 @@ public class DynamicPlanMath {
 
     /**
      * 264. 丑数 II
+     *
      * @param n
      * @return
      */
@@ -469,7 +478,6 @@ public class DynamicPlanMath {
     }
 
 
-
     /**
      * 45 跳跃到最后节点 需要的最少次数
      *
@@ -485,7 +493,7 @@ public class DynamicPlanMath {
             if (i == end) {
                 end = start;
                 step++;
-                if(end >=nums.length) break;
+                if (end >= nums.length) break;
             }
         }
         return step;
@@ -532,6 +540,7 @@ public class DynamicPlanMath {
 
     /**
      * 740. 删除并获得点数
+     *
      * @param nums
      * @return
      */
@@ -556,15 +565,15 @@ public class DynamicPlanMath {
         int max = 0;
         for (int num : nums) {
             if (num > max) max = num;
-            cost[num] +=num;
+            cost[num] += num;
         }
 
         int first = cost[1];
-        int second = Math.max(first,cost[2]);
+        int second = Math.max(first, cost[2]);
         for (int j = 3; j <= max; j++) {
-            int t = second ;
+            int t = second;
             second = Math.max(first + cost[j], second);
-            first = t ;
+            first = t;
         }
         return second;
     }
@@ -597,11 +606,11 @@ public class DynamicPlanMath {
 
         for (int i = 1; i < prices.length; i++) {
 
-            int newSell = Math.max(sell,buy + prices[i]);
+            int newSell = Math.max(sell, buy + prices[i]);
             int newBuy = Integer.MIN_VALUE;
-            if(i<2){
-                newBuy = Math.max(buy,  -prices[i]);
-            }else {
+            if (i < 2) {
+                newBuy = Math.max(buy, -prices[i]);
+            } else {
                 newBuy = Math.max(buy, coldSell - prices[i]);
             }
             buy = newBuy;
@@ -609,7 +618,7 @@ public class DynamicPlanMath {
             sell = newSell;
 
         }
-        return sell ;
+        return sell;
     }
 
     /**
@@ -639,8 +648,8 @@ public class DynamicPlanMath {
         for (int i = 1; i < n; i++) {
             int a_ = Math.max(a, b - prices[i]);
             int b_ = Math.max(b, a + prices[i] - fee);
-            a=a_;
-            b=b_;
+            a = a_;
+            b = b_;
         }
 //        return a > b ? a : b;
         return b;
@@ -648,39 +657,41 @@ public class DynamicPlanMath {
 
     /**
      * 123. 买卖股票的最佳时机 III   ,只能买卖两次
+     *
      * @param prices
      * @return
      */
     public int maxProfit(int[] prices) {
-        int firstBuy = Integer.MIN_VALUE ,firstSell= 0  ;
-        int secondBuy  = Integer.MIN_VALUE  ,  secondSell =0 ;
+        int firstBuy = Integer.MIN_VALUE, firstSell = 0;
+        int secondBuy = Integer.MIN_VALUE, secondSell = 0;
         for (int curPrice : prices) {
-            if(firstBuy < -curPrice ) {
-                firstBuy= -curPrice ;
+            if (firstBuy < -curPrice) {
+                firstBuy = -curPrice;
             }
-            if(firstSell < firstBuy + curPrice ){
-                firstSell= firstBuy + curPrice ;
+            if (firstSell < firstBuy + curPrice) {
+                firstSell = firstBuy + curPrice;
             }
-            if(secondBuy < firstSell -curPrice ){
-                secondBuy = firstSell -curPrice ;
+            if (secondBuy < firstSell - curPrice) {
+                secondBuy = firstSell - curPrice;
             }
-            if(secondSell < secondBuy + curPrice ){
-                secondSell = curPrice + secondBuy ;
+            if (secondSell < secondBuy + curPrice) {
+                secondSell = curPrice + secondBuy;
             }
         }
-        return secondSell ;
+        return secondSell;
     }
 
     /**
      * 188. 买卖股票的最佳时机 IV
+     *
      * @param k
      * @param prices
      * @return
      */
     public int maxProfit(int k, int[] prices) {
-        int[] buy = new int[k+1] ;
-        Arrays.fill(buy ,Integer.MIN_VALUE);
-        int[] sell = new int[k+1];
+        int[] buy = new int[k + 1];
+        Arrays.fill(buy, Integer.MIN_VALUE);
+        int[] sell = new int[k + 1];
 
         for (int curPrice : prices) {
             for (int i = 1; i <= k; i++) {
@@ -689,8 +700,8 @@ public class DynamicPlanMath {
                     buy[i] = sell[i - 1] - curPrice;
                 }
 
-                if(sell[i] < buy[i] + curPrice) {
-                    sell[i] = buy[i] + curPrice ;
+                if (sell[i] < buy[i] + curPrice) {
+                    sell[i] = buy[i] + curPrice;
                 }
 
             }
@@ -705,7 +716,7 @@ public class DynamicPlanMath {
         f[0] = triangle.get(0).get(0);
         for (int i = 1; i < N; i++) {
             f[i] = f[i - 1] + triangle.get(i).get(i);
-            for (int j = i-1; j > 0; j--) {
+            for (int j = i - 1; j > 0; j--) {
                 f[j] = Math.min(f[j - 1], f[j]) + triangle.get(i).get(j);
             }
             f[0] = f[0] + triangle.get(i).get(0);
@@ -731,7 +742,6 @@ public class DynamicPlanMath {
         }
         return 1;
     }
-
 
 
     /**
@@ -767,6 +777,7 @@ public class DynamicPlanMath {
 
     /**
      * 152. 乘积最大子数组
+     *
      * @param nums
      * @return
      */
@@ -775,8 +786,8 @@ public class DynamicPlanMath {
         int min = nums[0]; // 代表最小值  可能负值
         int ans = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            int max_  = Math.max(max * nums[i], Math.max(min * nums[i], nums[i]));
-            int min_= Math.min(max * nums[i], Math.min(min * nums[i], nums[i]));
+            int max_ = Math.max(max * nums[i], Math.max(min * nums[i], nums[i]));
+            int min_ = Math.min(max * nums[i], Math.min(min * nums[i], nums[i]));
             max = max_;
             min = min_;
             ans = Math.max(ans, max);
@@ -838,15 +849,14 @@ public class DynamicPlanMath {
      * @return
      */
     public int maxScoreSightseeingPair2(int[] values) {
-        int max = values[0] ;
+        int max = values[0];
         int ans = 0;
         for (int i = 1; i < values.length; i++) {
-            ans = Math.max(ans, max+ values[i] -i);
-            max = Math.max(max,values[i] + i);
+            ans = Math.max(ans, max + values[i] - i);
+            max = Math.max(max, values[i] + i);
         }
         return ans;
     }
-
 
 
     /**
@@ -890,20 +900,21 @@ public class DynamicPlanMath {
 
     /**
      * 375. 猜数字大小 II
+     *
      * @param n
      * @return
      */
     public int getMoneyAmount(int n) {
-        int[][] dp = new int[n+1][n+1] ;
-        for (int i = n-1; i >=1 ; i--) {
-            for (int j = i+1; j <=n ; j++) {
-                dp[i][j] = j + dp[i][j-1];
+        int[][] dp = new int[n + 1][n + 1];
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = i + 1; j <= n; j++) {
+                dp[i][j] = j + dp[i][j - 1];
                 for (int k = i; k < j; k++) {
-                    dp[i][j] = Math.min(dp[i][j] ,k + Math.max(dp[i][k-1] , dp[k+1][j]));
+                    dp[i][j] = Math.min(dp[i][j], k + Math.max(dp[i][k - 1], dp[k + 1][j]));
                 }
             }
         }
-        return dp[1][n] ;
+        return dp[1][n];
     }
 
     //118. 杨辉三角
@@ -928,9 +939,9 @@ public class DynamicPlanMath {
         List<Integer> row = new ArrayList<>();
         for (int i = 0; i < numRows; i++) {
             row.add(1);
-            int j =i-1 ;
-            while (j>0) {
-                row.set(j, row.get(j)+ row.get(j-1)  );
+            int j = i - 1;
+            while (j > 0) {
+                row.set(j, row.get(j) + row.get(j - 1));
                 j--;
             }
             ans.add(new ArrayList<>(row));
@@ -940,24 +951,25 @@ public class DynamicPlanMath {
 
     /**
      * 剑指 Offer 46. 把数字翻译成字符串
+     *
      * @param num
      * @return
      */
     public int translateNum(int num) {
         String str = String.valueOf(num);
-        int p =0 , q =0 ,r =1 ;
+        int p = 0, q = 0, r = 1;
         for (int i = 0; i < str.length(); i++) {
-            p=q;
-            q=r;
-            r=0;
-            r+=q;
-            if(i==0) continue;
-            String pre = str.substring(i-1,i+1);
-            if(pre.compareTo("10")>=0 && pre.compareTo("25")<=0){
-                r+=p;
+            p = q;
+            q = r;
+            r = 0;
+            r += q;
+            if (i == 0) continue;
+            String pre = str.substring(i - 1, i + 1);
+            if (pre.compareTo("10") >= 0 && pre.compareTo("25") <= 0) {
+                r += p;
             }
         }
-        return r ;
+        return r;
     }
 
 }

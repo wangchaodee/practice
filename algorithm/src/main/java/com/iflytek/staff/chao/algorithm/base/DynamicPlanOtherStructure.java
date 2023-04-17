@@ -2,7 +2,8 @@ package com.iflytek.staff.chao.algorithm.base;
 
 import com.iflytek.staff.chao.structure.base.tree.TreeNode;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author : wangchaodee
@@ -36,10 +37,6 @@ public class DynamicPlanOtherStructure {
         ignore.put(root, Math.max(choose.getOrDefault(root.left, 0), ignore.getOrDefault(root.left, 0))
                 + Math.max(choose.getOrDefault(root.right, 0), ignore.getOrDefault(root.right, 0)));
     }
-
-
-
-
 
 
 }

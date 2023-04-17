@@ -192,31 +192,32 @@ public class HashSolution {
 
     /**
      * 299. 猜数字游戏
+     *
      * @param secret
      * @param guess
      * @return
      */
     public String getHint(String secret, String guess) {
         // 数字 ， 数字位置列表
-        int[] sa= new int[10] , ga = new int[10];
-        int cntBulls = 0 ;
-        int cntCows = 0 ;
+        int[] sa = new int[10], ga = new int[10];
+        int cntBulls = 0;
+        int cntCows = 0;
         // 公牛的数量
         for (int i = 0; i < guess.length(); i++) {
             int a = Integer.valueOf(guess.charAt(i));
             int b = Integer.valueOf(secret.charAt(i));
-            if(a==b) {
+            if (a == b) {
                 cntBulls++;
-            }else {
+            } else {
                 sa[a]++;
                 ga[b]++;
             }
         }
         for (int i = 0; i < 10; i++) {
-            cntCows +=Math.min(sa[i],ga[i]);
+            cntCows += Math.min(sa[i], ga[i]);
         }
 
-        return cntBulls+"A" + cntCows+"B";
+        return cntBulls + "A" + cntCows + "B";
     }
 
     /**
@@ -247,6 +248,7 @@ public class HashSolution {
 
     /**
      * 剑指 Offer II 065. 最短的单词编码
+     *
      * @param words
      * @return
      */
@@ -257,43 +259,45 @@ public class HashSolution {
                 goods.remove(word.substring(i));
             }
         }
-        int ans = 0 ;
+        int ans = 0;
         for (String word : goods) {
-            ans += word.length() +1 ;
+            ans += word.length() + 1;
         }
-        return ans ;
+        return ans;
     }
 
     /**
      * 剑指 Offer II 067. 最大的异或
+     *
      * @param nums
      * @return
      */
     public int findMaximumXOR(int[] nums) {
-        int x = 0 ;
+        int x = 0;
         for (int i = 30; i >= 0; i--) {
             Set<Integer> seen = new HashSet<>();
-            for(int num : nums){
+            for (int num : nums) {
                 seen.add(num >> i);
             }
 
-            int xNext = x * 2 +1 ;
-            boolean found = false ;
+            int xNext = x * 2 + 1;
+            boolean found = false;
 
-            for(int num : nums){
-                if(seen.contains(xNext ^ (num >> i))){
-                    found = true ;
+            for (int num : nums) {
+                if (seen.contains(xNext ^ (num >> i))) {
+                    found = true;
                     break;
                 }
             }
 
-            if(found){
-                x = xNext ;
-            }else {
-                x = xNext -1 ;
+            if (found) {
+                x = xNext;
+            } else {
+                x = xNext - 1;
             }
         }
-        return x ;
+        return x;
     }
+
 
 }

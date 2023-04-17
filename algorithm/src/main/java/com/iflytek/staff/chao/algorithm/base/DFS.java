@@ -17,8 +17,11 @@ import java.util.stream.Collectors;
 public class DFS {
 
 
+    private int count = 0;
+
     /**
      * 733. 图像渲染
+     *
      * @param image
      * @param sr
      * @param sc
@@ -32,7 +35,6 @@ public class DFS {
         }
         return image;
     }
-
 
     /**
      * 深度优先搜索
@@ -59,35 +61,36 @@ public class DFS {
 
     /**
      * 463. 岛屿的周长
+     *
      * @param grid
      * @return
      */
     public int islandPerimeter(int[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                if(grid[i][j]==1) {
-                    boolean[][] seen = new boolean[grid.length][grid[i].length] ;
-                    return  dfsSide(grid,i,j,seen);
+                if (grid[i][j] == 1) {
+                    boolean[][] seen = new boolean[grid.length][grid[i].length];
+                    return dfsSide(grid, i, j, seen);
                 }
             }
         }
         return 0;
     }
 
-    public int dfsSide(int[][] grid, int sr, int sc, boolean[][] seen ) {
-        seen[sr][sc] = true ;
-        int cnt = 0 ;
+    public int dfsSide(int[][] grid, int sr, int sc, boolean[][] seen) {
+        seen[sr][sc] = true;
+        int cnt = 0;
 
         for (int[] xy : DirectionUtil.directions) {
             int srr = sr + xy[0];
             int scc = sc + xy[1];
-            if(0 > srr || srr >= grid.length || 0 > scc || scc >= grid[sr].length || grid[srr][scc]==0){
+            if (0 > srr || srr >= grid.length || 0 > scc || scc >= grid[sr].length || grid[srr][scc] == 0) {
                 cnt++;
-            } else if(!seen[srr][scc] && grid[srr][scc]==1) {
-                cnt +=dfsSide(grid,srr,scc,seen);
+            } else if (!seen[srr][scc] && grid[srr][scc] == 1) {
+                cnt += dfsSide(grid, srr, scc, seen);
             }
         }
-        return cnt ;
+        return cnt;
     }
 
     /**
@@ -161,6 +164,7 @@ public class DFS {
 
     /**
      * 994. 腐烂的橘子
+     *
      * @param grid
      * @return
      */
@@ -189,7 +193,7 @@ public class DFS {
                 for (int[] dir : DirectionUtil.directions) {
                     int srr = sr + dir[0];
                     int scc = sc + dir[1];
-                    if (0 <= srr && srr < n && 0 <= scc && scc < m  && grid[srr][scc] == 1) {
+                    if (0 <= srr && srr < n && 0 <= scc && scc < m && grid[srr][scc] == 1) {
                         queue.offer(new int[]{srr, scc});
                         grid[srr][scc] = 2;
                     }
@@ -205,11 +209,8 @@ public class DFS {
             }
         }
         // 最后一次 只是腐烂的橘子    给的集合 没有橘子  或没有新鲜橘子
-        return ans>1? ans-1 :0 ;
+        return ans > 1 ? ans - 1 : 0;
     }
-
-
-
 
     /**
      * 200 岛屿数量
@@ -273,7 +274,6 @@ public class DFS {
 
         return ans;
     }
-
 
     public int openLock(String[] deadends, String target) {
 
@@ -343,9 +343,6 @@ public class DFS {
         }
         return keys;
     }
-
-
-    private int count = 0;
 
     public int findTargetSumWays(int[] nums, int target) {
         findTargetSumWays(nums, target, 0, 0);
@@ -758,18 +755,6 @@ public class DFS {
         }
     }
 
-
-    class NodeXy {
-        int x;
-        int y;
-
-        public NodeXy(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-
     public int nearestExit(char[][] maze, int[] entrance) {
         int m = maze.length;
         int n = maze[0].length;
@@ -912,7 +897,7 @@ public class DFS {
         if (manager[i] == -1 || total[i] != 0) {
             return total[i];
         }
-        total[i] =  informTime[manager[i]] + dfsInformTime(manager[i], manager, informTime, total);
+        total[i] = informTime[manager[i]] + dfsInformTime(manager[i], manager, informTime, total);
         return total[i];
     }
 
@@ -1091,7 +1076,6 @@ public class DFS {
         return -1;
     }
 
-
     public int findJudge(int n, int[][] trust) {
         int[] count = new int[n + 1];
         for (int[] t : trust) {
@@ -1184,7 +1168,6 @@ public class DFS {
         return true;
     }
 
-
     /**
      * 3
      * [[0,1],[0,2]]
@@ -1264,7 +1247,6 @@ public class DFS {
         }
         return ans;
     }
-
 
     public int closestMeetingNode(int[] edges, int node1, int node2) {
         if (node1 == node2) return node1;
@@ -1357,9 +1339,8 @@ public class DFS {
     }
 
     private long getHash(int x, int y) {
-        return x * 1000001 + y;
+        return x * 1000001L + y;
     }
-
 
     public int shortestPathLength(int[][] graph) {
         int N = graph.length;
@@ -1390,6 +1371,15 @@ public class DFS {
         return -1;
     }
 
+    class NodeXy {
+        int x;
+        int y;
+
+        public NodeXy(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
 
 
 }

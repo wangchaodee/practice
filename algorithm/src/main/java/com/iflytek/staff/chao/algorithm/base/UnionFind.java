@@ -13,6 +13,7 @@ public class UnionFind {
 
     /**
      * 547. 省份数量
+     *
      * @param isConnected
      * @return
      */
@@ -92,49 +93,50 @@ public class UnionFind {
 
     /**
      * 947. 移除最多的同行或同列石头
+     *
      * @param stones
      * @return
      */
     public int removeStones(int[][] stones) {
         UnionFindUtil util = new UnionFindUtil();
         for (int[] stone : stones) {
-            util.union(stone[0]+10001, stone[1]);
+            util.union(stone[0] + 10001, stone[1]);
         }
         return stones.length - util.getCount();
     }
 
-    class UnionFindUtil{
+    class UnionFindUtil {
         Map<Integer, Integer> parent;
-        int count  ;
+        int count;
 
         public UnionFindUtil() {
-            parent = new HashMap<>() ;
-             count = 0 ;
+            parent = new HashMap<>();
+            count = 0;
         }
 
-        public int getCount(){
-            return count ;
+        public int getCount() {
+            return count;
         }
 
-        private void union( int i, int j) {
+        private void union(int i, int j) {
             int x = find(i);
             int y = find(j);
-            if(x==y) return;
+            if (x == y) return;
 
-            parent.put(x,y);
+            parent.put(x, y);
             count--;
         }
 
 
         private int find(int i) {
             if (!parent.containsKey(i)) {
-                parent.put(i,i);
+                parent.put(i, i);
                 count++;
             }
-           if( i != parent.get(i)){
-               parent.put(i,find(parent.get(i)));
-           }
-           return parent.get(i);
+            if (i != parent.get(i)) {
+                parent.put(i, find(parent.get(i)));
+            }
+            return parent.get(i);
         }
     }
 }

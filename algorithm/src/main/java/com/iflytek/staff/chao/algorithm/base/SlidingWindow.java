@@ -1,6 +1,9 @@
 package com.iflytek.staff.chao.algorithm.base;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.TreeSet;
 
 /**
  * @author : wangchaodee
@@ -222,38 +225,39 @@ public class SlidingWindow {
         int mod = 1000000007;
         int n = flowers.length, left = 0;
         int[] count = new int[100001];
-        int res = 0 ;
+        int res = 0;
         for (int i = 0; i < n; i++) {
             count[flowers[i]]++;
             while (count[flowers[i]] > cnt) {
                 count[flowers[left]]--;
                 left++;
             }
-            res = (res +i-left+1) % mod ;
+            res = (res + i - left + 1) % mod;
         }
-        return res ;
+        return res;
     }
 
     /**
      * 剑指 Offer II 057. 值和下标之差都在给定的范围内
+     *
      * @param nums
      * @param k
      * @param t
      * @return
      */
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
-        int n = nums.length ;
-        TreeSet<Long> set = new TreeSet() ;
+        int n = nums.length;
+        TreeSet<Long> set = new TreeSet();
         for (int i = 0; i < n; i++) {
-            Long ceiling  =  set.ceiling((long)nums[i] - (long)t ) ;
-            if(ceiling !=null && ceiling <= (long)nums[i] + (long)t ){
+            Long ceiling = set.ceiling((long) nums[i] - (long) t);
+            if (ceiling != null && ceiling <= (long) nums[i] + (long) t) {
                 return true;
             }
-            set.add((long)nums[i]);
-            if(i>=k){
-                set.remove((long) nums[i-k]);
+            set.add((long) nums[i]);
+            if (i >= k) {
+                set.remove((long) nums[i - k]);
             }
         }
-        return false ;
+        return false;
     }
 }

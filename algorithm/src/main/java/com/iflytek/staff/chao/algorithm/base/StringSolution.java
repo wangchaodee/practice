@@ -69,20 +69,19 @@ public class StringSolution {
     }
 
 
-
     public int strStr3(String haystack, String needle) {
         int nl = needle.length();
         int hl = haystack.length();
-        if(nl >hl) return -1 ;
-        int end = hl-nl ;
-        for (int i = 0; i <= end ; i++) {
-            int n = 0 ;
-            while (n<nl && haystack.charAt(i+n) == needle.charAt(n)) {
+        if (nl > hl) return -1;
+        int end = hl - nl;
+        for (int i = 0; i <= end; i++) {
+            int n = 0;
+            while (n < nl && haystack.charAt(i + n) == needle.charAt(n)) {
                 n++;
             }
 
             if (n == nl) {
-                return i ;
+                return i;
             }
         }
         return -1;
@@ -92,6 +91,7 @@ public class StringSolution {
     /**
      * 67 二进制求和
      * 剑指 Offer II 002. 二进制加法
+     *
      * @param a
      * @param b
      * @return
@@ -129,6 +129,7 @@ public class StringSolution {
 
     /**
      * 14. 最长公共前缀
+     *
      * @param strs
      * @return
      */
@@ -160,9 +161,9 @@ public class StringSolution {
     }
 
 
-
     /**
      * 844. 比较含退格的字符串
+     *
      * @param s
      * @param t
      * @return
@@ -214,7 +215,6 @@ public class StringSolution {
         }
         return sidx == tidx;
     }
-
 
 
     public boolean areAlmostEqual(String s1, String s2) {
@@ -395,6 +395,7 @@ public class StringSolution {
 
     /**
      * 剑指 Offer II 034. 外星语言是否排序
+     *
      * @param words
      * @param order
      * @return
@@ -452,6 +453,7 @@ public class StringSolution {
 
     /**
      * 43. 字符串相乘
+     *
      * @param num1
      * @param num2
      * @return
@@ -499,32 +501,31 @@ public class StringSolution {
         int N1 = num1.length();
         int N2 = num2.length();
 
-        int[] ans = new int[N1+N2] ;
+        int[] ans = new int[N1 + N2];
         //设定num2的下标 从后往前
         for (int i = N2 - 1; i >= 0; i--) {
             int y = num2.charAt(i) - '0';
             //循环num1 从尾部
             for (int j = N1 - 1; j >= 0; j--) {
                 int x = num1.charAt(j) - '0';
-                ans[i+j+1] += y*x;
+                ans[i + j + 1] += y * x;
             }
         }
 
-        for (int i = N1+N2 -1; i >0 ; i--) {
-            ans[i-1] += ans[i] /10 ;
-            ans[i] %=10 ;
+        for (int i = N1 + N2 - 1; i > 0; i--) {
+            ans[i - 1] += ans[i] / 10;
+            ans[i] %= 10;
         }
 
-        int idx =0 ;
-        if(ans[idx] == 0 ) idx++ ;
+        int idx = 0;
+        if (ans[idx] == 0) idx++;
         StringBuffer sb = new StringBuffer();
-       while (idx < N1 + N2){
-           sb.append(ans[idx++]);
-       }
+        while (idx < N1 + N2) {
+            sb.append(ans[idx++]);
+        }
 
         return sb.toString();
     }
-
 
 
     /**
@@ -579,16 +580,16 @@ public class StringSolution {
     public boolean isIsomorphic2(String s, String t) {
         int L = s.length();
         char[] cArr = new char[128];
-        for (int i = 0; i <L ; i++) {
+        for (int i = 0; i < L; i++) {
             int j = s.charAt(i);
             char m = t.charAt(i);
-            if(cArr[j]==0){
-                for (int k = 0; k <128 ; k++) {
-                    if(k!=j && cArr[k]==m) return false;
+            if (cArr[j] == 0) {
+                for (int k = 0; k < 128; k++) {
+                    if (k != j && cArr[k] == m) return false;
                 }
-                cArr[j]=m;
-            }else {
-                if(cArr[j] !=m) return false;
+                cArr[j] = m;
+            } else {
+                if (cArr[j] != m) return false;
             }
         }
 
@@ -597,30 +598,31 @@ public class StringSolution {
 
     /**
      * 剑指 Offer II 035. 最小时间差
+     *
      * @param timePoints
      * @return
      */
     public int findMinDifference(List<String> timePoints) {
-        int n = timePoints.size() ;
-        if(n>1440) return 0 ;
+        int n = timePoints.size();
+        if (n > 1440) return 0;
         Collections.sort(timePoints);
-        int ans = 1440 ;
+        int ans = 1440;
         int t0 = getMinutes(timePoints.get(0));
-        int pre = t0 ;
+        int pre = t0;
         for (int i = 1; i < n; i++) {
             int cur = getMinutes(timePoints.get(i));
-            ans = Math.min(ans ,cur -pre) ;
-            pre = cur ;
+            ans = Math.min(ans, cur - pre);
+            pre = cur;
         }
-        ans = Math.min(ans ,t0+ 1440 -pre) ;
-        return ans ;
-    }
-    //"HH:MM"
-    private int getMinutes(String timePoint){
-       return  ((timePoint.charAt(0)-'0') *10 + (timePoint.charAt(1) -'0') )*60
-               + (timePoint.charAt(3) -'0')* 10  + (timePoint.charAt(4) -'0') ;
+        ans = Math.min(ans, t0 + 1440 - pre);
+        return ans;
     }
 
+    //"HH:MM"
+    private int getMinutes(String timePoint) {
+        return ((timePoint.charAt(0) - '0') * 10 + (timePoint.charAt(1) - '0')) * 60
+                + (timePoint.charAt(3) - '0') * 10 + (timePoint.charAt(4) - '0');
+    }
 
 
 }

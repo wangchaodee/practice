@@ -1,8 +1,7 @@
 package com.iflytek.staff.chao.algorithm.base;
 
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.PriorityQueue;
 
 import static com.iflytek.staff.chao.algorithm.base.SortUtil.exchange;
@@ -14,6 +13,11 @@ import static com.iflytek.staff.chao.algorithm.base.SortUtil.less;
  * @date Date : 2022年06月21日 下午6:03
  */
 public class Sort {
+
+    /**
+     * 归并排序
+     */
+    Comparable[] aux;
 
     /**
      * 冒泡排序  相邻比较  ，依次将大的值向右边移动，右边尾部有序队列逐步扩展
@@ -73,7 +77,6 @@ public class Sort {
         return array;
     }
 
-
     /**
      * 希尔排序  插入排序的改进
      */
@@ -109,11 +112,6 @@ public class Sort {
         }
         return array;
     }
-
-    /**
-     * 归并排序
-     */
-    Comparable[] aux;
 
     public void sort(Comparable[] array) {
         aux = new Comparable[array.length];
@@ -345,7 +343,6 @@ public class Sort {
     }
 
 
-
     /**
      * 451. 按照字符出现次数对字符串排序
      *
@@ -442,6 +439,7 @@ public class Sort {
 
     /**
      * 912. 排序数组  升序
+     *
      * @param nums
      * @return
      */
@@ -454,6 +452,37 @@ public class Sort {
             nums[i] = pq.poll();
         }
         return nums;
+    }
+
+    /**
+     * 剑指 Offer II 075. 数组相对排序
+     *
+     * @param arr1
+     * @param arr2
+     * @return
+     */
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+        int max = Arrays.stream(arr1).max().getAsInt();
+        int[] freq = new int[max + 1];
+        for (int x : arr1) {
+            freq[x]++;
+        }
+
+        int[] ans = new int[arr1.length];
+        int index = 0;
+        for (int x : arr2) {
+            for (int i = 0; i < freq[x]; i++) {
+                ans[index++] = x;
+            }
+            freq[x] = 0;
+        }
+
+        for (int x = 0; x <= max; x++) {
+            for (int i = 0; i < freq[x]; i++) {
+                ans[index++] = x;
+            }
+        }
+        return ans;
     }
 
 }

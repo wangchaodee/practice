@@ -136,6 +136,7 @@ public class ArrayMultiple {
 
     /**
      * 1630. 等差子数组
+     *
      * @param nums
      * @param l
      * @param r
@@ -151,7 +152,7 @@ public class ArrayMultiple {
         return ans;
     }
 
-    private boolean check(int[] arr){
+    private boolean check(int[] arr) {
         Arrays.sort(arr);
         int d = arr[1] - arr[0];
         boolean flag = true;
@@ -164,32 +165,32 @@ public class ArrayMultiple {
         return flag;
     }
 
-    private boolean check2(int[] arr){
-        int n = arr.length ;
-        if(n<=2) return true ;
-        int min = 100000, max = -100000 ;
-        for (int num : arr){
-            if(num >max) max= num ;
-            if(num<min) min = num ;
-        }
-        if(max == min) return true ;
-        if((max - min) % (n-1) != 0) return false ;
-
-        int diff = (max - min) / (n-1);
-        Set<Integer> set = new HashSet<>() ;
-        int diffMin = n , diffMax = -1;
+    private boolean check2(int[] arr) {
+        int n = arr.length;
+        if (n <= 2) return true;
+        int min = 100000, max = -100000;
         for (int num : arr) {
-            if((num- min ) % diff != 0 ) return false ;
-            num = (num- min ) / diff ;
-            if(!set.add(num)){
+            if (num > max) max = num;
+            if (num < min) min = num;
+        }
+        if (max == min) return true;
+        if ((max - min) % (n - 1) != 0) return false;
+
+        int diff = (max - min) / (n - 1);
+        Set<Integer> set = new HashSet<>();
+        int diffMin = n, diffMax = -1;
+        for (int num : arr) {
+            if ((num - min) % diff != 0) return false;
+            num = (num - min) / diff;
+            if (!set.add(num)) {
                 //重复
-                return false ;
+                return false;
             }
 
-            if(num >diffMax) diffMax= num ;
-            if(num<diffMin) diffMin = num ;
+            if (num > diffMax) diffMax = num;
+            if (num < diffMin) diffMin = num;
         }
-        return diffMin == 0 && diffMax == n-1;
+        return diffMin == 0 && diffMax == n - 1;
     }
 
     /**
@@ -229,58 +230,60 @@ public class ArrayMultiple {
 
     /**
      * 57. 插入区间
+     *
      * @param intervals
      * @param newInterval
      * @return
      */
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        int l = newInterval[0]  ,r = newInterval[1];
-        boolean placed = false ;
+        int l = newInterval[0], r = newInterval[1];
+        boolean placed = false;
         List<int[]> ansList = new ArrayList<>();
-        for (int[] interval : intervals){
-            if(interval[0]>r){
-                if(!placed){
-                    ansList.add(new int[]{l,r});
-                    placed=true;
+        for (int[] interval : intervals) {
+            if (interval[0] > r) {
+                if (!placed) {
+                    ansList.add(new int[]{l, r});
+                    placed = true;
                 }
                 ansList.add(interval);
-            }else if(interval[1] < l){
+            } else if (interval[1] < l) {
                 ansList.add(interval);
-            }else {
-                l= Math.min(l,interval[0]);
-                r= Math.max(r,interval[1]);
+            } else {
+                l = Math.min(l, interval[0]);
+                r = Math.max(r, interval[1]);
             }
         }
-        if(!placed){
-            ansList.add(new int[]{l,r});
+        if (!placed) {
+            ansList.add(new int[]{l, r});
         }
         int[][] ans = new int[ansList.size()][];
-        for (int i = 0; i <ansList.size() ; i++) {
+        for (int i = 0; i < ansList.size(); i++) {
             ans[i] = ansList.get(i);
         }
-        return ans ;
+        return ans;
     }
 
     /**
      * LCP 61. 气温变化趋势
+     *
      * @param temperatureA
      * @param temperatureB
      * @return
      */
     public int temperatureTrend(int[] temperatureA, int[] temperatureB) {
-        int n = temperatureA.length ;
-        int max = 0 , same=0;
+        int n = temperatureA.length;
+        int max = 0, same = 0;
         for (int i = 1; i < n; i++) {
-            int flagA = temperatureA[i] - temperatureA[i-1];
-            int flagB = temperatureB[i] - temperatureB[i-1];
-            if(flagA*flagB >0 || flagA==flagB ) {
+            int flagA = temperatureA[i] - temperatureA[i - 1];
+            int flagB = temperatureB[i] - temperatureB[i - 1];
+            if (flagA * flagB > 0 || flagA == flagB) {
                 same++;
-                max = Math.max(max,same);
-            }else {
-                same=0 ;
+                max = Math.max(max, same);
+            } else {
+                same = 0;
             }
         }
-        return max ;
+        return max;
     }
 
 }

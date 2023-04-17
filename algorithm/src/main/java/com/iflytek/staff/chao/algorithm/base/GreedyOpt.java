@@ -38,7 +38,7 @@ public class GreedyOpt {
         if (sum <= 0) return -1;
         // 回到初始值
         long blood = 1;
-        PriorityQueue<Integer> pq = new PriorityQueue();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
         int count = 0;
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] < 0) {
@@ -160,14 +160,14 @@ public class GreedyOpt {
      */
     public int maxProfit(int[] prices) {
         int buy = Integer.MIN_VALUE;
-        int max =0;
-        for (int i = 0; i <prices.length ; i++) {
-            if(buy < -prices[i]) {
-                buy= -prices[i];
+        int max = 0;
+        for (int i = 0; i < prices.length; i++) {
+            if (buy < -prices[i]) {
+                buy = -prices[i];
             }
 
-            if(max < prices[i]+buy ){
-                max=prices[i]+buy;
+            if (max < prices[i] + buy) {
+                max = prices[i] + buy;
             }
         }
         return max;
@@ -223,15 +223,15 @@ public class GreedyOpt {
      * @return
      */
     public boolean isSubsequence(String s, String t) {
-        int i = 0 ,j=0 ;
-        int sl=s.length(),tl = t.length()  ;
-        while (i<sl && j<tl) {
-            if (s.charAt(i)== t.charAt(j) ) {
+        int i = 0, j = 0;
+        int sl = s.length(), tl = t.length();
+        while (i < sl && j < tl) {
+            if (s.charAt(i) == t.charAt(j)) {
                 i++;
             }
             j++;
         }
-        return i==sl;
+        return i == sl;
     }
 
     public boolean isSubsequence2(String s, String t) {
@@ -381,16 +381,17 @@ public class GreedyOpt {
         int N = nums.length;
         int i = 0;
         int curMax = nums[0];
-        while ( i < curMax && curMax < N-1) {
+        while (i < curMax && curMax < N - 1) {
             i++;
             curMax = Math.max(curMax, i + nums[i]);
         }
-        return curMax >= N-1;
+        return curMax >= N - 1;
     }
+
     public boolean canJump2(int[] nums) {
         int curMax = 0;
-        for (int i = 0; i < nums.length ; i++) {
-            if(i>curMax) return false ;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > curMax) return false;
             curMax = Math.max(curMax, i + nums[i]);
         }
         return true;
@@ -398,21 +399,22 @@ public class GreedyOpt {
 
     /**
      * 908. 最小差值 I
-     *
-     *
+     * <p>
+     * <p>
      * 0 <= nums[i] <= 10^4
+     *
      * @param nums
      * @param k
      * @return
      */
     public int smallestRangeI(int[] nums, int k) {
         int min = 10000;
-        int max = 0 ;
-        for (int num : nums){
-            if(num <min) min = num ;
-            if(num > max) max = num ;
+        int max = 0;
+        for (int num : nums) {
+            if (num < min) min = num;
+            if (num > max) max = num;
         }
-        return max -min > 2*k ? max -min -2*k : 0;
+        return max - min > 2 * k ? max - min - 2 * k : 0;
     }
 
     /**
@@ -423,108 +425,112 @@ public class GreedyOpt {
      * @return
      */
     public int smallestRangeII(int[] nums, int k) {
-        int N = nums.length ;
+        int N = nums.length;
         Arrays.sort(nums);
-        int ans = nums[N-1] - nums[0];
+        int ans = nums[N - 1] - nums[0];
 
         // 假定i 是需要增加k的最大位置， i+1及之后的 都是需要 -k的
-        for (int i = 0; i < N-1; i++) {
-            int a = nums[i] , b= nums[i+1] ;
-            int high = Math.max(nums[N-1] -k , a+k);
-            int low = Math.min(nums[0] +k , b-k);
-            ans = Math.min(ans,high -low);
+        for (int i = 0; i < N - 1; i++) {
+            int a = nums[i], b = nums[i + 1];
+            int high = Math.max(nums[N - 1] - k, a + k);
+            int low = Math.min(nums[0] + k, b - k);
+            ans = Math.min(ans, high - low);
         }
-        return ans ;
+        return ans;
     }
 
     /**
      * 860. 柠檬水找零
+     *
      * @param bills
      * @return
      */
     public boolean lemonadeChange(int[] bills) {
-        int fiveCount =0 , tenCount =0 , tweentyCount = 0 ;
-        int i = 0 ;
-        while (i<bills.length){
-            if (bills[i] == 5 ){
+        int fiveCount = 0, tenCount = 0, tweentyCount = 0;
+        int i = 0;
+        while (i < bills.length) {
+            if (bills[i] == 5) {
                 fiveCount++;
-            }else if(bills[i]==10){
-                if(fiveCount<1) {
+            } else if (bills[i] == 10) {
+                if (fiveCount < 1) {
                     break;
                 }
                 fiveCount--;
                 tenCount++;
-            }else {
-                if(tenCount>0 && fiveCount>0){
-                        tenCount--;
-                        fiveCount--;
-                        tweentyCount++;
-                }else if(fiveCount>3) {
-                    fiveCount -=3;
+            } else {
+                if (tenCount > 0 && fiveCount > 0) {
+                    tenCount--;
+                    fiveCount--;
                     tweentyCount++;
-                }else {
+                } else if (fiveCount > 3) {
+                    fiveCount -= 3;
+                    tweentyCount++;
+                } else {
                     break;
                 }
             }
 
             i++;
         }
-        return  i==bills.length;
+        return i == bills.length;
     }
 
     /**
      * 1144. 递减元素使数组呈锯齿状
+     *
      * @param nums
      * @return
      */
     public int movesToMakeZigzag(int[] nums) {
-        return Math.min(chooseToMake(nums,0) ,chooseToMake(nums,1));
+        return Math.min(chooseToMake(nums, 0), chooseToMake(nums, 1));
     }
 
-    private int chooseToMake(int[] nums , int start){
-        int cnt =0 ;
-        for (int i = start; i <nums.length ; i+=2) {
-            int a = 0 ; // 使i变为向下的尖刺点 V形 ，需要减掉的数值
-            if(i>0){
-                a = Math.max(a , nums[i] - nums[i-1] +1 );
+    private int chooseToMake(int[] nums, int start) {
+        int cnt = 0;
+        for (int i = start; i < nums.length; i += 2) {
+            int a = 0; // 使i变为向下的尖刺点 V形 ，需要减掉的数值
+            if (i > 0) {
+                a = Math.max(a, nums[i] - nums[i - 1] + 1);
             }
-            if(i+1<nums.length){
-                a = Math.max(a , nums[i] - nums[i+1] +1 );
+            if (i + 1 < nums.length) {
+                a = Math.max(a, nums[i] - nums[i + 1] + 1);
             }
-            cnt +=a ;
+            cnt += a;
         }
-        return cnt ;
+        return cnt;
     }
 
     /**
      * 807. 保持城市天际线
+     *
      * @param grid
      * @return
      */
     public int maxIncreaseKeepingSkyline(int[][] grid) {
-        int n = grid.length ;
+        int n = grid.length;
         int[] lineMax = new int[n]; // 行的最大值
         int[] rowMax = new int[n]; // 列的最大值
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                lineMax[i] = Math.max(lineMax[i] ,grid[i][j] );
-                rowMax[j] = Math.max(rowMax[j] ,grid[i][j] );
+                lineMax[i] = Math.max(lineMax[i], grid[i][j]);
+                rowMax[j] = Math.max(rowMax[j], grid[i][j]);
             }
         }
-        int cnt = 0 ;
+        int cnt = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int min = Math.min(lineMax[i] ,rowMax[j]) ;
-                if(grid[i][j] <min) {
-                    cnt += min-grid[i][j] ;
+                int min = Math.min(lineMax[i], rowMax[j]);
+                if (grid[i][j] < min) {
+                    cnt += min - grid[i][j];
                 }
             }
         }
-        return cnt ;
+        return cnt;
     }
 
     /**
      * 2383. 赢得比赛需要的最少训练时长
+     *
      * @param initialEnergy
      * @param initialExperience
      * @param energy
@@ -532,71 +538,73 @@ public class GreedyOpt {
      * @return
      */
     public int minNumberOfHours(int initialEnergy, int initialExperience, int[] energy, int[] experience) {
-        int sum =0 ;
-        for(int e : energy){
-            sum +=e;
+        int sum = 0;
+        for (int e : energy) {
+            sum += e;
         }
-        int trainHours=  initialEnergy-sum >0 ? 0 : sum+1 -initialEnergy;
+        int trainHours = initialEnergy - sum > 0 ? 0 : sum + 1 - initialEnergy;
 
-        for(int e :experience){
-            if(initialExperience<=e){
-                trainHours += 1 + (e-initialExperience);
-                initialExperience = 2*e +1 ;
+        for (int e : experience) {
+            if (initialExperience <= e) {
+                trainHours += 1 + (e - initialExperience);
+                initialExperience = 2 * e + 1;
             } else {
-                initialExperience +=e;
+                initialExperience += e;
             }
         }
-        return trainHours ;
+        return trainHours;
     }
 
 
     /**
      * 1605. 给定行和列的和求可行矩阵
+     *
      * @param rowSum
      * @param colSum
      * @return
      */
     public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
-        int m = rowSum.length , n = colSum.length ;
-        int[][] ans = new int[m][n] ;
-        int i = 0 ,j = 0 ;
-        while (i<m && j < n){
-            int v = Math.min(rowSum[i] , colSum[j]);
-            ans[i][j] = v ;
-            rowSum[i] -=v ;
-            colSum[j] -=v ;
-            if(rowSum[i] == 0 ) i++ ;
-            if(colSum[j]==0) j++;
+        int m = rowSum.length, n = colSum.length;
+        int[][] ans = new int[m][n];
+        int i = 0, j = 0;
+        while (i < m && j < n) {
+            int v = Math.min(rowSum[i], colSum[j]);
+            ans[i][j] = v;
+            rowSum[i] -= v;
+            colSum[j] -= v;
+            if (rowSum[i] == 0) i++;
+            if (colSum[j] == 0) j++;
         }
-        return ans ;
+        return ans;
     }
 
     /**
      * 135. 分发糖果
+     *
      * @param ratings
      * @return
      */
     public int candy(int[] ratings) {
-        int n = ratings.length ;
-        int[] left = new int[n] ;
+        int n = ratings.length;
+        int[] left = new int[n];
         for (int i = 0; i < n; i++) {
-            if(i>0 && ratings[i-1] < ratings[i]){
-                left[i] = left[i-1] +1 ;
-            }else {
-                left[i] =1 ;
+            if (i > 0 && ratings[i - 1] < ratings[i]) {
+                left[i] = left[i - 1] + 1;
+            } else {
+                left[i] = 1;
             }
         }
 
-        int[] right = new int[n] ;
-        int ret = 0 ;
-        for (int i = n-1; i >=0; i--) {
-            if(i<n-1 && ratings[i] > ratings[i+1]){
-                right[i] = right[i+1] +1 ;
-            }else {
-                right[i] =1 ;
+        int[] right = new int[n];
+        int ret = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            if (i < n - 1 && ratings[i] > ratings[i + 1]) {
+                right[i] = right[i + 1] + 1;
+            } else {
+                right[i] = 1;
             }
-            ret += Math.max(left[i] , right[i]) ;
+            ret += Math.max(left[i], right[i]);
         }
-        return ret ;
+        return ret;
     }
 }

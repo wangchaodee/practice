@@ -9,7 +9,17 @@ import java.util.*;
 public class StringSingleSolution {
 
     /**
-     *459. 重复的子字符串
+     * 找s中最长的回环字串 5
+     *
+     * @param s
+     * @return
+     */
+    int max = 0;
+    String subString;
+
+    /**
+     * 459. 重复的子字符串
+     *
      * @param s
      * @return
      */
@@ -40,7 +50,7 @@ public class StringSingleSolution {
     }
 
     public boolean repeatedSubstringPattern2(String s) {
-        return (s+s).indexOf(s,1) != s.length() ;
+        return (s + s).indexOf(s, 1) != s.length();
     }
 
     /**
@@ -110,6 +120,7 @@ public class StringSingleSolution {
 
     /**
      * 3. 无重复字符的最长子串
+     *
      * @param s
      * @return
      */
@@ -131,24 +142,24 @@ public class StringSingleSolution {
 
     /**
      * 3. 无重复字符的最长子串
+     *
      * @param s
      * @return
      */
     public int lengthOfLongestSubstring(String s) {
-        int[] chars= new int[128];
+        int[] chars = new int[128];
         int left = -1;
-        int max =0 ;
+        int max = 0;
         for (int i = 0; i < s.length(); i++) {
             int c = s.charAt(i);
-            chars[c]++ ;
-            while (chars[c]>1){
+            chars[c]++;
+            while (chars[c] > 1) {
                 chars[s.charAt(++left)]--;
             }
             max = Math.max(max, i - left);
         }
         return max;
     }
-
 
     public int countSegments(String s) {
 
@@ -161,8 +172,6 @@ public class StringSingleSolution {
         }
         return n;
     }
-
-
 
     /**
      * 8. 字符串转换整数 (atoi) 字符转换数字
@@ -276,7 +285,6 @@ public class StringSingleSolution {
         }
     }
 
-
     public String countAndSay(int n) {
         if (n == 1) return "1";
         String pre = countAndSay(n - 1);
@@ -300,6 +308,7 @@ public class StringSingleSolution {
 
     /**
      * 剑指 Offer 05. 替换空格
+     *
      * @param s
      * @return
      */
@@ -314,7 +323,6 @@ public class StringSingleSolution {
         }
         return ans.toString();
     }
-
 
     /**
      * 将字符串中的大写字母转为小写   a =97  ,A = 65 (+25 到Z),  字符串中由可打印的ascii码组成
@@ -365,8 +373,6 @@ public class StringSingleSolution {
         return ans;
     }
 
-
-
     public String reformat(String s) {
         Queue<Character> abc = new LinkedList<>();
         Queue<Character> num = new LinkedList<>();
@@ -400,7 +406,6 @@ public class StringSingleSolution {
         return sb.toString();
     }
 
-
     /**
      * 647 回文子串
      *
@@ -427,7 +432,6 @@ public class StringSingleSolution {
         return cnt;
     }
 
-
     /**
      * 409. 计算一组字符集合可以组成的回文字符串的最大长度
      *
@@ -447,15 +451,6 @@ public class StringSingleSolution {
         if (palindrome < s.length()) palindrome += 1;
         return palindrome;
     }
-
-    /**
-     * 找s中最长的回环字串 5
-     *
-     * @param s
-     * @return
-     */
-    int max = 0;
-    String subString;
 
     public String longestPalindrome2(String s) {
         int n = s.length();
@@ -504,37 +499,39 @@ public class StringSingleSolution {
 
     /**
      * 58. 最后一个单词的长度
+     *
      * @param s
      * @return
      */
     public int lengthOfLastWord(String s) {
-        int cnt = 0 ;
-        boolean empty = false ;
+        int cnt = 0;
+        boolean empty = false;
         for (char c : s.toCharArray()) {
-            if(c == ' ') {
-                empty = true ;
-            }else {
-                if(empty){
-                    empty = false ;
-                    cnt =0 ;
+            if (c == ' ') {
+                empty = true;
+            } else {
+                if (empty) {
+                    empty = false;
+                    cnt = 0;
                 }
                 cnt++;
             }
         }
-        return cnt ;
+        return cnt;
     }
 
     /**
-     *剑指 Offer 58 - II. 左旋转字符串
+     * 剑指 Offer 58 - II. 左旋转字符串
+     *
      * @param s
      * @param n
      * @return
      */
     public String reverseLeftWords(String s, int n) {
         char[] chars = s.toCharArray();
-        char[]  arr = new char[chars.length];
-        int j=0;
-        for (int i = n; i <chars.length ; i++) {
+        char[] arr = new char[chars.length];
+        int j = 0;
+        for (int i = n; i < chars.length; i++) {
             arr[j++] = chars[i];
         }
         for (int i = 0; i < n; i++) {
@@ -545,20 +542,21 @@ public class StringSingleSolution {
 
     /**
      * 剑指 Offer 50. 第一个只出现一次的字符
+     *
      * @param s
      * @return
      */
     public char firstUniqChar(String s) {
-        int l = s.length() ;
-        Map<Character , Integer> letterCount = new HashMap<>() ;
-        for (int i = 0; i <l ; i++) {
+        int l = s.length();
+        Map<Character, Integer> letterCount = new HashMap<>();
+        for (int i = 0; i < l; i++) {
             char c = s.charAt(i);
-            letterCount.put(c, letterCount.getOrDefault(c,0)+1);
+            letterCount.put(c, letterCount.getOrDefault(c, 0) + 1);
         }
 
-        for (int i = 0; i <l ; i++) {
+        for (int i = 0; i < l; i++) {
             char c = s.charAt(i);
-            if(letterCount.get(c)==1) return c;
+            if (letterCount.get(c) == 1) return c;
         }
 
         return ' ';
@@ -566,20 +564,20 @@ public class StringSingleSolution {
 
     /**
      * 面试题 05.02. 二进制数转字符串
+     *
      * @param num
      * @return
      */
     public String printBin(double num) {
-        StringBuilder sb = new StringBuilder("0.") ;
-        while (sb.length() <=32 && num !=0){
-            num *=2 ;
-            int digit = (int) num ;
+        StringBuilder sb = new StringBuilder("0.");
+        while (sb.length() <= 32 && num != 0) {
+            num *= 2;
+            int digit = (int) num;
             sb.append(digit);
-            num -=digit;
+            num -= digit;
         }
-        return sb.length()>32 ? "ERROR" :sb.toString();
+        return sb.length() > 32 ? "ERROR" : sb.toString();
     }
-
 
 
 }

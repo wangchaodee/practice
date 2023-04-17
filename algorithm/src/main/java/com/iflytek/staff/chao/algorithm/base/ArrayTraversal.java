@@ -13,8 +13,6 @@ import static com.iflytek.staff.chao.algorithm.base.SortUtil.less;
 public class ArrayTraversal {
 
 
-
-
     public int findKthPositive(int[] arr, int k) {
         int l = 0, r = arr.length - 1;
         int m = 0;
@@ -31,6 +29,7 @@ public class ArrayTraversal {
 
     /**
      * 209. 长度最小的子数组
+     *
      * @param target
      * @param nums
      * @return
@@ -151,6 +150,7 @@ public class ArrayTraversal {
 
     /**
      * 剑指 Offer II 007. 数组中和为 0 的三个数    ,15. 三数之和
+     *
      * @param nums
      * @return
      */
@@ -232,12 +232,12 @@ public class ArrayTraversal {
         boolean inc = false, decr = false;
         for (int i = 1; i < nums.length; i++) {
             if (nums[i] > nums[i - 1]) {
-                if(decr) return false;
+                if (decr) return false;
                 inc = true;
             }
 
             if (nums[i] < nums[i - 1]) {
-                if(inc) return false;
+                if (inc) return false;
                 decr = true;
             }
         }
@@ -474,6 +474,7 @@ public class ArrayTraversal {
 
     /**
      * 剑指 Offer 39. 数组中出现次数超过一半的数字
+     *
      * @param nums
      * @return
      */
@@ -484,16 +485,17 @@ public class ArrayTraversal {
 
     /**
      * 169. 多数元素
+     *
      * @param nums
      * @return
      */
     public int majorityElementII(int[] nums) {
-        int count =0  ,target =0;
+        int count = 0, target = 0;
         for (int num : nums) {
-            if(count==0) {
-                target= num;
+            if (count == 0) {
+                target = num;
             }
-            count += (target !=num ? -1:1);
+            count += (target != num ? -1 : 1);
         }
         return target;
     }
@@ -501,6 +503,7 @@ public class ArrayTraversal {
 
     /**
      * 剑指 Offer 53 - II. 0～n-1中缺失的数字
+     *
      * @param nums
      * @return
      */
@@ -514,6 +517,7 @@ public class ArrayTraversal {
 
     /**
      * 剑指 Offer 40. 最小的k个数
+     *
      * @param arr
      * @param k
      * @return
@@ -523,7 +527,7 @@ public class ArrayTraversal {
         int[] least = new int[k];
         if (k == 0) return least;
         int N = arr.length;
-        PriorityQueue<Integer> pq = new PriorityQueue<>(k, ( o1,  o2) -> o2.compareTo(o1));
+        PriorityQueue<Integer> pq = new PriorityQueue<>(k, (o1, o2) -> o2.compareTo(o1));
 
         for (int i = 0; i < k; i++) {
             pq.add(arr[i]);
@@ -557,8 +561,6 @@ public class ArrayTraversal {
     }
 
 
-
-
     /**
      * 66. 加一
      * int[] result =new ArraySolution().plusOne(new int[]{8, 9, 9, 9});
@@ -571,7 +573,7 @@ public class ArrayTraversal {
      */
     public int[] plusOne(int[] digits) {
 
-        int tmp =1;
+        int tmp = 1;
         for (int i = digits.length - 1; i >= 0; i--) {
             int t = digits[i] + tmp;
             tmp = t / 10;
@@ -685,8 +687,6 @@ public class ArrayTraversal {
     }
 
 
-
-
     /**
      * 返回所有数乘积的符号
      *
@@ -716,7 +716,6 @@ public class ArrayTraversal {
         }
         return true;
     }
-
 
 
     public boolean increasingTriplet(int[] nums) {
@@ -758,7 +757,6 @@ public class ArrayTraversal {
         }
         return all;
     }
-
 
 
     public int[] sortByBits(int[] arr) {
@@ -861,6 +859,7 @@ public class ArrayTraversal {
 
     /**
      * 989 数组形式的整数加个整数
+     *
      * @param num
      * @param k
      * @return
@@ -892,10 +891,10 @@ public class ArrayTraversal {
     public List<Integer> addToArrayForm2(int[] num, int k) {
         LinkedList<Integer> ans = new LinkedList<>();
         int i = num.length - 1;
-        while (i >= 0 || k > 0 ) {
+        while (i >= 0 || k > 0) {
             int number = i >= 0 ? num[i--] : 0;
 
-            k += number  ;
+            k += number;
 
             // 按位结果
             ans.addFirst(k % 10);
@@ -1026,21 +1025,22 @@ public class ArrayTraversal {
 
     /**
      * 剑指 Offer 66. 构建乘积数组
+     *
      * @param a
      * @return
      */
     public int[] constructArr(int[] a) {
-        int n = a.length ;
-        int[] multi = new int[n] ;
-        if(n==0) return multi;
-        multi[0]=1;
+        int n = a.length;
+        int[] multi = new int[n];
+        if (n == 0) return multi;
+        multi[0] = 1;
         for (int i = 1; i < n; i++) {
-            multi[i] = multi[i-1] * a[i-1];
+            multi[i] = multi[i - 1] * a[i - 1];
         }
-        int tmp =1 ;
-        for (int i = n-2; i >=0 ; i--) {
-            tmp *= a[i+1];
-            multi[i] *=tmp;
+        int tmp = 1;
+        for (int i = n - 2; i >= 0; i--) {
+            tmp *= a[i + 1];
+            multi[i] *= tmp;
         }
         return multi;
     }
@@ -1090,55 +1090,57 @@ public class ArrayTraversal {
 
     /**
      * 1480. 一维数组的动态和
+     *
      * @param nums
      * @return
      */
     public int[] runningSum(int[] nums) {
-        int n = nums.length ;
+        int n = nums.length;
         int[] ans = new int[n];
         ans[0] = nums[0];
-        for (int i = 1; i <n ; i++) {
-            ans[i] = ans[i-1] + nums[i];
+        for (int i = 1; i < n; i++) {
+            ans[i] = ans[i - 1] + nums[i];
         }
-        return ans ;
+        return ans;
     }
 
 
     /**
      * 18 四数之和
+     *
      * @param nums
      * @param target
      * @return
      */
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> ans = new ArrayList<>();
-        int N = nums.length ;
-        if(N<4) return ans ;
+        int N = nums.length;
+        if (N < 4) return ans;
         Arrays.sort(nums);
 
-        for (int i = 0; i < N-3; i++) {
-            if(i>0 && nums[i]==nums[i-1]) continue; // 重复值
-            if((long)nums[i] + nums[i+1]+nums[i+2] + nums[i+3] > target) continue; // 超出范围
-            if((long)nums[i] + nums[N-1]+nums[N-2] + nums[N-3] < target) continue; // 范围值过小
+        for (int i = 0; i < N - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // 重复值
+            if ((long) nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) continue; // 超出范围
+            if ((long) nums[i] + nums[N - 1] + nums[N - 2] + nums[N - 3] < target) continue; // 范围值过小
             int a = nums[i];
-            for (int j = i+1; j < N-2  ; j++) {
-                if(j>i+1 && nums[j]==nums[j-1]) continue; // 重复值
-                if((long)nums[i] + nums[j]+nums[j+1] + nums[j+2] > target) continue; // 超出范围
-                if((long)nums[i] + nums[j]+nums[N-2] + nums[N-1] < target) continue; // 范围值过小
+            for (int j = i + 1; j < N - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue; // 重复值
+                if ((long) nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target) continue; // 超出范围
+                if ((long) nums[i] + nums[j] + nums[N - 2] + nums[N - 1] < target) continue; // 范围值过小
 
                 int b = nums[j];
-                int l = j+1 ,h = N-1 ;
-                while (l<h ){
-                    long sum =(long) a +b+ nums[l] + nums[h] ;
-                    if(sum==target) {
-                        ans.add( Arrays.asList(a,b, nums[l] , nums[h]));
-                        while (l<h&& nums[l] == nums[l+1]) l++;
+                int l = j + 1, h = N - 1;
+                while (l < h) {
+                    long sum = (long) a + b + nums[l] + nums[h];
+                    if (sum == target) {
+                        ans.add(Arrays.asList(a, b, nums[l], nums[h]));
+                        while (l < h && nums[l] == nums[l + 1]) l++;
                         l++;
-                        while (l<h&& nums[h] == nums[h-1]) h--;
+                        while (l < h && nums[h] == nums[h - 1]) h--;
                         h--;
-                    }else if(sum<target){
+                    } else if (sum < target) {
                         l++;
-                    }else {
+                    } else {
                         h--;
                     }
                 }
@@ -1150,111 +1152,116 @@ public class ArrayTraversal {
 
     /**
      * 2341. 数组能形成多少数对
+     *
      * @param nums
      * @return
      */
     public int[] numberOfPairs(int[] nums) {
         Set<Integer> set = new HashSet<>();
-        for(int num : nums){
-            if(set.contains(num)){
+        for (int num : nums) {
+            if (set.contains(num)) {
                 set.remove(num);
-            }else {
+            } else {
                 set.add(num);
             }
         }
-        return new int[]{(nums.length- set.size() ) /2 , set.size()};
+        return new int[]{(nums.length - set.size()) / 2, set.size()};
     }
 
 
     /**
      * 2347. 最好的扑克手牌
+     *
      * @param ranks
      * @param suits
      * @return
      */
     public String bestHand(int[] ranks, char[] suits) {
-        if(allSame(suits)) return "Flush" ;
-        int[] diff = new int[14] ;
-        for(int rank : ranks) {
+        if (allSame(suits)) return "Flush";
+        int[] diff = new int[14];
+        for (int rank : ranks) {
             diff[rank]++;
         }
         Arrays.sort(diff);
 
-        if(diff[13]==3 || diff[13]==4 ) {
+        if (diff[13] == 3 || diff[13] == 4) {
             return "Three of a Kind";
-        }else if(diff[13] ==2 ) {
+        } else if (diff[13] == 2) {
             return "Pair";
-        }else {
+        } else {
             return "High Card";
         }
     }
 
-    private boolean allSame(char[] suits){
-        int color = suits[0] ;
-        for (char suit : suits){
-            if(color !=suit) return false;
+    private boolean allSame(char[] suits) {
+        int color = suits[0];
+        for (char suit : suits) {
+            if (color != suit) return false;
         }
-        return true ;
+        return true;
     }
 
 
     /**
      * 剑指 Offer 03. 数组中重复的数字
+     *
      * @param nums
      * @return
      */
     public int findRepeatNumber(int[] nums) {
-        for(int i=0 ;i<nums.length;i++){
+        for (int i = 0; i < nums.length; i++) {
             // 数值与座位号比较
-            int t= nums[i];
-            if(t!=i){
+            int t = nums[i];
+            if (t != i) {
                 // nums[nums[i]] 查对应序号num[i] 上 对应的数值， 与当前的值对应则 重复了
-                if(nums[t] == t) return t;
-                nums[i] =nums[t];
+                if (nums[t] == t) return t;
+                nums[i] = nums[t];
                 nums[t] = t;
                 i--; // 回退一步 再次比较当前位置的值
             }
         }
-        return -1 ;
+        return -1;
     }
 
     /**
      * 剑指 Offer 21. 调整数组顺序使奇数位于偶数前面
+     *
      * @param nums
      * @return
      */
     public int[] exchange(int[] nums) {
         int l = 0;
         for (int i = 0; i < nums.length; i++) {
-            if(nums[i] %2 ==1 ){
-                if(i>l){
-                    int t = nums[l] ;
+            if (nums[i] % 2 == 1) {
+                if (i > l) {
+                    int t = nums[l];
                     nums[l] = nums[i];
                     nums[i] = t;
                 }
                 l++;
             }
         }
-        return nums ;
+        return nums;
     }
 
     /**
      * 面试题61. 扑克牌中的顺子
+     *
      * @param nums
      * @return
      */
     public boolean isStraight(int[] nums) {
         Arrays.sort(nums);
-        int start =0;
-        for (int i = 0; i <5 ; i++) {
-            if(nums[i]>0){
-                if(start==0){
+        int start = 0;
+        for (int i = 0; i < 5; i++) {
+            if (nums[i] > 0) {
+                if (start == 0) {
                     start = nums[i];
                 }
-                if(nums[i] - start >4 ) {
-                    return false ;
+                if (nums[i] - start > 4) {
+                    return false;
                 }
-                if(i>0 && nums[i]==nums[i-1]){
+                if (i > 0 && nums[i] == nums[i - 1]) {
                     return false;
                 }
             }
@@ -1264,93 +1271,95 @@ public class ArrayTraversal {
 
     /**
      * 剑指 Offer 56 - I. 数组中数字出现的次数
+     *
      * @param nums
      * @return
      */
     public int[] singleNumbers(int[] nums) {
-        int x = 0 ;
-        for (int n : nums){
-            x^=n ;
+        int x = 0;
+        for (int n : nums) {
+            x ^= n;
         }
-        int div =1 ;
-        while ((div&x) == 0 ){
-            div<<=1 ;
+        int div = 1;
+        while ((div & x) == 0) {
+            div <<= 1;
         }
-        int a = 0 ,b =0 ;
-        for (int n : nums){
-           if((div & n) !=0 ){
-               a ^=n;
-           }else {
-               b ^=n ;
-           }
+        int a = 0, b = 0;
+        for (int n : nums) {
+            if ((div & n) != 0) {
+                a ^= n;
+            } else {
+                b ^= n;
+            }
         }
-        return new int[]{a,b};
+        return new int[]{a, b};
     }
-
 
 
     /**
      * 剑指 Offer 17. 打印从1到最大的n位数
+     *
      * @param n
      * @return
      */
     public int[] printNumbers(int n) {
-        int end = (int) Math.pow(10,n) -1 ;
+        int end = (int) Math.pow(10, n) - 1;
         int[] res = new int[end];
         for (int i = 0; i < end; i++) {
-            res[i] = i+1 ;
+            res[i] = i + 1;
         }
-        return res ;
+        return res;
     }
 
     /**
      * 剑指 Offer 51. 数组中的逆序对
+     *
      * @param nums
      * @return
      */
     public int reversePairs(int[] nums) {
-        int l = nums.length ;
-        if( l<2) return 0 ;
-        int[] copy = new int[l] ;
-        for (int i = 0; i <l; i++) {
+        int l = nums.length;
+        if (l < 2) return 0;
+        int[] copy = new int[l];
+        for (int i = 0; i < l; i++) {
             copy[i] = nums[i];
         }
         int[] temp = new int[l];
-        return reversePairs(copy , 0 ,l -1, temp) ;
+        return reversePairs(copy, 0, l - 1, temp);
     }
 
     private int reversePairs(int[] copy, int left, int right, int[] temp) {
-        if(left==right) return  0 ;
-        int mid = left + (right-left) /2 ;
-        int leftPairs = reversePairs(copy , left,mid,temp);
-        int rightPairs = reversePairs(copy, mid+1, right , temp );
-        if(copy[mid] <= copy[mid+1]){
-            return leftPairs+rightPairs ;
+        if (left == right) return 0;
+        int mid = left + (right - left) / 2;
+        int leftPairs = reversePairs(copy, left, mid, temp);
+        int rightPairs = reversePairs(copy, mid + 1, right, temp);
+        if (copy[mid] <= copy[mid + 1]) {
+            return leftPairs + rightPairs;
         }
-        int crossPairs = mergeAndCount(copy , left,mid,right,temp);
-        return leftPairs+rightPairs + crossPairs;
+        int crossPairs = mergeAndCount(copy, left, mid, right, temp);
+        return leftPairs + rightPairs + crossPairs;
     }
 
     private int mergeAndCount(int[] copy, int left, int mid, int right, int[] temp) {
-        for (int i = left; i <=right ; i++) {
+        for (int i = left; i <= right; i++) {
             temp[i] = copy[i];
         }
-        int i= left, j = mid+1 ;
-        int count =0 ;
-        for (int k = left; k <=right; k++) {
-            if(i==mid+1){
+        int i = left, j = mid + 1;
+        int count = 0;
+        for (int k = left; k <= right; k++) {
+            if (i == mid + 1) {
                 copy[k] = temp[j];
                 j++;
-            } else if (j==right+1) {
-                copy[k]=temp[i];
-                i++;
-            } else if (temp[i]<=temp[j]) {
+            } else if (j == right + 1) {
                 copy[k] = temp[i];
                 i++;
-            }else {
-                copy[k]=temp[j];
+            } else if (temp[i] <= temp[j]) {
+                copy[k] = temp[i];
+                i++;
+            } else {
+                copy[k] = temp[j];
                 j++;
-                count += (mid-i+1);
+                count += (mid - i + 1);
             }
         }
         return count;

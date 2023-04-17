@@ -121,7 +121,7 @@ public class PriorityQueueSolution {
     public double maxAverageRatio(int[][] classes, int extraStudents) {
         PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> {
             long v1 = (long) (a[1] - a[0]) * (b[1] + 1) * b[1];
-            long v2 = (long)  (b[1] - b[0]) * (a[1] + 1) * a[1];
+            long v2 = (long) (b[1] - b[0]) * (a[1] + 1) * a[1];
             if (v1 == v2) return 0;
             return v1 < v2 ? 1 : -1;
         });
@@ -144,65 +144,67 @@ public class PriorityQueueSolution {
 
     /**
      * 218. 天际线问题
+     *
      * @param buildings
      * @return
      */
     public List<List<Integer>> getSkyline(int[][] buildings) {
         // 放入建筑的左右坐标
         List<Integer> indexs = new ArrayList<>();
-        for(int[] x : buildings){
+        for (int[] x : buildings) {
             indexs.add(x[0]);
             indexs.add(x[1]);
         }
         Collections.sort(indexs);
 
         List<List<Integer>> ans = new ArrayList<>();
-        int n = buildings.length  ,idx =0  ;
+        int n = buildings.length, idx = 0;
         // 以高度排序   大顶堆
-        PriorityQueue<int[]> queue = new PriorityQueue<>((a,b) -> b[1] -a[1]);
-        for(int xpoint : indexs){
-           while (idx<n && buildings[idx][0] <= xpoint){
-               queue.offer(new int[]{buildings[idx][1] , buildings[idx][2]});
-               idx++;
-           }
+        PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> b[1] - a[1]);
+        for (int xpoint : indexs) {
+            while (idx < n && buildings[idx][0] <= xpoint) {
+                queue.offer(new int[]{buildings[idx][1], buildings[idx][2]});
+                idx++;
+            }
 
-           while (!queue.isEmpty() && queue.peek()[0] <= xpoint){
-               queue.poll();
-           }
+            while (!queue.isEmpty() && queue.peek()[0] <= xpoint) {
+                queue.poll();
+            }
 
-           int maxn = queue.isEmpty() ? 0 : queue.peek()[1] ;
-           // 为空  或者高度不一样
-           if(ans.size()==0 || maxn != ans.get(ans.size()-1).get(1)){
-               // 放入的左侧点 坐标 和高度
-               ans.add(Arrays.asList(xpoint,maxn));
-           }
+            int maxn = queue.isEmpty() ? 0 : queue.peek()[1];
+            // 为空  或者高度不一样
+            if (ans.size() == 0 || maxn != ans.get(ans.size() - 1).get(1)) {
+                // 放入的左侧点 坐标 和高度
+                ans.add(Arrays.asList(xpoint, maxn));
+            }
         }
-        return ans ;
+        return ans;
 
     }
 
     /**
      * 621. 任务调度器
+     *
      * @param tasks
      * @param n
      * @return
      */
     public int leastInterval(char[] tasks, int n) {
-        Map<Character ,Integer> count = new HashMap<>();
-        int maxExec =0 ;
-        for(char c : tasks){
-           int freq = count.getOrDefault(c,0)+1;
-           count.put(c,freq);
-            maxExec = Math.max(maxExec,freq);
+        Map<Character, Integer> count = new HashMap<>();
+        int maxExec = 0;
+        for (char c : tasks) {
+            int freq = count.getOrDefault(c, 0) + 1;
+            count.put(c, freq);
+            maxExec = Math.max(maxExec, freq);
         }
         int maxCount = 0;
-        for(Map.Entry<Character,Integer> entry : count.entrySet()){
-            if(entry.getValue() == maxExec){
+        for (Map.Entry<Character, Integer> entry : count.entrySet()) {
+            if (entry.getValue() == maxExec) {
                 maxCount++;
             }
         }
 
-        return Math.max((maxExec-1)*(n-1) + maxCount , tasks.length);
+        return Math.max((maxExec - 1) * (n - 1) + maxCount, tasks.length);
     }
 
     /**
@@ -246,6 +248,7 @@ public class PriorityQueueSolution {
 
     /**
      * 剑指 Offer II 061. 和最小的 k 个数对
+     *
      * @param nums1
      * @param nums2
      * @param k
@@ -254,25 +257,25 @@ public class PriorityQueueSolution {
     public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
 
         PriorityQueue<int[]> pq = new PriorityQueue<>(k, (o1, o2) -> {
-            return nums1[o1[0]] + nums2[o1[1]] -nums1[o2[0]] - nums2[o2[1]] ;
+            return nums1[o1[0]] + nums2[o1[1]] - nums1[o2[0]] - nums2[o2[1]];
         });
         List<List<Integer>> ans = new ArrayList<>();
-        int m = nums1.length , n= nums2.length ;
-        int min = Math.min(m,k);
-        for (int i = 0; i < min ; i++) {
-            pq.offer(new int[]{i,0});
+        int m = nums1.length, n = nums2.length;
+        int min = Math.min(m, k);
+        for (int i = 0; i < min; i++) {
+            pq.offer(new int[]{i, 0});
         }
-        while (k-- >0 && !pq.isEmpty()){
-            int[] idx = pq.poll() ;
-            List<Integer> pair = new ArrayList<>() ;
+        while (k-- > 0 && !pq.isEmpty()) {
+            int[] idx = pq.poll();
+            List<Integer> pair = new ArrayList<>();
             pair.add(nums1[idx[0]]);
             pair.add(nums2[idx[1]]);
             ans.add(pair);
-            if(idx[1] +1 < n){
-                pq.offer(new int[]{idx[0],idx[1] +1});
+            if (idx[1] + 1 < n) {
+                pq.offer(new int[]{idx[0], idx[1] + 1});
             }
         }
-        return ans ;
+        return ans;
     }
 
 }

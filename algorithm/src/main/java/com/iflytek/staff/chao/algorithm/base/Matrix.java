@@ -182,15 +182,16 @@ public class Matrix {
     /**
      * 搜索二维矩阵 II  Z 字形查找  240. 搜索二维矩阵 II
      * 剑指 Offer 04. 二维数组中的查找
+     *
      * @param matrix
      * @param target
      * @return
      */
     public boolean searchMatrix(int[][] matrix, int target) {
         int m = matrix.length;
-        if(m<1) return false;
+        if (m < 1) return false;
         int n = matrix[0].length;
-        if(n<1) return false ;
+        if (n < 1) return false;
         int l = 0, r = n - 1;
         while (l < m && r >= 0) {
             if (matrix[l][r] == target) return true;
@@ -372,6 +373,7 @@ public class Matrix {
     /**
      * 242 两个字符串包含的字符是否完全相同
      * 剑指 Offer II 032. 有效的变位词
+     *
      * @param s
      * @param t
      * @return
@@ -448,6 +450,7 @@ public class Matrix {
 
     /**
      * 48 旋转图像
+     *
      * @param matrix
      */
     public void rotate(int[][] matrix) {
@@ -591,6 +594,7 @@ public class Matrix {
 
     /**
      * 1615. 最大网络秩
+     *
      * @param n
      * @param roads
      * @return
@@ -698,7 +702,7 @@ public class Matrix {
                     // 放入距离平方  、  位置参数
                     pq.offer(new int[]{dist, i});
                 }
-            }else {
+            } else {
                 pq.offer(new int[]{dist, i});
             }
         }
@@ -733,8 +737,8 @@ public class Matrix {
 
                 if (mat[N - 1 - j][i] != target[i][j]) res4 = false;
 
-                if(!(res1 || res2 || res3 || res4)) {
-                    return false ;
+                if (!(res1 || res2 || res3 || res4)) {
+                    return false;
                 }
             }
         }
@@ -849,7 +853,7 @@ public class Matrix {
         //坐标所在圈数
         int ceng = Math.min(Math.min(xPos, yPos), Math.min(num - 1 - xPos, num - 1 - yPos)) + 1;
         // 所在圈的边长  , 总边长 减 2层 外层圈边长
-        long innerBian = num - 2 * (ceng - 1);
+        long innerBian = num - 2L * (ceng - 1);
         long area = 1L * num * num; // 需要先转long类型
         long inArae = innerBian * innerBian;
         long index = ((area - inArae) % 9) + 1; // 前两个值 需要计算时就要用long类型， 否则会出错
@@ -862,10 +866,10 @@ public class Matrix {
             index += right - left;
             index += xPos - left;
         } else if (xPos == right) {
-            index += 2 * (right - left);
+            index += 2L * (right - left);
             index += right - yPos;
         } else if (yPos == left) {
-            index += 3 * (right - left);
+            index += 3L * (right - left);
             index += right - xPos;
         }
 
@@ -874,6 +878,7 @@ public class Matrix {
 
     /**
      * 54. 螺旋矩阵
+     *
      * @param matrix
      * @return
      */
@@ -893,7 +898,7 @@ public class Matrix {
 
         int i = 0, j = 0;
         for (int k = 0; k < total; k++) {
-            ans.add( matrix[i][j]);
+            ans.add(matrix[i][j]);
             seen[i][j] = true;
             int ti = i + direction[di][0];
             int tj = j + direction[di][1];
@@ -1025,21 +1030,6 @@ public class Matrix {
         return pq.peek().val;
     }
 
-    class Tuple implements Comparable<Tuple> {
-        int x, y, val;
-
-        public Tuple(int x, int y, int val) {
-            this.x = x;
-            this.y = y;
-            this.val = val;
-        }
-
-        @Override
-        public int compareTo(Tuple o) {
-            return this.val - o.val;
-        }
-    }
-
     /**
      * 给你一个 m x n 的矩阵 matrix 。如果这个矩阵是托普利茨矩阵，返回 true ；否则，返回 false 。
      * 如果矩阵上每一条由左上到右下的对角线上的元素都相同，那么这个矩阵是 托普利茨矩阵 。
@@ -1079,68 +1069,69 @@ public class Matrix {
         return check(matrix, expect, i + 1, j + 1);
     }
 
-
     /**
      * 2570. 合并两个二维数组 - 求和法
+     *
      * @param nums1
      * @param nums2
      * @return
      */
     public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
-        int l1 = nums1.length ;
+        int l1 = nums1.length;
         int l2 = nums2.length;
 
-        int[][] ans = new int[l1+l2][2];
-        int i =0 ,j =0 , k=0 ;
-        while (i<l1 && j <l2){
-            if(nums1[i][0] == nums2[j][0] ){
-                ans[k] = new int[]{nums1[i][0]  ,nums1[i][1] +nums2[j][1] };
+        int[][] ans = new int[l1 + l2][2];
+        int i = 0, j = 0, k = 0;
+        while (i < l1 && j < l2) {
+            if (nums1[i][0] == nums2[j][0]) {
+                ans[k] = new int[]{nums1[i][0], nums1[i][1] + nums2[j][1]};
                 i++;
                 j++;
-            }else if( nums1[i][0] < nums2[j][0]) {
-                ans[k] = new int[]{nums1[i][0]  ,nums1[i][1] };
+            } else if (nums1[i][0] < nums2[j][0]) {
+                ans[k] = new int[]{nums1[i][0], nums1[i][1]};
                 i++;
-            }else {
+            } else {
                 //nums1[i][0] > nums2[j][0]
-                ans[k] = new int[]{nums2[j][0]  ,nums2[j][1] };
+                ans[k] = new int[]{nums2[j][0], nums2[j][1]};
                 j++;
             }
             k++;
         }
-        while (i<l1){
-            ans[k++] = new int[]{nums1[i][0]  ,nums1[i][1] };
+        while (i < l1) {
+            ans[k++] = new int[]{nums1[i][0], nums1[i][1]};
             i++;
         }
 
-        while (j<l2){
-            ans[k++] = new int[]{nums2[j][0]  ,nums2[j][1] };
+        while (j < l2) {
+            ans[k++] = new int[]{nums2[j][0], nums2[j][1]};
             j++;
         }
 
-        return  Arrays.copyOfRange(ans , 0 ,k);
+        return Arrays.copyOfRange(ans, 0, k);
     }
 
     /**
      * 剑指 Offer 57 - II. 和为s的连续正数序列
+     *
      * @param target
      * @return
      */
     public int[][] findContinuousSequence(int target) {
         List<int[]> ans = new ArrayList<>();
-        int limit = (target -1 ) /2  , sum =0 ;
-        for (int i = 1; i <=limit ; i++) {
+        int limit = (target - 1) / 2, sum = 0;
+        for (int i = 1; i <= limit; i++) {
 
-            for (int j = i; j <= target ; j++) {
+            for (int j = i; j <= target; j++) {
                 sum += j;
-                if(sum>target){
-                    sum= 0 ;
+                if (sum > target) {
+                    sum = 0;
                     break;
-                } else  if (sum == target ){
-                    int[] comb = new int[j-i+1] ;
-                    for (int k = i; k <=j ; k++) {
-                        comb[k-i] = k;
+                } else if (sum == target) {
+                    int[] comb = new int[j - i + 1];
+                    for (int k = i; k <= j; k++) {
+                        comb[k - i] = k;
                     }
-                    sum = 0 ;
+                    sum = 0;
                     ans.add(comb);
                     break;
                 }
@@ -1148,7 +1139,22 @@ public class Matrix {
 
         }
 
-        return  ans.toArray(new int[ans.size()][]);
+        return ans.toArray(new int[ans.size()][]);
+    }
+
+    class Tuple implements Comparable<Tuple> {
+        int x, y, val;
+
+        public Tuple(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+
+        @Override
+        public int compareTo(Tuple o) {
+            return this.val - o.val;
+        }
     }
 
 }

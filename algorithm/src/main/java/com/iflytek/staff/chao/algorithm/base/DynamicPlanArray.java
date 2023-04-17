@@ -1,9 +1,8 @@
 package com.iflytek.staff.chao.algorithm.base;
 
-import com.iflytek.staff.chao.util.NumberUtil;
-import org.checkerframework.checker.units.qual.A;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author : wangchaodee
@@ -13,6 +12,7 @@ public class DynamicPlanArray {
 
     /**
      * 42. 接雨水
+     *
      * @param height
      * @return
      */
@@ -53,93 +53,95 @@ public class DynamicPlanArray {
         int sum = 0;
         for (int i = 1; i < n; i++) {
             if (height[i] >= height[left]) {
-                sum += getSum(height,left,i);
+                sum += getSum(height, left, i);
                 left = i;
             }
         }
 
-        int right = n-1;
+        int right = n - 1;
         for (int i = n - 2; i >= left; i--) {
             if (height[i] >= height[right]) {
-                sum += getSum(height,i,right);
+                sum += getSum(height, i, right);
                 right = i;
             }
         }
         return sum;
     }
 
-    private int getSum(int[] height , int l ,int r ){
-        int min = Math.min(height[l], height[r]) ;
-        int cnt = 0 ;
-        for (int i = l+1; i <r ; i++) {
-            cnt += min - height[i] ;
+    private int getSum(int[] height, int l, int r) {
+        int min = Math.min(height[l], height[r]);
+        int cnt = 0;
+        for (int i = l + 1; i < r; i++) {
+            cnt += min - height[i];
         }
-        return cnt ;
+        return cnt;
     }
 
     /**
      * 1326. 灌溉花园的最少水龙头数目
-     * @param n  花园数量 长度
-     * @param ranges   水龙头覆盖范围
+     *
+     * @param n      花园数量 长度
+     * @param ranges 水龙头覆盖范围
      * @return
      */
     public int minTaps(int n, int[] ranges) {
         // 前面 i 个 花园  要的水龙头数量
-        int[] dp = new int[n+1];
-        for (int i = 0; i <=n ; i++) {
+        int[] dp = new int[n + 1];
+        for (int i = 0; i <= n; i++) {
             dp[i] = i;
         }
 
-        for (int i = 0; i <=n ; i++) {
-            int start = Math.max(i-ranges[i] ,0);
-            int end = Math.min(i+ranges[i] ,n);
-            dp[start]=Math.max(start,end );
+        for (int i = 0; i <= n; i++) {
+            int start = Math.max(i - ranges[i], 0);
+            int end = Math.min(i + ranges[i], n);
+            dp[start] = Math.max(start, end);
         }
-        int last =0 ,ret=0 ,pre=0 ;
-        for (int i = 0; i <=n ; i++) {
-            last = Math.max(last,dp[i]);
-            if(last ==i) return -1 ;
-            if(i==pre){
+        int last = 0, ret = 0, pre = 0;
+        for (int i = 0; i <= n; i++) {
+            last = Math.max(last, dp[i]);
+            if (last == i) return -1;
+            if (i == pre) {
                 ret++;
-                pre=last;
+                pre = last;
             }
         }
 
-        return ret ;
+        return ret;
     }
 
 
     /**
      * 486. 预测赢家
+     *
      * @param nums
      * @return
      */
     public boolean PredictTheWinner(int[] nums) {
-        return total(nums,0,nums.length-1 ,1) >=0 ;
+        return total(nums, 0, nums.length - 1, 1) >= 0;
     }
 
-    private int total(int[] nums , int start ,int end  , int turn){
-        if(start==end) return nums[start] * turn ;
-        int startScore = nums[start]* turn + total(nums,start+1, end,-turn);
-        int endScore = nums[end] * turn+ total(nums,start, end-1,-turn);
-        return Math.max(startScore* turn,endScore* turn) * turn;
+    private int total(int[] nums, int start, int end, int turn) {
+        if (start == end) return nums[start] * turn;
+        int startScore = nums[start] * turn + total(nums, start + 1, end, -turn);
+        int endScore = nums[end] * turn + total(nums, start, end - 1, -turn);
+        return Math.max(startScore * turn, endScore * turn) * turn;
     }
 
     public boolean PredictTheWinner2(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n];
-        
+
         for (int i = 0; i < n; i++) {
             dp[i] = nums[i];
         }
         // 逐步扩大选取的数字范围
-        for (int i = n-2; i >=0; i--) {
-            for (int j = i+1; j < n; j++) {
-                                    // 选左边            选右边
-                dp[j] = Math.max( nums[i] - dp[j] ,nums[j]- dp[j-1] );
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = i + 1; j < n; j++) {
+                // 选左边            选右边
+                dp[j] = Math.max(nums[i] - dp[j], nums[j] - dp[j - 1]);
             }
         }
-        return dp[n-1] >=0 ;
+        return dp[n - 1] >= 0;
     }
 
     /**
@@ -156,13 +158,13 @@ public class DynamicPlanArray {
             dp[i] = piles[i];
         }
         // 逐步扩大选取的数字范围
-        for (int i = n-2; i >=0; i--) {
-            for (int j = i+1; j < n; j++) {
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = i + 1; j < n; j++) {
                 // 选左边            选右边
-                dp[j] = Math.max( piles[i] - dp[j] ,piles[j]- dp[j-1] );
+                dp[j] = Math.max(piles[i] - dp[j], piles[j] - dp[j - 1]);
             }
         }
-        return dp[n-1] >0 ;
+        return dp[n - 1] > 0;
     }
 
     /**
@@ -172,77 +174,79 @@ public class DynamicPlanArray {
      * @return
      */
     public int stoneGameII(int[] piles) {
-        int n = piles.length ;
-        int[] prefix = new int[n+1] ;
+        int n = piles.length;
+        int[] prefix = new int[n + 1];
         for (int i = 0; i < n; i++) {
-            prefix[i+1] = prefix[i] + piles[i] ;
+            prefix[i + 1] = prefix[i] + piles[i];
         }
-        Map<Integer,Integer> memo = new HashMap<>();
+        Map<Integer, Integer> memo = new HashMap<>();
 
-        return (prefix[n] + dp(prefix,piles,memo ,0,1)) /2 ;
+        return (prefix[n] + dp(prefix, piles, memo, 0, 1)) / 2;
     }
 
     private int dp(int[] prefix, int[] piles, Map<Integer, Integer> memo, int i, int m) {
-        if(i==piles.length) return 0 ;
+        if (i == piles.length) return 0;
 
-        int key = 100 *i + m ;
-        if(!memo.containsKey(key)){
-            int max = Integer.MIN_VALUE ;
-            for (int x = 1; x <= 2*m; x++) {
-                if(i+x > piles.length ){
+        int key = 100 * i + m;
+        if (!memo.containsKey(key)) {
+            int max = Integer.MIN_VALUE;
+            for (int x = 1; x <= 2 * m; x++) {
+                if (i + x > piles.length) {
                     break;
                 }
-                max = Math.max(max , prefix[i+x] - prefix[i] -  dp(prefix,piles,memo ,i+x,Math.max(x,m)));
+                max = Math.max(max, prefix[i + x] - prefix[i] - dp(prefix, piles, memo, i + x, Math.max(x, m)));
             }
-            memo.put(key,max);
+            memo.put(key, max);
         }
         return memo.get(key);
     }
 
     /**
      * 剑指 Offer 60. n个骰子的点数
+     *
      * @param n
      * @return
      */
     public double[] dicesProbability(int n) {
         double[] dp = new double[6];
-        Arrays.fill(dp,1.0/6.0);
-        for (int i = 2; i <=n; i++) {
-            double[] tmp = new double[5*i +1];
+        Arrays.fill(dp, 1.0 / 6.0);
+        for (int i = 2; i <= n; i++) {
+            double[] tmp = new double[5 * i + 1];
             for (int j = 0; j < dp.length; j++) {
                 for (int k = 0; k < 6; k++) {
-                    tmp[j+k] += dp[j] /6.0 ;
+                    tmp[j + k] += dp[j] / 6.0;
                 }
             }
-            dp= tmp;
+            dp = tmp;
         }
-        return dp ;
+        return dp;
     }
 
     /**
      * LCP 65. 舒适的湿度
+     *
      * @param operate
      * @return
      */
     public int unSuitability(int[] operate) {
-        int max = Arrays.stream(operate).max().orElseThrow()*2 +1 ;
+        int max = Arrays.stream(operate).max().orElseThrow() * 2 + 1;
 
-        int[] pre = new int[max] , f = new int[max] ;
-        Arrays.fill(pre , Integer.MAX_VALUE) ;
-        pre[0] = 0 ;
-        for( int x : operate){
+        int[] pre = new int[max], f = new int[max];
+        Arrays.fill(pre, Integer.MAX_VALUE);
+        pre[0] = 0;
+        for (int x : operate) {
             Arrays.fill(f, Integer.MAX_VALUE);
             for (int i = 0; i < max; i++) {
-                int dis = pre[i] ;
-                if(dis == Integer.MAX_VALUE) continue;
-                if(i+x < max ) f[i+x] = Math.min(f[i+x] , Math.max(dis,i+x)) ;
-                if(i >= x) f[i-x] = Math.min(f[i+x] ,dis) ;
-                else f[0] = Math.min(f[0] , dis -i+x);
+                int dis = pre[i];
+                if (dis == Integer.MAX_VALUE) continue;
+                if (i + x < max) f[i + x] = Math.min(f[i + x], Math.max(dis, i + x));
+                if (i >= x) f[i - x] = Math.min(f[i + x], dis);
+                else f[0] = Math.min(f[0], dis - i + x);
             }
-            int[] tmp = pre ;
-            pre = f ;
-            f = tmp ;
+            int[] tmp = pre;
+            pre = f;
+            f = tmp;
         }
-        return Arrays.stream(pre).min().orElseThrow() ;
+        return Arrays.stream(pre).min().orElseThrow();
     }
 }
