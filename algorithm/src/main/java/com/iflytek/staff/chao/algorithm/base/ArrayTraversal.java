@@ -557,19 +557,6 @@ public class ArrayTraversal {
     }
 
 
-    public int peakIndexInMountainArray(int[] arr) {
-        int l = 0, r = arr.length - 1;
-        int m = 0;
-        while (l <= r) {
-            m = l + (r - l) / 2;
-            if (arr[m] < arr[m - 1]) r = m - 1;
-
-            if (arr[m] < arr[m + 1]) l = m + 1;
-
-            if (arr[m] > arr[m - 1] && arr[m] > arr[m + 1]) break;
-        }
-        return m;
-    }
 
 
     /**

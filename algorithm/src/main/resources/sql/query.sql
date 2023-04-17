@@ -101,3 +101,51 @@ select t1.user_id ,
 from Signups t1
 left join confirmations t2 on t1.user_id = t2.user_id
 group by t1.user_id ;
+
+-- 620. 有趣的电影
+select  *
+from cinema
+where mod(id,2)=1 and description != 'boring'
+order by rating desc ;
+
+-- 1193. 每月交易 I
+select date_format(trans_date,'%Y-%m') as month ,
+    country , count(*) as trans_count ,
+    count(if(state = 'approved' , 1, null)) as approved_count ,
+    sum(amount) as trans_total_amount ,
+    sum(if(state='approved' , amount , 0)) as approved_total_amount
+from Transactions
+group by month, country ;
+
+--1173. 即时食物配送 I
+select round(
+                       (select count(*) from Delivery where order_date = customer_pref_delivery_date) /
+                       (select count(*) from Delivery)  * 100
+           ,2) as immediate_percentage ;
+
+--1174. 即时食物配送 II
+
+select round(
+         sum(order_date = customer_pref_delivery_date)* 100  /
+           count(*)  ,2) as immediate_percentage
+from Delivery
+where (customer_id , order_date) in (
+    select customer_id , min(order_date) from delivery group by customer_id
+    );
+
+-- 534. 游戏玩法分析 III
+select  player_id , event_date ,
+        sum(games_played) over(partition by player_id order by event_date asc ) games_played_so_far
+from Activity ;
+
+-- 550. 游戏玩法分析 IV
+select round(
+    avg(a.event_date is not null) , 2
+           ) fraction
+from (
+    select player_id , min(event_date) as login
+    from activity
+    group by player_id
+     ) p
+left join activity a
+on p.player_id= a.player_id and datediff(a.event_date, p.login) =1 ;

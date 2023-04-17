@@ -245,4 +245,55 @@ public class HashSolution {
         return new String(chars);
     }
 
+    /**
+     * 剑指 Offer II 065. 最短的单词编码
+     * @param words
+     * @return
+     */
+    public int minimumLengthEncoding(String[] words) {
+        Set<String> goods = new HashSet<>(Arrays.asList(words));
+        for (String word : words) {
+            for (int i = 1; i < word.length(); i++) {
+                goods.remove(word.substring(i));
+            }
+        }
+        int ans = 0 ;
+        for (String word : goods) {
+            ans += word.length() +1 ;
+        }
+        return ans ;
+    }
+
+    /**
+     * 剑指 Offer II 067. 最大的异或
+     * @param nums
+     * @return
+     */
+    public int findMaximumXOR(int[] nums) {
+        int x = 0 ;
+        for (int i = 30; i >= 0; i--) {
+            Set<Integer> seen = new HashSet<>();
+            for(int num : nums){
+                seen.add(num >> i);
+            }
+
+            int xNext = x * 2 +1 ;
+            boolean found = false ;
+
+            for(int num : nums){
+                if(seen.contains(xNext ^ (num >> i))){
+                    found = true ;
+                    break;
+                }
+            }
+
+            if(found){
+                x = xNext ;
+            }else {
+                x = xNext -1 ;
+            }
+        }
+        return x ;
+    }
+
 }

@@ -100,4 +100,36 @@ public class Trie {
         }
         return str.toString();
     }
+
+    public void buildDict(String[] dictionary) {
+        for(String dict: dictionary){
+            insert(dict);
+        }
+    }
+
+    public boolean search2(String searchWord) {
+        return dfs(searchWord,root,0,false);
+    }
+
+    private boolean dfs(String searchWord , Node node , int pos , boolean modified){
+        if(pos == searchWord.length()){
+            return modified&& node.word;
+        }
+        int idx = searchWord.charAt(pos) - 'a' ;
+        if(node.children[idx] !=null){
+            if(dfs(searchWord,node.children[idx] ,pos+1 , modified)){
+                return true ;
+            }
+        }
+        if(!modified){
+            for (int i = 0; i < 26; i++) {
+                if(i!=idx && node.children[i] !=null){
+                    if( dfs(searchWord,node.children[i] ,pos+1 , true)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

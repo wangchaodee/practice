@@ -117,7 +117,7 @@ public class BinarySearch {
                 l = m + 1;
             }
         }
-        return l;
+        return r;
     }
 
     /**
@@ -1047,6 +1047,56 @@ public class BinarySearch {
         return -1;
     }
 
+    /**
+     * 剑指 Offer II 068. 查找插入位置
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int searchInsert(int[] nums, int target) {
+        int l= 0 , r = nums.length ;
+        while (l<r){
+            int m = (r-l) /2 + l ;
+            if(nums[m] < target){
+                l=m+1;
+            }else {
+                r = m ;
+            }
+        }
+        return l ;
+    }
+
+    /**
+     * 剑指 Offer II 069. 山峰数组的顶部
+     * @param arr
+     * @return
+     */
+    public int peakIndexInMountainArray(int[] arr) {
+        int l = 1, r = arr.length - 2 , ans = 0;
+        int m = 0;
+        while (l <= r) {
+            m = l + (r - l) / 2;
+
+            if (arr[m] < arr[m + 1]){
+                l = m + 1;
+            }else {
+                ans = m;
+                r = m-1;
+            }
+        }
+        return ans;
+    }
+
+    public int peakIndexInMountainArray2(int[] arr) {
+        int n = arr.length , ans = -1 ;
+        for (int i = 0; i < n-1; i++) {
+            if(arr[i] > arr[i+1]) {
+                ans = i ;
+                break;
+            }
+        }
+        return ans ;
+    }
 
 
 }
