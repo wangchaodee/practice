@@ -149,7 +149,12 @@ public class BackTracking {
         }
     }
 
-    public List<List<Integer>> permuteUnique(int[] nums) {
+    /**
+     * 47. 全排列 II
+     * @param nums
+     * @return
+     */
+   /* public List<List<Integer>> permuteUnique(int[] nums) {
         int n = nums.length;
 
         List<List<Integer>> ans = new ArrayList<>();
@@ -172,14 +177,47 @@ public class BackTracking {
 
         for (int j = index; j < n; j++) {
             if (path.get(index) == path.get(j)) {
-                index++;
+                j++;
                 continue;
             }
             Collections.swap(path, index, j);
             backtrack(path, n, ans, index + 1);
             Collections.swap(path, index, j);
         }
+    }*/
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        int len = nums.length;
+        List<List<Integer>> res = new ArrayList<>();
+        if (len == 0) {
+            return res;
+        }
+        Arrays.sort(nums);
+        Deque<Integer> path = new LinkedList<>();
+        boolean[] used = new boolean[len];
+
+        dfsUnique(nums, len, 0, path, used, res);
+        return res;
     }
+
+//    private void dfsUnique(int[] nums, int len, int depth, Deque<Integer> path, boolean[] used, List<List<Integer>> res) {
+//        if (len == depth) {
+//            res.add(new ArrayList<>(path));
+//            return;
+//        }
+//
+//        for (int i = 0; i < len; i++) {
+//            if (used[i]  || (i>0 && used[i-1] && nums[i]==nums[i-1] )) {
+//                continue;
+//            }
+//            path.addLast(nums[i]);
+//            used[i] = true;
+//            dfsUnique(nums, len, depth + 1, path, used, res);
+//            path.removeLast();
+//            used[i] = false;
+//        }
+//        return;
+//    }
 
     /**
      * 46 回溯 组合
@@ -364,6 +402,11 @@ public class BackTracking {
         }
     }
 
+    /**
+     * 剑指 Offer II 085. 生成匹配的括号
+     * @param n
+     * @return
+     */
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList<>();
         backtrack(new StringBuilder(), 0, 0, n, ans);
@@ -503,5 +546,14 @@ public class BackTracking {
         }
         backtrack(masks, pos + 1, mask);
     }
+
+    /**
+     * 131. 分割回文串
+     * @param s
+     * @return
+     */
+//    public List<List<String>> partition(String s) {
+//
+//    }
 
 }
