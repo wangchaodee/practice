@@ -549,11 +549,105 @@ public class BackTracking {
 
     /**
      * 131. 分割回文串
+     * 剑指 Offer II 086. 分割回文子字符串
      * @param s
      * @return
      */
-//    public List<List<String>> partition(String s) {
-//
-//    }
+    boolean [][] dp ;
+    List<List<String>> tmp = new ArrayList<>();
+    List<String> comb = new ArrayList<>();
+    int n ;
+    public String[][] partition(String s) {
+        n = s.length() ;
+        dp = new boolean[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dp[i],true);
+        }
+
+        for (int i = n-1; i >=0 ; i--) {
+            for (int j = i+1; j < n; j++) {
+                dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i+1][j-1];
+            }
+        }
+
+        dfs(s,0);
+        int rows = tmp.size() ;
+        String[][] ret = new String[rows][];
+        for (int i = 0; i < rows; i++) {
+            int cols = tmp.get(i).size();
+            ret[i] = new String[cols];
+            for (int j = 0; j < cols; j++) {
+                ret[i][j] = tmp.get(i).get(j);
+            }
+        }
+        return ret ;
+    }
+
+    private void  dfs(String s , int i ){
+        if(i==n) {
+            tmp.add(new ArrayList<>(comb));
+        }
+        for (int j = i; j < n; j++) {
+            if(dp[i][j]){
+                comb.add(s.substring(i,j+1));
+                dfs(s,j+1);
+                comb.remove(comb.size() -1);
+            }
+        }
+    }
+
+    /**
+     * 剑指 Offer II 087. 复原 IP
+     * @param s
+     * @return
+     */
+    static final int SEG_COUNT = 4 ;
+    List<String> ips = new ArrayList<>();
+    int[] segments ;
+
+    public List<String> restoreIpAddresses(String s) {
+        segments = new int[SEG_COUNT];
+        dfs(s,0,0);
+        return ips ;
+    }
+
+    private void dfs(String s, int segId ,int segStart){
+        if(segId == SEG_COUNT){
+            if(segStart== s.length()){
+                StringBuffer ipAddr = new StringBuffer();
+                for (int i = 0; i < SEG_COUNT; i++) {
+                    ipAddr.append(segments[i]);
+                    if(i != SEG_COUNT -1){
+                        ipAddr.append(".");
+                    }
+                }
+                ips.add(ipAddr.toString());
+            }
+            return;
+        }
+
+        if(segStart == s.length()){
+            return;
+        }
+
+        if(s.charAt(segStart) == '0'){
+            segments[segId] =0 ;
+            dfs(s , segId+1 , segStart+1);
+        }
+
+        int addr = 0 ;
+        for(int segEnd = segStart ; segEnd< s.length() ; ++segEnd){
+            addr = addr*10 + (s.charAt(segEnd) - '0');
+            if(addr >0 && addr <= 255){
+                segments[segId] = addr ;
+                dfs(s, segId+1, segEnd +1);
+            }else {
+                break;
+            }
+        }
+    }
+
+
+
 
 }

@@ -311,4 +311,27 @@ public class DynamicPlanString {
 //    public int Leetcode(String[] words) {
 //
 //    }
+
+    /**
+     * 剑指 Offer II 092. 翻转字符
+     * @param s
+     * @return
+     */
+    public int minFlipsMonoIncr(String s) {
+        int n = s.length() ;
+        int dp0 = 0 , dp1 = 0 ;
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            int dp0n= dp0 , dp1n = Math.min(dp0,dp1);
+            if(c == '1'){
+                dp0n++;
+            }else {
+                dp1n++;
+            }
+            dp0= dp0n;
+            dp1= dp1n;
+        }
+        return Math.min(dp0,dp1);
+    }
+
 }

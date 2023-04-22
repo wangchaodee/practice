@@ -1,9 +1,6 @@
 package com.iflytek.staff.chao.algorithm.base;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author : wangchaodee
@@ -259,5 +256,28 @@ public class SlidingWindow {
             }
         }
         return false;
+    }
+
+    /**
+     * 1679. K 和数对的最大数目
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int maxOperations(int[] nums, int k) {
+        int ans = 0 , l = 0 , r= nums.length-1 ;
+        Arrays.sort(nums);
+        while (l<r){
+            if(nums[l]+nums[r] ==k){
+                ans++;
+                l++;
+                r--;
+            }else if(nums[l]+nums[r] >k ){
+                r--;
+            }else {
+                l++;
+            }
+        }
+        return ans;
     }
 }
