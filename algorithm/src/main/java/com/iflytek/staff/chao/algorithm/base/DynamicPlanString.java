@@ -2,6 +2,7 @@ package com.iflytek.staff.chao.algorithm.base;
 
 import com.iflytek.staff.chao.util.NumberUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -332,6 +333,68 @@ public class DynamicPlanString {
             dp1= dp1n;
         }
         return Math.min(dp0,dp1);
+    }
+
+    /**
+     * 剑指 Offer II 094. 最少回文分割
+     * @param s
+     * @return
+     */
+    public int minCut(String s) {
+        int n = s.length() ;
+        boolean[][] g = new boolean[n][n] ;
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(g[i],true);
+        }
+
+        for (int i = n-1; i >= 0; i--) {
+            for (int j = i+1; j <n ; j++) {
+                g[i][j] = s.charAt(i)==s.charAt(j) && g[i+1][j-1] ;
+            }
+        }
+
+        int[] dp = new int[n];
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        for (int i = 0; i < n; i++) {
+            if(g[0][i]){
+                dp[i] = 0 ;
+            }else {
+                for (int j = 0; j < i; j++) {
+                    if(g[j+1][i]){
+                        dp[i] = Math.min(dp[i],dp[j]+1);
+                    }
+                }
+            }
+        }
+        return dp[n-1];
+    }
+
+    /**
+     * 剑指 Offer II 097. 子序列的数目
+     * @param s
+     * @param t
+     * @return
+     */
+    public int numDistinct(String s, String t) {
+        int m = s.length() , n = t.length() ;
+        if(m<n){
+            return 0;
+        }
+        int[][] dp = new int[m+1][n+1];
+        for (int i = 0; i <=m; i++) {
+             dp[i][n]=1;
+        }
+        for (int i = m-1; i >=0 ; i--) {
+            char si = s.charAt(i);
+            for (int j = n-1; j >= 0 ; j--) {
+                if(si == t.charAt(j)){
+                    dp[i][j] = dp[i+1][j+1] + dp[i+1][j];
+                }else {
+                    dp[i][j] = dp[i+1][j];
+                }
+            }
+        }
+        return dp[0][0];
     }
 
 }

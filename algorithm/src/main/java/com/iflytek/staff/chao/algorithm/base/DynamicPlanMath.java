@@ -167,7 +167,7 @@ public class DynamicPlanMath {
 
     /**
      * 62 统计有多少路径从左上角到右下角
-     *
+     * 剑指 Offer II 098. 路径的数目
      * @param m
      * @param n
      * @return
@@ -709,6 +709,11 @@ public class DynamicPlanMath {
         return sell[k];
     }
 
+    /**
+     * 剑指 Offer II 100. 三角形中最小路径之和
+     * @param triangle
+     * @return
+     */
     public int minimumTotal(List<List<Integer>> triangle) {
         int N = triangle.size();
         int[] f = new int[N];
