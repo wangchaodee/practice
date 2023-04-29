@@ -550,4 +550,141 @@ public class BFS {
         return ret == Integer.MAX_VALUE ? -1 : ret;
     }
 
+    /**
+     * 剑指 Offer II 111. 计算除法
+     * @param equations
+     * @param values
+     * @param queries
+     * @return
+     */
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+            int nvars = 0 ;
+            Map<String,Integer> variables = new HashMap<>();
+            int n = equations.size();
+        for (int i = 0; i < n; i++) {
+            if(!variables.containsKey(equations.get(i).get(0))){
+                variables.put(equations.get(i).get(0),nvars++);
+            }
+            if(!variables.containsKey(equations.get(i).get(1))){
+                variables.put(equations.get(i).get(1),nvars++);
+            }
+        }
+
+        List<Pair>[] edges = new List[nvars];
+        for (int i = 0; i < nvars; i++) {
+            edges[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < n; i++) {
+            int idx = variables.get(equations.get(i).get(0)) , idy= variables.get(equations.get(i).get(1));
+            edges[idx].add(new Pair(idy,values[i]));
+            edges[idy].add(new Pair(idx,1/values[i]));
+        }
+
+        int queriesCount = queries.size() ;
+        double[] ret = new double[queriesCount];
+        for (int i = 0; i < queriesCount; i++) {
+            List<String> query = queries.get(i);
+            double result = -1.0 ;
+            if(variables.containsKey(query.get(0)) && variables.containsKey(query.get(1)) ){
+                int va = variables.get(query.get(0)) , vb = variables.get(query.get(1));
+                if(va == vb) {
+                    result = 1.0 ;
+                }else{
+                    Queue<Integer> points = new LinkedList<>();
+                    points.offer(va);
+                    double[] ratios = new double[nvars];
+                    Arrays.fill(ratios,-1.0);
+                    ratios[va] = 1.0;
+
+                    while (!points.isEmpty() && ratios[vb] <0){
+                        int x = points.poll();
+                        for(Pair pair : edges[x]){
+                            int y = pair.index;
+                            double var = pair.value ;
+                            if(ratios[y] < 0){
+                                ratios[y] = ratios[x] * var;
+                                points.offer(y);
+                            }
+                        }
+                    }
+                    result = ratios[vb];
+                }
+            }
+            ret[i] = result ;
+        }
+        return ret;
+    }
+
+    class Pair{
+        int index ;
+        double value;
+        Pair(int index,double value){
+            this.index = index ;
+            this.value = value ;
+        }
+    }
+
+    /**
+     * 剑指 Offer II 114. 外星文字典
+     * @param words
+     * @return
+     */
+    Map<Character ,List<Character>> edges = new HashMap<>();
+    Map<Character,Integer> indegrees = new HashMap<>();
+    boolean valid = true ;
+    public String alienOrder(String[] words) {
+        int length = words.length ;
+        for(String word : words){
+            int wl = word.length() ;
+            for (int i = 0; i < wl; i++) {
+                char c = word.charAt(i);
+                edges.putIfAbsent(c,new ArrayList<>());
+            }
+        }
+
+        for (int i = 1; i < length && valid ; i++) {
+            addEdge(words[i-1] , words[i]);
+        }
+        if(!valid){
+            return "";
+        }
+        Queue<Character> queue = new ArrayDeque<>();
+        Set<Character> letters = edges.keySet();
+        for(char u : letters){
+            if(!indegrees.containsKey(u)){
+                queue.offer(u);
+            }
+        }
+        StringBuffer order = new StringBuffer();
+        while (!queue.isEmpty()){
+            char u = queue.poll();
+            order.append(u);
+            List<Character> afters = edges.get(u);
+            for(char v : afters){
+                indegrees.put(v, indegrees.get(v) -1);
+                if(indegrees.get(v) ==0){
+                    queue.offer(v);
+                }
+            }
+        }
+        return order.length() == edges.size()?order.toString():"";
+    }
+
+    private void addEdge(String pre ,String next){
+        int l1 = pre.length() , l2 = next.length() , i = 0;
+        int l = Math.min(l1,l2)  ;
+        while (i<l){
+            char c1 = pre.charAt(i) , c2 = next.charAt(i);
+            if(c1 !=c2){
+                edges.get(c1).add(c2);
+                indegrees.put(c2, indegrees.getOrDefault(c2,0)+1);
+                break;
+            }
+            i++;
+        }
+
+        if(i==l && l1 > l2){
+            valid = false ;
+        }
+    }
 }

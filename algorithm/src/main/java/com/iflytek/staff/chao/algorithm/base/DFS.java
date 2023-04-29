@@ -126,6 +126,11 @@ public class DFS {
         return d;
     }
 
+    /**
+     * 剑指 Offer II 107. 矩阵中的距离
+     * @param mat
+     * @return
+     */
     public int[][] updateMatrix(int[][] mat) {
 
         int n = mat.length;
@@ -139,7 +144,6 @@ public class DFS {
                 if (mat[i][j] == 0) {
                     queue.offer(new int[]{i, j});
                     seen[i][j] = true;
-
                 }
             }
         }
@@ -159,7 +163,7 @@ public class DFS {
             }
         }
 
-        return mat;
+        return dist;
     }
 
     /**
@@ -280,7 +284,7 @@ public class DFS {
         if (Arrays.stream(deadends).collect(Collectors.toList()).contains("0000")) {
             return -1;
         }
-        ;
+
         if (deadends.length >= 8) {
             //检查是否不可达
             List<String> starts = getNextKeys("0000");
@@ -288,14 +292,12 @@ public class DFS {
             if (Arrays.stream(deadends).collect(Collectors.toList()).containsAll(starts)) {
                 return -1;
             }
-            ;
 
             List<String> targets = getNextKeys(target);
 
             if (Arrays.stream(deadends).collect(Collectors.toList()).containsAll(targets)) {
                 return -1;
             }
-            ;
         }
 
         if ("0000".equals(target)) {
@@ -797,6 +799,7 @@ public class DFS {
         deque.addLast(next);
         if (next == target) {
             ans.add(new ArrayList<>(deque));
+            return;
         } else {
             for (int n : graph[next]) {
                 dfsGraph(graph, deque, n, target, ans);

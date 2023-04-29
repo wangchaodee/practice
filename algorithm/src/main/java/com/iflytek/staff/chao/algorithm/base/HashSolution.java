@@ -91,7 +91,7 @@ public class HashSolution {
             treeSet.add(num);
         }
 
-        int longest = 0;
+        int longest = 1;
         int pre = treeSet.pollFirst();
         int preCnt = 1;
         while (!treeSet.isEmpty()) {
