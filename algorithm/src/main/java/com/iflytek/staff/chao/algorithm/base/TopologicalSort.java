@@ -135,4 +135,49 @@ public class TopologicalSort {
         int ans = Arrays.stream(dist).max().getAsInt();
         return ans == INF ? -1 : ans;
     }
+
+    /**
+     * 剑指 Offer II 115. 重建序列
+     * @param nums
+     * @param sequences
+     * @return
+     */
+    public boolean sequenceReconstruction(int[] nums, int[][] sequences) {
+        int n = nums.length;
+        int[] indegrees = new int[n+1] ;
+        Set<Integer>[] graph = new Set[n+1];
+        for (int i = 0; i <=n; i++) {
+            graph[i] = new HashSet<Integer>();
+        }
+        for(int[] seq : sequences){
+            int size = seq.length;
+            for (int i = 1; i <size ; i++) {
+                int prev = seq[i-1] , next = seq[i];
+                if(graph[prev].add(next)){
+                    indegrees[next]++;
+                }
+            }
+        }
+        Queue<Integer> queue = new ArrayDeque<>() ;
+        for (int i = 1; i <=n ; i++) {
+            if(indegrees[i] == 0 ){
+                queue.offer(i);
+            }
+        }
+
+        while (!queue.isEmpty()){
+            if(queue.size()>1){
+                return false;
+            }
+            int num = queue.poll();
+            Set<Integer> set = graph[num];
+            for(int next : set){
+                indegrees[next]--;
+                if(indegrees[next] == 0 ){
+                    queue.offer(next);
+                }
+            }
+        }
+        return true ;
+    }
 }

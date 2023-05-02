@@ -139,4 +139,28 @@ public class UnionFind {
             return parent.get(i);
         }
     }
+
+
+    /**
+     * 剑指 Offer II 118. 多余的边
+     * @param edges
+     * @return
+     */
+    public int[] findRedundantConnection(int[][] edges) {
+        int n = edges.length ;
+        int[] parent = new int[n+1] ;
+        for (int i = 1; i <=n ; i++) {
+            parent[i] = i;
+        }
+        for (int i = 0; i < n; i++) {
+            int[] edge = edges[i] ;
+            int node1 = edge[0] , node2 = edge[1] ;
+            if(find(parent, node1) != find(parent, node2)){
+                union(parent, node1,node2);
+            }else {
+                return edge ;
+            }
+        }
+        return new int[0];
+    }
 }
