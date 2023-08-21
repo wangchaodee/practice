@@ -2,9 +2,7 @@ package com.iflytek.staff.chao.algorithm.base;
 
 import com.iflytek.staff.chao.util.NumberUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author : wangchaodee
@@ -13,14 +11,7 @@ import java.util.List;
  */
 public class DynamicPlanMath {
 
-/*    斐波那契数列
-1. 爬楼梯
-2. 强盗抢劫
-3. 强盗在环形街区抢劫
-4. 信件错排
-5. 母牛生产
-*/
-
+    int mod = (int) 1e9 + 7;
 
     /**
      * 70 爬楼梯， 每次只可以走一步，或两步，   n步楼梯，有多少中走法，
@@ -254,7 +245,7 @@ public class DynamicPlanMath {
      */
     public int cuttingRope(int n) {
         if (n <= 3) return n - 1;
-        int mod = (int) 1e9 + 7;
+
         long res = 1;
         while (n > 4) {
             res *= 3;
@@ -977,4 +968,41 @@ public class DynamicPlanMath {
         return r;
     }
 
+    /**
+     * 651. 4键键盘
+     * @param n
+     * @return
+     */
+    public int maxA(int n) {
+        int[] dp = new int[n+1] ;
+        for (int i = 1; i <= n; i++) {
+            dp[i] = dp[i-1] +1 ;
+            for (int j = 1; j <i-2 ; j++) {
+                dp[i] = Math.max(dp[i] , dp[j] + dp[j] * (i-j-2)) ;
+            }
+        }
+        return dp[n];
+    }
+
+    /**
+     * 1259. 不相交的握手
+     * @param numPeople
+     * @return
+     */
+    Map<Integer,Long> map = new HashMap<>();
+    public int numberOfWays(int numPeople) {
+        return (int) dfs(numPeople);
+    }
+
+    private long dfs(int numPeople){
+        if(numPeople == 0 || numPeople == 2) return 1 ;
+        if(map.containsKey(numPeople)) return map.get(numPeople);
+        long res  = 0 ;
+        for (int i = 2; i <= numPeople; i+=2) {
+            res += (dfs(i-2) % mod) * (dfs(numPeople -i )%mod);
+            res = res %mod ;
+        }
+        map.put(numPeople,res);
+        return res ;
+    }
 }

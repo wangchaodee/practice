@@ -163,4 +163,54 @@ public class UnionFind {
         }
         return new int[0];
     }
+
+    /**
+     * 剑指 Offer II 117. 相似的字符串
+     * @param strs
+     * @return
+     */
+    int group[] ;
+    public int numSimilarGroups(String[] strs) {
+        int n = strs.length ;
+        int m = strs[0].length() ;
+        group = new int[n];
+        for (int i = 0; i < n; i++) {
+            group[i] =i;
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j <n ; j++) {
+                int gi = find(i) , gj= find(j);
+                if(gi == gj){
+                    continue;
+                }
+                if(check(strs[i] ,strs[j] ,m)){
+                    group[gi] = gj;
+                }
+            }
+        }
+        int ret = 0 ;
+        for (int i = 0; i < n; i++) {
+            if(group[i] ==i){
+                ret++;
+            }
+        }
+        return  ret ;
+    }
+
+    private int find(int x){
+        return  group[x] == x? x : (group[x] = find(group[x]));
+    }
+
+    private boolean check(String a , String b ,int len){
+        int num = 0 ;
+        for (int i = 0; i < len; i++) {
+            if(a.charAt(i) != b.charAt(i)){
+                num++;
+                if(num >2){
+                    return false ;
+                }
+            }
+        }
+        return true ;
+    }
 }
